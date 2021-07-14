@@ -5,6 +5,8 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
+    "noImplicitAny": false,
+    "allowUnusedLabels": true,
     "jsx": "react",
     "lib": ["es6"],
     "moduleResolution": "node",

@@ -15,6 +15,7 @@ let MainNavigator: FunctionComponent | null
 // @refresh reset
 const ApplicationNavigator = () => {
   const { Layout, darkMode, NavigationTheme } = useTheme()
+  // eslint-disable-next-line prettier/prettier
   const { colors } = NavigationTheme
   const [isApplicationLoaded, setIsApplicationLoaded] = useState(false)
   const applicationIsLoading = useSelector(
