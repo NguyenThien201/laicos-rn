@@ -1,19 +1,22 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import {  globalStyles, Variable } from '../styles/theme.style'
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { globalStyles, Variable } from "../styles/theme.style";
 const HomeScreen = () => {
 	return (
 		<View style={styles.container}>
-			
+			<Text style={[globalStyles.fontSizeSmall, globalStyles.whiteText]}>Tổng tiền</Text>
+			<Text style={[styles.whiteText, globalStyles.fontSizeMedium]}>12,000,000</Text>
 		</View>
-	)
-}
+	);
+};
 const styles = StyleSheet.create({
 	container: {
-	  flex: 1, 
-	  alignItems: 'center', 
-	  justifyContent: 'center'
+		color: "#ffffff",
+		margin: 16,
 	},
-  });
-export default HomeScreen
-
+	whiteText:{
+		color: "#fff"
+		
+	}
+});
+export default HomeScreen;

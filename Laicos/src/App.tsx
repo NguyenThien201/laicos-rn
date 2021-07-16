@@ -22,7 +22,7 @@ export default function App() {
 	
 		colors: {
 		  background: Variable.BACKGROUND_COLOR,
-		  text: '#ffffff'
+		  text: '#fff'
 		}
 	  }
 	return (

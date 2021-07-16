@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native"
 
 export const Variable = {
-	FONT_SIZE_SMALL: 14,
+	FONT_SIZE_SMALL: 20,
 	FONT_SIZE_MEDIUM: 24,
 	FONT_SIZE_LARGE: 32,
 	GREEN_LIGHT_COLOR: '#3CD3AD',
@@ -26,5 +26,18 @@ export const globalStyles = StyleSheet.create({
 	},
 	bgDark: {
 		backgroundColor: Variable.BACKGROUND_COLOR,
+	},
+	fontSizeMedium:{
+		fontSize: 24
+	},
+	fontSizeSmall:{
+		fontSize: 20
+	},
+	fontSizeLarge:{
+		fontSize: 32
+	},
+	whiteText:{
+		color: "#fff"
+		
 	}
 })
