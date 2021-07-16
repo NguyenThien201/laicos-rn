@@ -57,15 +57,3 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
-
-template/plugins/typescript/template/tsconfig.json
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.code-workspace
-
-# Local History for Visual Studio Code
-.history/
-.DS_Store

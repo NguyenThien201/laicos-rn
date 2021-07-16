@@ -1,24 +1,34 @@
-import 'react-native-gesture-handler'
-import React from 'react'
-import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/lib/integration/react'
-import { store, persistor } from '@/Store'
-import { ApplicationNavigator } from '@/Navigators'
-import './Translations'
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * Generated with the TypeScript template
+ * https://github.com/react-native-community/react-native-template-typescript
+ *
+ * @format
+ */
+import "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
+import React from "react";
+import { Button, Image, StatusBar, StyleSheet, Text, View } from "react-native";
 
-const App = () => (
-  <Provider store={store}>
-    {/**
-     * PersistGate delays the rendering of the app's UI until the persisted state has been retrieved
-     * and saved to redux.
-     * The `loading` prop can be `null` or any react instance to show during loading (e.g. a splash screen),
-     * for example `loading={<SplashScreen />}`.
-     * @see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
-     */}
-    <PersistGate loading={null} persistor={persistor}>
-      <ApplicationNavigator />
-    </PersistGate>
-  </Provider>
-)
+import { Variable } from "./styles/theme.style";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MainNavigator } from "./Navigators/MainBottomNavigator";
 
-export default App
+
+export default function App() {
+	const CustomDarkTheme = {
+	
+		colors: {
+		  background: Variable.BACKGROUND_COLOR,
+		  text: '#ffffff'
+		}
+	  }
+	return (
+		<NavigationContainer theme={CustomDarkTheme	}>
+			<MainNavigator/>
+				
+		</NavigationContainer>
+	);
+}
