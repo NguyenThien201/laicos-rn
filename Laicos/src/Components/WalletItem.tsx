@@ -4,7 +4,8 @@ import LinearGradient from "react-native-linear-gradient";
 import { globalStyles, Variable } from "../styles/theme.style";
 import { formatter } from "../Utils/format";
 
-export const WalletItem = ({ key, wallet }) => {
+export const WalletItem = ({  wallet }) => {
+	const moneyLeft = wallet.moneyIn - wallet.moneyOut;
 	return (
 		<LinearGradient
 			start={{ x: 1, y: 1 }}
@@ -12,7 +13,7 @@ export const WalletItem = ({ key, wallet }) => {
 			colors={Variable.WALLET_GRADIENT}
 			style={[globalStyles.card]}
 		>
-			<View style={{ flex: 1 }}>
+			<View style={{ flex: 2, padding: 2 }}>
 				<View style={[style.title]}>
 					<View style={style.box}>
 						<Text style={globalStyles.whiteText}>
@@ -29,21 +30,77 @@ export const WalletItem = ({ key, wallet }) => {
 							globalStyles.whiteText,
 							globalStyles.fontSizeMedium,
 							globalStyles.textAlign,
+							globalStyles.fontBold,
 						]}
 					>
-						VNĐ {formatter(wallet.moneyIn - wallet.moneyOut)}
+						VNĐ {formatter(moneyLeft)}
 					</Text>
 				</View>
-				<View style={[style.total]}>
-					<Text
-						style={[
-							globalStyles.whiteText,
-							globalStyles.fontSizeMedium,
-							globalStyles.textAlign,
-						]}
-					>
-					
-					</Text>
+				<View style={[style.moneyContainer]}>
+					<View>
+						<Text
+							style={[
+								globalStyles.whiteText,
+								globalStyles.fontSizeSmall,
+								globalStyles.fontMedium,
+							]}
+						>
+							Tiền vào
+						</Text>
+						<Text
+							style={[
+								globalStyles.whiteText,
+								globalStyles.fontSizeSmall,
+								globalStyles.fontMedium,
+							]}
+						>
+							Tiền ra
+						</Text>
+						
+					</View>
+
+					<View>
+						{/* Tiền vào */}
+						<Text
+							style={[
+								globalStyles.greenText,
+								globalStyles.fontBold,
+								globalStyles.fontSizeSmall,
+								{ alignSelf: "flex-end" },
+							]}
+						>
+							{formatter(wallet.moneyIn)}
+						</Text>
+						{/* Tiền ra */}
+						<Text
+							style={[
+								globalStyles.redText,
+								globalStyles.fontSizeSmall,
+								globalStyles.fontBold,
+								{ alignSelf: "flex-end" },
+							]}
+						>
+							{formatter(wallet.moneyOut)}
+						</Text>
+						{/* Line ngang */}
+						<View
+							style={{
+								borderBottomColor: "black",
+								borderBottomWidth: 1,
+								width: 100,
+							}}
+						/>
+						<Text
+							style={[
+								globalStyles.redText,
+								globalStyles.fontSizeSmall,
+								globalStyles.fontBold,
+								{ alignSelf: "flex-end", color: "#fff" },
+							]}
+						>
+							{formatter(moneyLeft)}
+						</Text>
+					</View>
 				</View>
 			</View>
 		</LinearGradient>
@@ -52,11 +109,9 @@ export const WalletItem = ({ key, wallet }) => {
 
 const style = StyleSheet.create({
 	title: {
-		flex: 1,
+		flex: 2,
 		fontWeight: "900",
-		backgroundColor: "#000",
 		flexDirection: "row",
-		flexWrap: "wrap",
 		justifyContent: "space-between",
 	},
 	box: {
@@ -66,5 +121,11 @@ const style = StyleSheet.create({
 		flex: 2,
 		alignContent: "center",
 		justifyContent: "center",
+	},
+	moneyContainer: {
+		flex: 3,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		marginBottom: 1
 	},
 });

@@ -1,10 +1,13 @@
 import { StyleSheet } from "react-native"
 
 export const Variable = {
-	FONT_SIZE_SMALL: 16,
+	FONT_SIZE_SMALL_16: 16,
+	FONT_SIZE_SMALL_14: 14,
 	FONT_SIZE_MEDIUM: 20,
 	FONT_SIZE_LARGE: 28,
 	GREEN_LIGHT_COLOR: '#3CD3AD',
+	RED_COLOR: '#D83B57',
+	GREEN_COLOR: '#00FF57',
 	WALLET_GRADIENT: ["#08AEEA", "#2AF598"],
 	BUTTON_PRIMARY:  ["#4CB8C4", "#3CD3AD"],
 	BUTTON_CANCEL: ["#f85032", "#e73827", "#f85032"],
@@ -28,23 +31,36 @@ export const globalStyles = StyleSheet.create({
 		backgroundColor: Variable.BACKGROUND_COLOR,
 	},
 	fontSizeMedium:{
-		fontSize: 24
+		fontSize: Variable.FONT_SIZE_MEDIUM
 	},
 	fontSizeSmall:{
-		fontSize: 20
+		fontSize: Variable.FONT_SIZE_SMALL_16
 	},
 	fontSizeLarge:{
-		fontSize: 32
+		fontSize: Variable.FONT_SIZE_LARGE
 	},
 	whiteText:{
 		color: "#fff"		
 	},
+	redText:{
+		color: Variable.RED_COLOR
+	},
+	greenText:{
+		color: Variable.GREEN_COLOR
+	},
 	card: {
+	
 		borderRadius:Variable.BORDER_RADIUS_SMALL,
-		height: 125,
+		height: 150,
 		padding: 16
 	},
 	textAlign: {
 		textAlign: "center"
+	},
+	fontBold: {
+		fontWeight:"bold"
+	},
+	fontMedium:{
+		fontWeight:"900"
 	}
 })
