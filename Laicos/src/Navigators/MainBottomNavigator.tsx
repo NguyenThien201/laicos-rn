@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image, View } from "react-native";
 import HomeScreen from "../Screens/HomeScreen";
 import { Variable } from "../styles/theme.style";
+import Statistic from "../Screens/Statistic"
 
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +49,7 @@ export const MainNavigator = () => {
 			/>
 			<Tab.Screen
 				name="Thống kê"
-				component={HomeScreen}
+				component={Statistic}
 				options={{
 					tabBarLabel: "Thống kê",
 					tabBarIcon: ({ focused }) => (

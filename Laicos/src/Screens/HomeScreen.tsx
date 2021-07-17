@@ -1,7 +1,7 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { WalletList } from "../Components/WalletList";
-import { globalStyles, Variable } from "../styles/theme.style";
+import React from "react"
+import { StyleSheet, Text, View } from "react-native"
+import { WalletList } from "../Components/WalletList"
+import { globalStyles } from "../styles/theme.style"
 const HomeScreen = () => {
 	return (
 		<View style={styles.container}>
