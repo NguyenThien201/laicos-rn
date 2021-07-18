@@ -13,7 +13,7 @@ export const WalletItem = ({  wallet }) => {
 			colors={Variable.WALLET_GRADIENT}
 			style={[globalStyles.card]}
 		>
-			<View style={{ flex: 2, padding: 2 }}>
+			<View style={{ flex:1	, padding: 2 }}>
 				<View style={[style.title]}>
 					<View style={style.box}>
 						<Text style={globalStyles.whiteText}>
@@ -85,9 +85,11 @@ export const WalletItem = ({  wallet }) => {
 						{/* Line ngang */}
 						<View
 							style={{
-								borderBottomColor: "black",
+								borderBottomColor: "white",
 								borderBottomWidth: 1,
 								width: 100,
+								marginVertical: 3,
+
 							}}
 						/>
 						<Text

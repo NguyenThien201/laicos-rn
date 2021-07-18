@@ -51,7 +51,7 @@ export const globalStyles = StyleSheet.create({
 	card: {
 	
 		borderRadius:Variable.BORDER_RADIUS_SMALL,
-		height: 150,
+		height: 160,
 		padding: 16
 	},
 	textAlign: {

@@ -8,9 +8,8 @@ import {
 } from "react-native";
 import { IWallet } from "../type";
 import { WalletItem } from "./WalletItem";
-import PagerView from "react-native-pager-view";
 import { globalStyles, Variable } from "../styles/theme.style";
-import Carousel, { Pagination, ParallaxImage } from "react-native-snap-carousel";
+import Carousel, { Pagination } from "react-native-snap-carousel";
 
 const { width: screenWidth } = Dimensions.get("window");
 const data: IWallet[] = [
@@ -30,75 +29,74 @@ const data: IWallet[] = [
 		moneyOut: 5000000,
 	},
 ];
-const PaginationComponent = ({wallets, active}) => {
-    return (
-        <Pagination
-            dotsLength={wallets.length}
-            activeDotIndex={active}
-            containerStyle={{ backgroundColor: Variable.BACKGROUND_COLOR}}
-            dotStyle={{
-                width: 5,
-                height: 5,
-                borderRadius: 5,
-                marginHorizontal: 8,
-                backgroundColor: Variable.GREEN_LIGHT_COLOR,
-            }}
-            inactiveDotStyle={
-                {
-                    // Define styles for inactive dots here
-                }
-            }
-            inactiveDotOpacity={0.4}
-            inactiveDotScale={0.6}
-        />
-    );
+const PaginationComponent = ({ wallets, active }) => {
+	return (
+		<Pagination
+			dotsLength={wallets.length}
+			activeDotIndex={active}
+			containerStyle={{ backgroundColor: Variable.BACKGROUND_COLOR }}
+			dotStyle={{
+				width: 5,
+				height: 5,
+				borderRadius: 5,
+				marginHorizontal: 4,
+				backgroundColor: Variable.GREEN_LIGHT_COLOR,
+			}}
+			inactiveDotStyle={
+				{
+					// Define styles for inactive dots here
+				}
+			}
+			inactiveDotOpacity={0.4}
+			inactiveDotScale={0.6}
+		/>
+	);
 };
 export const WalletList = () => {
 	const [wallets, setWallet] = useState<IWallet[]>([]);
-    const [active, setActive] = useState(0)
+	const [active, setActive] = useState(0);
 	useEffect(() => {
 		return setWallet(data);
 	}, []);
 	const carouselRef = useRef(null);
 
-
 	const _renderItem = ({ item, index }) => {
 		return (
-			<View style={styles.item}>
+			<View style={[styles.item,]}>
 				<WalletItem wallet={item} />
 			</View>
 		);
 	};
 
-
 	return (
-		<View style={{ flex: 1 }}>
-            <View>
-            <Carousel
-				layout="default"
-				ref={carouselRef}
-				sliderWidth={screenWidth}
-				sliderHeight={100}
-				itemWidth={screenWidth - 60}
-				data={wallets}
-				renderItem={_renderItem}
-                onSnapToItem={(index)=>setActive(index)}
-			/>
-            <PaginationComponent 
-                wallets={wallets}
-                active={active}
-            />
-            </View>
-			
+		<View style={styles.pagerView}>
+			<View>
+				<Carousel
+					layout="default"
+					ref={carouselRef}
+					sliderWidth={screenWidth}
+					sliderHeight={100}
+					itemWidth={screenWidth - 80}
+					data={wallets}
+					renderItem={_renderItem}
+					onSnapToItem={(index) => setActive(index)}
+				/>
+				<PaginationComponent wallets={wallets} active={active} />
+			</View>
 		</View>
 	);
 };
 const styles = StyleSheet.create({
 	pagerView: {
 		flex: 1,
+		margin: 0,
+		padding: 0,
+		flexDirection: "column",
+		alignContent: "flex-start",
+		justifyContent: "flex-start",
 	},
 	item: {
-		width: screenWidth - 60,
-		
+		flex: 0,
+		width: screenWidth - 80,
 	},
 });
