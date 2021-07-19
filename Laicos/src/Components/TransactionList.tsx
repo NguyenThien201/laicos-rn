@@ -29,8 +29,8 @@ export const TransactionList = ({ date }) => {
 
     return (
         <View style={{ flex: 1 , alignItems:"flex-start", justifyContent:"flex-start"}}>
-            {transactions.length > 0 ?  transactions.map((item) => (
-                <TransactionItem transaction={item} />
+            {transactions.length > 0 ?  transactions.map((item, indx) => (
+                <TransactionItem transaction={item} key={indx} />
             )) : <Text style={{color:"#fff", alignSelf:"center"}}>
                     Tháng này không có giao dịch
                 </Text>}

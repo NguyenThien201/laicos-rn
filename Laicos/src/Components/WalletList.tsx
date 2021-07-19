@@ -10,6 +10,7 @@ import { IWallet } from "../type";
 import { WalletItem } from "./WalletItem";
 import { globalStyles, Variable } from "../styles/theme.style";
 import Carousel, { Pagination } from "react-native-snap-carousel";
+import { PaginationComponent } from "./PaginationCarousel";
 
 const { width: screenWidth } = Dimensions.get("window");
 const data: IWallet[] = [
@@ -29,29 +30,7 @@ const data: IWallet[] = [
 		moneyOut: 5000000,
 	},
 ];
-const PaginationComponent = ({ wallets, active }) => {
-	return (
-		<Pagination
-			dotsLength={wallets.length}
-			activeDotIndex={active}
-			containerStyle={{ backgroundColor: Variable.BACKGROUND_COLOR }}
-			dotStyle={{
-				width: 5,
-				height: 5,
-				borderRadius: 5,
-				marginHorizontal: 4,
-				backgroundColor: Variable.GREEN_LIGHT_COLOR,
-			}}
-			inactiveDotStyle={
-				{
-					// Define styles for inactive dots here
-				}
-			}
-			inactiveDotOpacity={0.4}
-			inactiveDotScale={0.6}
-		/>
-	);
-};
+
 export const WalletList = () => {
 	const [wallets, setWallet] = useState<IWallet[]>([]);
 	const [active, setActive] = useState(0);
@@ -81,7 +60,7 @@ export const WalletList = () => {
 					renderItem={_renderItem}
 					onSnapToItem={(index) => setActive(index)}
 				/>
-				<PaginationComponent wallets={wallets} active={active} />
+				<PaginationComponent items={wallets} active={active} />
 			</View>
 		</View>
 	);

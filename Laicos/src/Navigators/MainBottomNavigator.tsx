@@ -4,6 +4,7 @@ import { Image, View } from "react-native";
 import HomeScreen from "../Screens/HomeScreen";
 import { Variable } from "../styles/theme.style";
 import Statistic from "../Screens/Statistic"
+import { AddTransaction } from "../Screens/AddTransaction";
 
 const Tab = createBottomTabNavigator();
 
@@ -68,7 +69,7 @@ export const MainNavigator = () => {
 			/>
 			<Tab.Screen
 				name="Thêm"
-				component={HomeScreen}
+				component={AddTransaction}
 				options={{
 					tabBarLabel: "Thêm",
 					tabBarIcon: () => (

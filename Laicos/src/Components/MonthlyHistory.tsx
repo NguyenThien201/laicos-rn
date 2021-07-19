@@ -15,32 +15,9 @@ import Carousel, {
 import { transaction as data } from "../data";
 import LinearGradient from "react-native-linear-gradient";
 import { TransactionList } from "./TransactionList";
+import { PaginationComponent } from "./PaginationCarousel";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
-
-const PaginationComponent = ({ wallets, active }) => {
-	return (
-		<Pagination
-			dotsLength={wallets.length}
-			activeDotIndex={active}
-			containerStyle={{ backgroundColor: Variable.BACKGROUND_COLOR }}
-			dotStyle={{
-				width: 5,
-				height: 5,
-				borderRadius: 5,
-				marginHorizontal: 8,
-				backgroundColor: Variable.GREEN_LIGHT_COLOR,
-			}}
-			inactiveDotStyle={
-				{
-					// Define styles for inactive dots here
-				}
-			}
-			inactiveDotOpacity={0.4}
-			inactiveDotScale={0.6}
-		/>
-	);
-};
 
 const months: Date[] = (): Date[] => {
 	const d: Date[] = [new Date()];
@@ -53,17 +30,15 @@ const months: Date[] = (): Date[] => {
 		tempDate.setMonth(d[0].getMonth() - i);
 		d.push(tempDate);
 	}
-
+	d.reverse();
 	return d;
 };
 
 export const MonthlyHistory = () => {
-
-	const [monthsData, setMonthsData] = useState<Date[]>([])
+	const [monthsData, setMonthsData] = useState<Date[]>([]);
 	const [active, setActive] = useState(0);
 	useEffect(() => {
-		return setMonthsData(months)
-		
+		return setMonthsData(months);
 	}, []);
 	const carouselRef = useRef(null);
 
@@ -108,7 +83,6 @@ export const MonthlyHistory = () => {
 			</View>
 		);
 	};
-
 	return (
 		<View style={styles.pagerView}>
 			<View>
@@ -120,13 +94,10 @@ export const MonthlyHistory = () => {
 					itemWidth={screenWidth - 80}
 					data={monthsData}
 					renderItem={_renderItem}
-					enableSnap={true}
+					firstItem={monthsData.length - 1}
 					onSnapToItem={(index) => setActive(index)}
+					inactiveSlideOpacity={1}
 				/>
-				{/* <PaginationComponent 
-                wallets={wallets}
-                active={active}
-            /> */}
 			</View>
 		</View>
 	);
@@ -136,6 +107,7 @@ const styles = StyleSheet.create({
 		flex: 2,
 	},
 	item: {
+		flex:0,
 		width: screenWidth - 80,
 		height: 320,
 		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
