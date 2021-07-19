@@ -27,9 +27,20 @@ import {
 } from "react-native";
 
 import { Variable } from "./styles/theme.style";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MainNavigator } from "./Navigators/MainBottomNavigator";
+import { createStackNavigator } from "@react-navigation/stack";
+import { GroupPicker } from "./Screens/GroupPicker";
+import HomeScreen from "./Screens/HomeScreen";
+import Statistic from "./Screens/Statistic";
+import { AddTransaction } from "./Screens/AddTransaction";
 
+const Stack = createStackNavigator()
+
+const Index = () =>{
+	return (
+		<MainNavigator />
+	)
+}
 export default function App() {
 	const CustomDarkTheme: Theme = {
 		colors: {
@@ -40,7 +51,15 @@ export default function App() {
 	return (
 	
 		<NavigationContainer theme={CustomDarkTheme}>
-			<MainNavigator />
+			{/* <MainNavigator /> */}
+			<Stack.Navigator headerMode="none" initialRouteName="Index">
+				
+				
+				<Stack.Screen name="Index" component={Index}></Stack.Screen>
+				<Stack.Screen name="Chọn nhóm" component={GroupPicker}></Stack.Screen>
+				<Stack.Screen name="Thêm" component={AddTransaction}></Stack.Screen>
+				
+			</Stack.Navigator>
 		</NavigationContainer>
 	
 	);

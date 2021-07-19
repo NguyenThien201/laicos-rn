@@ -11,6 +11,7 @@ import {
 	TouchableWithoutFeedback,
 	TouchableOpacity,
 } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
 import { color } from "react-native-reanimated";
 import { LinearGradButton } from "../Components/LinearGradButton";
@@ -21,7 +22,7 @@ export const AddTransaction = ({ navigation }) => {
 	navigation.setOptions({ tabBarVisible: false });
 	return (
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
-			<View style={[styles.container]}>
+			<ScrollView style={[styles.container]}>
 				<TouchableOpacity
 					onPress={() => navigation.goBack()}
 					style={{ flex: 0 }}
@@ -35,23 +36,23 @@ export const AddTransaction = ({ navigation }) => {
 							Thêm chi tiêu mới
 						</Text>
 					</View>
-				</TouchableOpacity>
+				</TouchableOpacity              >
 				{/* Chụp ảnh */}
 				<View style={[]}></View>
 				{/* Form input */}
 				<View style={[styles.form]}>
 					<TextInput style={[styles.input]}>0đ</TextInput>
 					<TouchableOpacity
-						onPress={() => navigation.navigate("Trang chủ")}
+						onPress={() => navigation.navigate("Chọn nhóm")}
 					>
-						<Text style={[styles.input, { paddingBottom: 6 }]}>
+						<Text style={[styles.input]}>
 							Chọn nhóm
 						</Text>
 					</TouchableOpacity>
 
-					<TextInput style={[styles.input]}>Thêm ghi chú</TextInput>
-					<TextInput style={[styles.input]}>Hôm nay</TextInput>
-					<TextInput style={[styles.input]}>Ví chính</TextInput>
+					<Text style={[styles.input]}>Thêm ghi chú</Text>
+					<Text style={[styles.input]}>Hôm nay</Text>
+					<Text style={[styles.input]}>Ví chính</Text>
 				</View>
 
 				{/* Buttons */}
@@ -59,13 +60,15 @@ export const AddTransaction = ({ navigation }) => {
 					<LinearGradButton
 						color={Variable.BUTTON_PRIMARY}
 						text={"LƯU"}
+                        action={() => navigation.goBack()}
 					/>
 					<LinearGradButton
 						color={Variable.BUTTON_CANCEL}
 						text={"HỦY"}
+                        action={() => navigation.goBack()}
 					/>
 				</View>
-			</View>
+			</ScrollView    >
 		</KeyboardAvoidingView>
 	);
 };
@@ -74,7 +77,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		margin: 16,
-		justifyContent: "space-between",
 	},
 	title: {
 		flexDirection: "row",
@@ -97,5 +99,6 @@ const styles = StyleSheet.create({
 		borderColor: "white",
 		color: "white",
 		fontSize: Variable.FONT_SIZE_MEDIUM,
+        padding: 6
 	},
 });
