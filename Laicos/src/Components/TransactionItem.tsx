@@ -11,7 +11,7 @@ export const TransactionItem = ({ transaction }) => {
 				<Image
 					source={(transaction.group.icon)}
                     style={
-                        {width: 25, height:25}
+                        {width: 24, height:24}
                     }
 					resizeMode="contain"
 				></Image>
@@ -36,8 +36,10 @@ const styles = StyleSheet.create({
         paddingHorizontal:16
 	},
 	text: {
+		marginLeft: 8,
 		textAlign: "left",
 		color: "white",
-        fontSize: Variable.FONT_SIZE_SMALL_16
+        fontSize: Variable.FONT_SIZE_SMALL_16,
+		fontWeight: "900"
 	},
 });

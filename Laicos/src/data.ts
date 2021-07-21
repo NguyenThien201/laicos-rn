@@ -2,13 +2,6 @@ import { ITransaction, ITransactionGroup } from "./type";
 
 export const transactionGroup: ITransactionGroup[] = [
 	{
-		id: 1,
-		name: "Đua xe",
-		icon: require("./Assets/Images/Icons/ic_car_fire.png"),
-		type: "SPEND",
-		parent: null,
-	},
-	{
 		id: 2,
 		name: "Ăn uống",
 		icon: require("./Assets/Images/Icons/ic_meal.png"),
@@ -32,7 +25,7 @@ export const transactionGroup: ITransactionGroup[] = [
 	{
 		id: 5,
 		name: "Mua sắm",
-		icon: "",
+		icon: require('./Assets/Images/Icons/ic_shopping.png'),
 		type: "SPEND",
 		parent: null,
 	},
@@ -55,6 +48,41 @@ export const transactionGroup: ITransactionGroup[] = [
         name: "Lương",
         icon: require('./Assets/Images/Icons/ic_salary.png'),
         type: "EARN",
+        parent: null
+    },
+	{
+        id: 9,
+        name: "Giáo dục",
+        icon: require('./Assets/Images/Icons/ic_education.png'),
+        type: "SPEND",
+        parent: null
+    },
+	{
+        id: 10,
+        name: "Giải trí",
+        icon: require('./Assets/Images/Icons/ic_entertainment.png'),
+        type: "SPEND",
+        parent: null
+    },
+	{
+        id: 11,
+        name: "Di chuyển",
+        icon: require('./Assets/Images/Icons/ic_transport.png'),
+        type: "SPEND",
+        parent: null
+    },
+	{
+        id: 12,
+        name: "Du lịch",
+        icon: require('./Assets/Images/Icons/ic_travel.png'),
+        type: "SPEND",
+        parent: null
+    },
+	{
+        id: 13,
+        name: "Hẹn hò",
+        icon: require('./Assets/Images/Icons/ic_dating.png'),
+        type: "SPEND",
         parent: null
     }
 ];

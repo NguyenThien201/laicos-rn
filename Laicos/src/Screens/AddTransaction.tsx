@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Image,
 	StyleSheet,
@@ -14,12 +14,15 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
 import { color } from "react-native-reanimated";
+import { NavigationActions, StackActions } from "react-navigation";
 import { LinearGradButton } from "../Components/LinearGradButton";
-import { Variable } from "../styles/theme.style";
+import { globalStyles, Variable } from "../styles/theme.style";
+import { ITransactionGroup } from "../type";
 import HomeScreen from "./HomeScreen";
 
 export const AddTransaction = ({ navigation }) => {
 	navigation.setOptions({ tabBarVisible: false });
+	const [chosenGroup, setChosenGroup] = useState<ITransactionGroup>();
 	return (
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
 			<ScrollView style={[styles.container]}>
@@ -36,18 +39,49 @@ export const AddTransaction = ({ navigation }) => {
 							Thêm chi tiêu mới
 						</Text>
 					</View>
-				</TouchableOpacity              >
+				</TouchableOpacity>
 				{/* Chụp ảnh */}
 				<View style={[]}></View>
 				{/* Form input */}
 				<View style={[styles.form]}>
 					<TextInput style={[styles.input]}>0đ</TextInput>
 					<TouchableOpacity
-						onPress={() => navigation.navigate("Chọn nhóm")}
+						onPress={() =>
+							navigation.navigate("Chọn nhóm", {
+								setChosenGroup: setChosenGroup,
+								chosenGroup: chosenGroup,
+							})
+						}
 					>
-						<Text style={[styles.input]}>
-							Chọn nhóm
-						</Text>
+						{chosenGroup ? (
+							<View style={[styles.input]}>
+								<View
+									style={{
+										flex: 0,
+										flexDirection: "row",
+										justifyContent: "flex-start",
+									}}
+								>
+									<Image
+										source={chosenGroup.icon}
+										style={{ width: 24, height: 24 }}
+										resizeMode="contain"
+									></Image>
+
+									<Text
+										style={[
+											globalStyles.whiteText,
+											globalStyles.fontSizeMedium,
+											{ marginLeft: 4 },
+										]}
+									>
+										{chosenGroup.name}
+									</Text>
+								</View>
+							</View>
+						) : (
+							<Text style={[styles.input]}>Chọn nhóm</Text>
+						)}
 					</TouchableOpacity>
 
 					<Text style={[styles.input]}>Thêm ghi chú</Text>
@@ -60,15 +94,15 @@ export const AddTransaction = ({ navigation }) => {
 					<LinearGradButton
 						color={Variable.BUTTON_PRIMARY}
 						text={"LƯU"}
-                        action={() => navigation.goBack()}
+						action={() => navigation.goBack()}
 					/>
 					<LinearGradButton
 						color={Variable.BUTTON_CANCEL}
 						text={"HỦY"}
-                        action={() => navigation.goBack()}
+						action={() => navigation.goBack()}
 					/>
 				</View>
-			</ScrollView    >
+			</ScrollView>
 		</KeyboardAvoidingView>
 	);
 };
@@ -99,6 +133,6 @@ const styles = StyleSheet.create({
 		borderColor: "white",
 		color: "white",
 		fontSize: Variable.FONT_SIZE_MEDIUM,
-        padding: 6
+		padding: 6,
 	},
 });

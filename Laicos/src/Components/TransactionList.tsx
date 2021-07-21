@@ -20,8 +20,6 @@ export const TransactionList = ({ date }) => {
             if (temp.length>3) break
         }
         temp.sort((a,b)=>{
-            console.log(moment(a.date).isBefore(b.date));
-            
             return moment(a.date).isBefore(b.date) ? 1 : -1
         })
         return setTransactions(temp);
