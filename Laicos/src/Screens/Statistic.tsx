@@ -1,3 +1,4 @@
+import { Picker } from "@react-native-picker/picker"
 import React, { useState } from "react"
 import { Dimensions, Text, View } from "react-native"
 import { LineChart } from "react-native-chart-kit"
@@ -40,7 +41,7 @@ const Statistic = () => {
     { key: "second", title: "Chi" },
     { key: "third", title: "Thu" },
   ])
-
+  const [selectedChartType, setSelectedChartType] = useState<string>("month")
   return (
     <View>
       <Text
@@ -52,10 +53,39 @@ const Statistic = () => {
       >
         Thống kê
       </Text>
+      <View
+        style={{
+          borderWidth: 1,
+          borderColor: "white",
+          borderRadius: 15,
+          width: 125,
+          alignSelf: "flex-end",
+          marginEnd:10,
+          marginBottom:10
+        }}
+      >
+        <Picker
+          selectedValue={selectedChartType}
+          dropdownIconColor="white"
+          style={{
+            fontSize:10,
+            height: 50,
+            width: 130,
+            color: "white",
+            borderColor: "white",
+          }}
+          onValueChange={(itemValue) => setSelectedChartType(itemValue)}
+        >
+          <Picker.Item label="Ngày" value="day" />
+          <Picker.Item label="Tuần" value="week" />
+          <Picker.Item label="Tháng" value="month" />
+          <Picker.Item label="Năm" value="year" />
+        </Picker>
+      </View>
       <LineChart
         data={data}
         width={screenWidth}
-        height={256}
+        height={200}
         verticalLabelRotation={0}
         chartConfig={chartConfig}
         bezier
