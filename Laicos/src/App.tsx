@@ -22,10 +22,10 @@ import {NavigationActions, StackActions} from 'react-navigation';
 import { AddTransaction } from "./Screens/AddTransaction";
 const Stack = createStackNavigator()
 
-const Index = ({navigation, state}) =>{
+const Index = () =>{
 	
 	return (
-		<MainNavigator navigation={navigation} routes={state}/>
+		<MainNavigator/>
 	)
 }
 export default function App() {

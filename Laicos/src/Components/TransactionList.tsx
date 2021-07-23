@@ -3,12 +3,12 @@ import { useState } from "react";
 import { ITransaction } from "../type";
 import { transaction as transactionHistory } from "../data";
 import { Text, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 import { TransactionItem } from "./TransactionItem";
 import moment from "moment";
 export const TransactionList = ({ date }) => {
     const [transactions, setTransactions] = useState<ITransaction[]>([]);
     useEffect(() => {
+ 
         let temp: ITransaction[] = [];
         for (let t of transactionHistory) {
             if (
@@ -23,7 +23,7 @@ export const TransactionList = ({ date }) => {
             return moment(a.date).isBefore(b.date) ? 1 : -1
         })
         return setTransactions(temp);
-    }, []);
+    }, [transactionHistory.length]);
 
     return (
         <View style={{ flex: 1 , alignItems:"flex-start", justifyContent:"flex-start"}}>

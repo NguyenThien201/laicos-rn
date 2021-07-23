@@ -18,17 +18,23 @@ import { ScrollView, TapGestureHandler } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
 import { LinearGradButton } from "../Components/LinearGradButton";
 import { globalStyles, Variable } from "../styles/theme.style";
-import { ITransactionGroup } from "../type";
+import { ITransaction, ITransactionGroup, IWallet } from "../type";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
-export const AddTransaction = ({ navigation }) => {
+import { transaction, wallets } from "../data";
+
+export const AddTransaction = ({ navigation, route }) => {
+
 	navigation.setOptions({ tabBarVisibile: false });
+
 	const [chosenGroup, setChosenGroup] = useState<ITransactionGroup | null>(
 		null
 	);
+	const [money, setMoney] = useState("");
 	const [chosenDate, setChosenDate] = useState<Date>(new Date());
 	const [isCalanderOpened, setOpen] = useState(false);
-
+	const [description, setDescription] = useState("");
+	const [chosenWallet, setChosenWallet] = useState<IWallet>(wallets[0]);
 	const getMarkedDate = () => {
 		const markedDate: Record<string, any> = {};
 
@@ -37,6 +43,24 @@ export const AddTransaction = ({ navigation }) => {
 			selectedColor: Variable.GREEN_LIGHT_COLOR,
 		};
 		return markedDate;
+	};
+	
+	const createNewTransaction = () => {
+		if (chosenGroup && parseInt(money) > 0) {
+			const newTransaction: ITransaction = {
+				date: chosenDate,
+				description: description,
+				wallet: chosenWallet.name,
+				money: parseInt(money),
+				group: chosenGroup!,
+			};
+			transaction.push(newTransaction)
+			navigation.reset({
+				index: 0,
+				routes: [{ name: "Trang chủ" }],
+			  });
+		}
+		
 	};
 	return (
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
@@ -62,7 +86,14 @@ export const AddTransaction = ({ navigation }) => {
 				<View style={[]}></View>
 				{/* Form input */}
 				<View style={[styles.form]}>
-					<TextInput style={[styles.input]}>0đ</TextInput>
+					<TextInput
+						style={[styles.input]}
+						placeholder="0đ"
+						onChangeText={setMoney}
+						value={money}
+						keyboardType="numeric"
+						placeholderTextColor="white"
+					></TextInput>
 					<TouchableOpacity
 						onPress={() =>
 							navigation.navigate("Chọn nhóm", {
@@ -106,11 +137,20 @@ export const AddTransaction = ({ navigation }) => {
 						style={[styles.input]}
 						placeholder="Thêm ghi chú"
 						placeholderTextColor="white"
+						onChangeText={setDescription}
+						value={description}
 					></TextInput>
 					<TouchableOpacity onPress={() => setOpen(true)}>
-						<Text style={[styles.input]}>Hôm nay</Text>
+						{new Date().toLocaleDateString() ===
+						chosenDate.toLocaleDateString() ? (
+							<Text style={[styles.input]}>Hôm nay</Text>
+						) : (
+							<Text style={[styles.input]}>
+								{moment(chosenDate).format("DD-MM-YYYY")}
+							</Text>
+						)}
 					</TouchableOpacity>
-					<Text style={[styles.input]}>Ví chính</Text>
+					<Text style={[styles.input]}>{chosenWallet.name}</Text>
 				</View>
 
 				{/* Buttons */}
@@ -118,10 +158,7 @@ export const AddTransaction = ({ navigation }) => {
 					<LinearGradButton
 						color={Variable.BUTTON_PRIMARY}
 						text={"LƯU"}
-						action={() => {
-							setChosenGroup(null);
-							navigation.goBack();
-						}}
+						action={createNewTransaction}
 					/>
 					<LinearGradButton
 						color={Variable.BUTTON_CANCEL}
@@ -142,11 +179,10 @@ export const AddTransaction = ({ navigation }) => {
 				backdropColor={Variable.BACKGROUND_COLOR}
 				coverScreen={true}
 				onClosed={() => setOpen(false)}
-		
 				backButtonClose={true}
 			>
 				<Calendar
-					enableSwipeMonths={TapGestureHandler}
+					enableSwipeMonths={true}
 					markedDates={getMarkedDate()}
 					onDayPress={(date) => {
 						setChosenDate(new Date(date.dateString));

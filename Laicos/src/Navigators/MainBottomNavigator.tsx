@@ -9,15 +9,10 @@ import { AddTransaction } from "../Screens/AddTransaction";
 const Tab = createBottomTabNavigator();
 
 
-const tempAdd = ({navigation}) =>{
-	
-	return (
-		navigation.navigate('Thêm')
-	)
-}
+
 // @refresh reset
-export const MainNavigator = ({navigation, routes}) => {
-	console.log('navigation', navigation.state);
+export const MainNavigator = () => {
+
 	return (
 		<Tab.Navigator
 			tabBarOptions={{
