@@ -105,6 +105,8 @@ export const MonthlyHistory = () => {
 const styles = StyleSheet.create({
 	pagerView: {
 		flex: 2,
+		marginTop:16,
+	
 	},
 	item: {
 		flex:0,
@@ -112,6 +114,7 @@ const styles = StyleSheet.create({
 		height: 320,
 		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
 		borderRadius: Variable.BORDER_RADIUS_MEDIUM,
+		marginBottom: 6
 	},
 	monthTitle: {
 		textAlign: "center",

@@ -19,12 +19,13 @@ import { MainNavigator } from "./Navigators/MainBottomNavigator";
 import { createStackNavigator } from "@react-navigation/stack";
 import { GroupPicker } from "./Screens/GroupPicker";
 import {NavigationActions, StackActions} from 'react-navigation';
+import { AddTransaction } from "./Screens/AddTransaction";
 const Stack = createStackNavigator()
 
-const Index = ({navigation}) =>{
+const Index = ({navigation, state}) =>{
 	
 	return (
-		<MainNavigator />
+		<MainNavigator navigation={navigation} routes={state}/>
 	)
 }
 export default function App() {
@@ -43,6 +44,7 @@ export default function App() {
 			<Stack.Navigator headerMode="none" initialRouteName="Index">
 				<Stack.Screen name="Index" component={Index}></Stack.Screen>
 				<Stack.Screen name="Chọn nhóm" component={GroupPicker}></Stack.Screen>
+				<Stack.Screen name="Thêm" component={AddTransaction}></Stack.Screen>	
 				
 			</Stack.Navigator>
 		</NavigationContainer>

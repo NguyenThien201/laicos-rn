@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import { Pagination } from "react-native-snap-carousel";
 import { Variable } from "../styles/theme.style";
 

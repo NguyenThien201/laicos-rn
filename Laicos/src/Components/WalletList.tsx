@@ -49,7 +49,7 @@ export const WalletList = () => {
 
 	return (
 		<View style={styles.pagerView}>
-			<View>
+			<View style={{marginBottom:16}}>
 				<Carousel
 					layout="default"
 					ref={carouselRef}
@@ -60,8 +60,11 @@ export const WalletList = () => {
 					renderItem={_renderItem}
 					onSnapToItem={(index) => setActive(index)}
 				/>
+		
 				<PaginationComponent items={wallets} active={active} />
+			
 			</View>
+			
 		</View>
 	);
 };
@@ -73,6 +76,7 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		alignContent: "flex-start",
 		justifyContent: "flex-start",
+		marginBottom:20,
 	},
 	item: {
 		flex: 0,

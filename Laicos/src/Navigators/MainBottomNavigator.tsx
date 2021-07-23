@@ -8,21 +8,27 @@ import { AddTransaction } from "../Screens/AddTransaction";
 
 const Tab = createBottomTabNavigator();
 
+
+const tempAdd = ({navigation}) =>{
+	
+	return (
+		navigation.navigate('Thêm')
+	)
+}
 // @refresh reset
-export const MainNavigator = () => {
+export const MainNavigator = ({navigation, routes}) => {
+	console.log('navigation', navigation.state);
 	return (
 		<Tab.Navigator
 			tabBarOptions={{
 				showLabel: false,
 				activeTintColor: "#3CD3AD",
 				style: {
-					position: "absolute",
+					marginTop:0,
+					
+					
 					backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
-					height: 70,
-					borderRadius: Variable.BORDER_RADIUS_MEDIUM,
-					left: 10,
-					right: 10,
-					bottom: 20,
+					height: 70,				
 					elevation: 10,
 					shadowColor: Variable.BACKGROUND_ITEM_COLOR
 					
@@ -71,6 +77,7 @@ export const MainNavigator = () => {
 				name="Thêm"
 				component={AddTransaction}
 				options={{
+					tabBarVisible:false	,
 					tabBarLabel: "Thêm",
 					tabBarIcon: () => (
 						<View>

@@ -10,24 +10,42 @@ import {
 	KeyboardAvoidingView,
 	TouchableWithoutFeedback,
 	TouchableOpacity,
+	Animated,
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+
+import Modal from "react-native-modalbox";
+import { ScrollView, TapGestureHandler } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
-import { color } from "react-native-reanimated";
-import { NavigationActions, StackActions } from "react-navigation";
 import { LinearGradButton } from "../Components/LinearGradButton";
 import { globalStyles, Variable } from "../styles/theme.style";
 import { ITransactionGroup } from "../type";
-import HomeScreen from "./HomeScreen";
-
+import { Calendar } from "react-native-calendars";
+import moment from "moment";
 export const AddTransaction = ({ navigation }) => {
-	navigation.setOptions({ tabBarVisible: false });
-	const [chosenGroup, setChosenGroup] = useState<ITransactionGroup>();
+	navigation.setOptions({ tabBarVisibile: false });
+	const [chosenGroup, setChosenGroup] = useState<ITransactionGroup | null>(
+		null
+	);
+	const [chosenDate, setChosenDate] = useState<Date>(new Date());
+	const [isCalanderOpened, setOpen] = useState(false);
+
+	const getMarkedDate = () => {
+		const markedDate: Record<string, any> = {};
+
+		markedDate[moment(chosenDate).format("YYYY-MM-DD")] = {
+			selected: true,
+			selectedColor: Variable.GREEN_LIGHT_COLOR,
+		};
+		return markedDate;
+	};
 	return (
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
 			<ScrollView style={[styles.container]}>
 				<TouchableOpacity
-					onPress={() => navigation.goBack()}
+					onPress={() => {
+						setChosenGroup(null);
+						navigation.goBack();
+					}}
 					style={{ flex: 0 }}
 				>
 					<View style={[styles.title]}>
@@ -84,8 +102,14 @@ export const AddTransaction = ({ navigation }) => {
 						)}
 					</TouchableOpacity>
 
-					<Text style={[styles.input]}>Thêm ghi chú</Text>
-					<Text style={[styles.input]}>Hôm nay</Text>
+					<TextInput
+						style={[styles.input]}
+						placeholder="Thêm ghi chú"
+						placeholderTextColor="white"
+					></TextInput>
+					<TouchableOpacity onPress={() => setOpen(true)}>
+						<Text style={[styles.input]}>Hôm nay</Text>
+					</TouchableOpacity>
 					<Text style={[styles.input]}>Ví chính</Text>
 				</View>
 
@@ -94,15 +118,55 @@ export const AddTransaction = ({ navigation }) => {
 					<LinearGradButton
 						color={Variable.BUTTON_PRIMARY}
 						text={"LƯU"}
-						action={() => navigation.goBack()}
+						action={() => {
+							setChosenGroup(null);
+							navigation.goBack();
+						}}
 					/>
 					<LinearGradButton
 						color={Variable.BUTTON_CANCEL}
 						text={"HỦY"}
-						action={() => navigation.goBack()}
+						action={() => {
+							setChosenGroup(null);
+							navigation.goBack();
+						}}
 					/>
 				</View>
 			</ScrollView>
+			<Modal
+				entry="bottom"
+				position="bottom"
+				style={styles.modalView}
+				isOpen={isCalanderOpened}
+				backdrop={true}
+				backdropColor={Variable.BACKGROUND_COLOR}
+				coverScreen={true}
+				onClosed={() => setOpen(false)}
+		
+				backButtonClose={true}
+			>
+				<Calendar
+					enableSwipeMonths={TapGestureHandler}
+					markedDates={getMarkedDate()}
+					onDayPress={(date) => {
+						setChosenDate(new Date(date.dateString));
+						setOpen(false);
+					}}
+					theme={{
+						backgroundColor: Variable.BACKGROUND_COLOR,
+						calendarBackground: Variable.BACKGROUND_COLOR,
+						selectedDayBackgroundColor: Variable.GREEN_LIGHT_COLOR,
+						selectedDayTextColor: "white",
+						todayTextColor: "#00adf5",
+						dayTextColor: "white",
+						textDisabledColor: "#B1B1B1",
+						arrowColor: "white",
+						disabledArrowColor: "#d9e1e8",
+						monthTextColor: "white",
+						indicatorColor: "white",
+					}}
+				/>
+			</Modal>
 		</KeyboardAvoidingView>
 	);
 };
@@ -135,4 +199,11 @@ const styles = StyleSheet.create({
 		fontSize: Variable.FONT_SIZE_MEDIUM,
 		padding: 6,
 	},
+	modalView: {
+		margin: 0,
+
+		justifyContent: "flex-end",
+		height: 300,
+	},
+	calendarView: {},
 });
