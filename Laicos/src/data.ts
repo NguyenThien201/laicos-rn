@@ -50,16 +50,16 @@ export const transactionGroup: ITransactionGroup[] = [
 	{
 		id: 6,
 		name: "Quần áo",
-		icon: "",
+		icon: require("./Assets/Images/Icons/ic_clothes.png"),
 		type: "SPEND",
 		parent: 5,
 	},
 	{
 		id: 7,
 		name: "Giày dép",
-		icon: "",
+		icon: require("./Assets/Images/Icons/ic_shoes.png"),
 		type: "SPEND",
-		parent: 3,
+		parent: 5,
 	},
 	{
 		id: 8,
@@ -101,6 +101,20 @@ export const transactionGroup: ITransactionGroup[] = [
 		name: "Hẹn hò",
 		icon: require("./Assets/Images/Icons/ic_dating.png"),
 		type: "SPEND",
+		parent: null,
+	},
+	{
+		id: 14,
+		name: "Được tặng",
+		icon: require("./Assets/Images/Icons/ic_cash.png"),
+		type: "EARN",
+		parent: null,
+	},
+	{
+		id: 15,
+		name: "Thưởng",
+		icon: require("./Assets/Images/Icons/ic_bonus.png"),
+		type: "EARN",
 		parent: null,
 	},
 ];

@@ -59,7 +59,13 @@ export const GroupPicker = ({ route, navigation }) => {
 					/>
 				);
 			case "earn":
-				return <EarningGroup navigation={navigation} />;
+				return (
+					<EarningGroup
+						navigation={navigation}
+						setChosenGroup={setChosenGroup}
+						chosenGroup={chosenGroup}
+					/>
+				);
 			default:
 				return null;
 		}
@@ -84,7 +90,7 @@ export const GroupPicker = ({ route, navigation }) => {
 				renderScene={renderScene}
 				onIndexChange={setIndex}
 				initialLayout={{ width: screenWidth }}
-				style={{ backgroundColor: "black" }}
+				style={{ backgroundColor: Variable.BACKGROUND_COLOR }}
 				renderTabBar={renderTabBar}
 			/>
 		</View>

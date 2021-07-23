@@ -47,9 +47,7 @@ export const MonthlyHistory = () => {
 			<View
 				style={[
 					styles.item,
-					index === active
-						? { elevation: 12, shadowColor: Variable.GREEN_COLOR }
-						: {},
+					
 				]}
 			>
 				<View

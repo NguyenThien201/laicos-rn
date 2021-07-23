@@ -45,6 +45,13 @@ export const AddTransaction = ({ navigation, route }) => {
 		return markedDate;
 	};
 	
+	const resetState= () =>{
+		setMoney("")
+		setChosenDate(new Date())
+		setDescription("")
+		setChosenGroup(null)
+		setChosenWallet(wallets[0])
+	}
 	const createNewTransaction = () => {
 		if (chosenGroup && parseInt(money) > 0) {
 			const newTransaction: ITransaction = {
@@ -55,10 +62,12 @@ export const AddTransaction = ({ navigation, route }) => {
 				group: chosenGroup!,
 			};
 			transaction.push(newTransaction)
+			resetState()
 			navigation.reset({
 				index: 0,
 				routes: [{ name: "Trang chủ" }],
 			  });
+			
 		}
 		
 	};
@@ -66,8 +75,8 @@ export const AddTransaction = ({ navigation, route }) => {
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
 			<ScrollView style={[styles.container]}>
 				<TouchableOpacity
-					onPress={() => {
-						setChosenGroup(null);
+					onPress={() => {					
+						resetState()
 						navigation.goBack();
 					}}
 					style={{ flex: 0 }}
