@@ -1,39 +1,12 @@
 import { Picker } from "@react-native-picker/picker"
 import React, { useState } from "react"
-import { Dimensions, Text, View } from "react-native"
-import { LineChart } from "react-native-chart-kit"
+import { Dimensions, ScrollView, Text, View } from "react-native"
+import { LineChart, StackedBarChart } from "react-native-chart-kit"
 import { SceneMap, TabBar, TabView } from "react-native-tab-view"
+import StatisticTabItem from "../Components/StatisticTabItem"
+import { chartConfig, lineChartData, stackedBarChartData } from "../data"
 import { globalStyles } from "../styles/theme.style"
 const Statistic = () => {
-  const chartConfig = {
-    backgroundGradientFrom: "#151321",
-    backgroundGradientTo: "#151321",
-    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
-    barPercentage: 0.5,
-  }
-  const data = {
-    labels: ["T3", "T4", "T5", "T6", "T7"],
-    datasets: [
-      {
-        data: [0, 1, 1, 1, 0],
-        color: () => `rgba(255, 255, 255, 1)`, // optional
-        strokeWidth: 3, // optional
-      },
-      {
-        data: [10, 10, 10, 15, 15],
-        color: () => `rgba(60, 211, 173, 1)`, // optional
-        strokeWidth: 3, // optional
-      },
-      {
-        data: [8, 5, 6, 8, 4],
-        color: () => `rgba(243, 74, 47, 1)`, // optional
-        strokeWidth: 3, // optional
-      },
-    ],
-    legend: ["Vay", "Thu", "Chi"], // optional
-  }
-  const [dataFromChart, setDataFromChart] = useState({})
   const screenWidth = Dimensions.get("window").width
   const [index, setIndex] = useState(0)
   const [routes] = useState([
@@ -41,62 +14,136 @@ const Statistic = () => {
     { key: "second", title: "Chi" },
     { key: "third", title: "Thu" },
   ])
-  const [selectedChartType, setSelectedChartType] = useState<string>("month")
+  const [selectedLabelChartType, setSelectedLabelChartType] =
+    useState<string>("month")
+  const [selectedChartType, setSelectedChartType] = useState<string>("line")
+  const [isShowHeader, setIsShowHeader] = useState(true)
   return (
     <View>
-      <Text
-        style={[
-          globalStyles.fontSizeLarge,
-          globalStyles.whiteText,
-          { fontWeight: "bold", paddingTop: 10, paddingLeft: 15 },
-        ]}
-      >
-        Thống kê
-      </Text>
+      {isShowHeader && (
+        <View>
+          <Text
+            style={[
+              globalStyles.fontSizeLarge,
+              globalStyles.whiteText,
+              { fontWeight: "bold", paddingTop: 10, paddingLeft: 15 },
+            ]}
+          >
+            Thống kê
+          </Text>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row-reverse",
+              alignItems: "flex-end",
+            }}
+          >
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: "white",
+                borderRadius: 15,
+                marginEnd: 10,
+                marginBottom: 10,
+              }}
+            >
+              <Picker
+                selectedValue={selectedLabelChartType}
+                dropdownIconColor="white"
+                style={{
+                  color: "white",
+                  width: 130,
+                }}
+                onValueChange={(itemValue) =>
+                  setSelectedLabelChartType(itemValue)
+                }
+              >
+                <Picker.Item label="Ngày" value="day" />
+                <Picker.Item label="Tuần" value="week" />
+                <Picker.Item label="Tháng" value="month" />
+                <Picker.Item label="Năm" value="year" />
+              </Picker>
+            </View>
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: "white",
+                borderRadius: 15,
+                marginEnd: 10,
+                marginBottom: 10,
+              }}
+            >
+              <Picker
+                selectedValue={selectedChartType}
+                dropdownIconColor="white"
+                style={{
+                  width: 130,
+                  color: "white",
+                }}
+                onValueChange={(itemValue) => setSelectedChartType(itemValue)}
+              >
+                <Picker.Item label="Đường" value="line" />
+                <Picker.Item label="Cột" value="bar" />
+              </Picker>
+            </View>
+          </View>
+          {selectedChartType === "line" ? (
+            <LineChart
+              data={lineChartData}
+              width={screenWidth}
+              height={200}
+              verticalLabelRotation={0}
+              chartConfig={chartConfig}
+              bezier
+              withShadow={false}
+              withDots={false}
+              yAxisSuffix=" tr"
+            />
+          ) : (
+            <StackedBarChart
+              style={{ marginLeft: 10 }}
+              data={stackedBarChartData}
+              width={screenWidth - 10}
+              height={200}
+              chartConfig={chartConfig}
+              yAxisSuffix=" tr"
+            />
+          )}
+        </View>
+      )}
       <View
         style={{
-          borderWidth: 1,
-          borderColor: "white",
-          borderRadius: 15,
-          width: 125,
-          alignSelf: "flex-end",
-          marginEnd:10,
-          marginBottom:10
+          backgroundColor: "#212230",
+          width: 70,
+          height: 25,
+          paddingTop: 8,
+          alignSelf: "center",
+          alignItems: "center",
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
         }}
       >
-        <Picker
-          selectedValue={selectedChartType}
-          dropdownIconColor="white"
-          style={{
-            fontSize:10,
-            height: 50,
-            width: 130,
-            color: "white",
-            borderColor: "white",
-          }}
-          onValueChange={(itemValue) => setSelectedChartType(itemValue)}
-        >
-          <Picker.Item label="Ngày" value="day" />
-          <Picker.Item label="Tuần" value="week" />
-          <Picker.Item label="Tháng" value="month" />
-          <Picker.Item label="Năm" value="year" />
-        </Picker>
+        <Text
+          onPress={() => setIsShowHeader(!isShowHeader)}
+          style={[
+            {
+              width: 0,
+              height: 0,
+              backgroundColor: "transparent",
+              borderStyle: "solid",
+              borderLeftWidth: 10,
+              borderRightWidth: 10,
+              borderBottomWidth: 10,
+              borderLeftColor: "transparent",
+              borderRightColor: "transparent",
+              borderBottomColor: "white",
+            },
+            !isShowHeader && {
+              transform: [{ rotate: "180deg" }],
+            },
+          ]}
+        />
       </View>
-      <LineChart
-        data={data}
-        width={screenWidth}
-        height={200}
-        verticalLabelRotation={0}
-        chartConfig={chartConfig}
-        bezier
-        withShadow={false}
-        withDots={false}
-        yAxisSuffix=" tr"
-        onDataPointClick={(data) => {
-          console.log(data)
-        }}
-      />
-
       <View
         style={{
           backgroundColor: "#212230",
@@ -111,7 +158,7 @@ const Statistic = () => {
             fontWeight: "bold",
             fontSize: 16,
             textAlign: "center",
-            paddingTop: 20,
+            paddingTop: 10,
           }}
         >
           Thống kê trong tháng 7
@@ -121,7 +168,6 @@ const Statistic = () => {
           renderScene={renderScene}
           onIndexChange={setIndex}
           initialLayout={{ width: screenWidth }}
-          style={{ backgroundColor: "black" }}
           renderTabBar={renderTabBar}
         />
       </View>
@@ -131,9 +177,9 @@ const Statistic = () => {
 export default Statistic
 
 const renderScene = SceneMap({
-  first: () => <View style={{ flex: 1, backgroundColor: "#ff4081" }} />,
-  second: () => <View style={{ flex: 1, backgroundColor: "#673ab7" }} />,
-  third: () => <View style={{ flex: 1, backgroundColor: "violet" }} />,
+  first: () => <StatisticTabItem type="vay" />,
+  second: () => <StatisticTabItem type="chi" />,
+  third: () => <StatisticTabItem type="thu" />,
 })
 
 const renderTabBar = (props: any) => (

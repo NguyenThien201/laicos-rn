@@ -1,4 +1,4 @@
-import { ITransaction, ITransactionGroup, IWallet } from "./type";
+import { ITransaction, ITransactionGroup, IWallet } from "./type"
 
 export const wallets: IWallet[] = [
 	{
@@ -16,7 +16,7 @@ export const wallets: IWallet[] = [
 		moneyIn: 100000000,
 		moneyOut: 5000000,
 	},
-];
+]
 
 export const transactionGroup: ITransactionGroup[] = [
 	{
@@ -117,7 +117,7 @@ export const transactionGroup: ITransactionGroup[] = [
 		type: "EARN",
 		parent: null,
 	},
-];
+]
 
 export const transaction: ITransaction[] = [
 	{
@@ -162,4 +162,74 @@ export const transaction: ITransaction[] = [
 		description: "",
 		wallet: "BAMEBANK",
 	},
-];
+]
+export const lineChartData = {
+	labels: ["T3", "T4", "T5", "T6", "T7"],
+	datasets: [
+		{
+			data: [0, 1, 1, 1, 0],
+			color: () => `rgba(255, 255, 255, 1)`, // optional
+			strokeWidth: 3, // optional
+		},
+		{
+			data: [8, 5, 6, 8, 4],
+			color: () => `rgba(243, 74, 47, 1)`, // optional
+			strokeWidth: 3, // optional
+		},
+		{
+			data: [10, 10, 10, 15, 15],
+			color: () => `rgba(60, 211, 173, 1)`, // optional
+			strokeWidth: 3, // optional
+		},
+	],
+	legend: ["Vay", "Chi", "Thu"], // optional
+}
+export const stackedBarChartData = {
+	labels: ["T3", "T4", "T5", "T6", "T7"],
+	legend: ["Vay", "Chi", "Thu"],
+	data: [
+		[0, 8, 10],
+		[1, 5, 10],
+		[1, 6, 10],
+		[1, 8, 15],
+		[0, 4, 15],
+	],
+	barColors: [`rgba(255, 255, 255, 1)`, `rgba(243, 74, 47, 1)`, `rgba(60, 211, 173, 1)`]
+}
+export const chartConfig = {
+	backgroundGradientFrom: "#151321",
+	backgroundGradientTo: "#151321",
+	color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+	strokeWidth: 2, // optional, default 3
+	barPercentage: 0.5,
+}
+export const spendingData = [
+	{
+		name: "Ăn uống",
+		money: 21500000,
+		color: "rgba(131, 167, 234, 1)",
+		legendFontColor: "white",
+		legendFontSize: 13
+	},
+	{
+		name: "Tiền nhà",
+		money: 2800000,
+		color: "#F00",
+		legendFontColor: "white",
+		legendFontSize: 13
+	},
+	{
+		name: "Xe cộ",
+		money: 8538000,
+		color: "#ffffff",
+		legendFontColor: "white",
+		legendFontSize: 13
+	},
+	{
+		name: "Đi chơi",
+		money: 11920000,
+		color: "rgb(0, 0, 255)",
+		legendFontColor: "white",
+		legendFontSize: 13
+	}
+]
