@@ -12,30 +12,14 @@ import { globalStyles, Variable } from "../styles/theme.style";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { PaginationComponent } from "./PaginationCarousel";
 
+import { wallets as walletsData } from "../data";
 const { width: screenWidth } = Dimensions.get("window");
-const data: IWallet[] = [
-	{
-		name: "BAMEBANK",
-		moneyIn: 600000,
-		moneyOut: 500000,
-	},
-	{
-		name: "NGUOIYEUBANK",
-		moneyIn: 750000,
-		moneyOut: 100000,
-	},
-	{
-		name: "BODUONGBANK",
-		moneyIn: 100000000,
-		moneyOut: 5000000,
-	},
-];
 
 export const WalletList = () => {
 	const [wallets, setWallet] = useState<IWallet[]>([]);
 	const [active, setActive] = useState(0);
 	useEffect(() => {
-		return setWallet(data);
+		return setWallet(walletsData);
 	}, []);
 	const carouselRef = useRef(null);
 

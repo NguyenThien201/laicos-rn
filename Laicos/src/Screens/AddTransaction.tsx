@@ -4,13 +4,9 @@ import {
 	StyleSheet,
 	Text,
 	View,
-	TouchableHighlight,
 	TextInput,
-	Button,
 	KeyboardAvoidingView,
-	TouchableWithoutFeedback,
 	TouchableOpacity,
-	Animated,
 } from "react-native";
 
 import Modal from "react-native-modalbox";
@@ -22,10 +18,9 @@ import { ITransaction, ITransactionGroup, IWallet } from "../type";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
 import { transaction, wallets } from "../data";
+import { ChosenGroupView } from "../Components/ChosenGroupVIew";
 
 export const AddTransaction = ({ navigation, route }) => {
-
-	navigation.setOptions({ tabBarVisibile: false });
 
 	const [chosenGroup, setChosenGroup] = useState<ITransactionGroup | null>(
 		null
@@ -44,39 +39,48 @@ export const AddTransaction = ({ navigation, route }) => {
 		};
 		return markedDate;
 	};
-	
-	const resetState= () =>{
-		setMoney("")
-		setChosenDate(new Date())
-		setDescription("")
-		setChosenGroup(null)
-		setChosenWallet(wallets[0])
-	}
+	const resetState = () => {
+		setMoney("");
+		setChosenDate(new Date());
+		setDescription("");
+		setChosenGroup(null);
+		setChosenWallet(wallets[0]);
+	};
 	const createNewTransaction = () => {
-		if (chosenGroup && parseInt(money) > 0) {
+		const toMoney = parseInt(money);
+		if (chosenGroup && toMoney > 0) {
 			const newTransaction: ITransaction = {
 				date: chosenDate,
 				description: description,
 				wallet: chosenWallet.name,
-				money: parseInt(money),
+				money: toMoney,
 				group: chosenGroup!,
 			};
-			transaction.push(newTransaction)
-			resetState()
+			transaction.push(newTransaction);
+			for (const wallet of wallets) {
+				if (wallet.name === chosenWallet.name) {
+					console.log('ok22', wallet.name);
+					if (chosenGroup.type === "EARN") {
+						wallet.moneyIn += toMoney;
+					} else {
+						wallet.moneyOut += toMoney;
+					}
+					break;
+				}
+			}
+			resetState();
 			navigation.reset({
 				index: 0,
 				routes: [{ name: "Trang chủ" }],
-			  });
-			
+			});
 		}
-		
 	};
 	return (
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
 			<ScrollView style={[styles.container]}>
 				<TouchableOpacity
-					onPress={() => {					
-						resetState()
+					onPress={() => {
+						resetState();
 						navigation.goBack();
 					}}
 					style={{ flex: 0 }}
@@ -112,31 +116,7 @@ export const AddTransaction = ({ navigation, route }) => {
 						}
 					>
 						{chosenGroup ? (
-							<View style={[styles.input]}>
-								<View
-									style={{
-										flex: 0,
-										flexDirection: "row",
-										justifyContent: "flex-start",
-									}}
-								>
-									<Image
-										source={chosenGroup.icon}
-										style={{ width: 24, height: 24 }}
-										resizeMode="contain"
-									></Image>
-
-									<Text
-										style={[
-											globalStyles.whiteText,
-											globalStyles.fontSizeMedium,
-											{ marginLeft: 4 },
-										]}
-									>
-										{chosenGroup.name}
-									</Text>
-								</View>
-							</View>
+							<ChosenGroupView chosenGroup={chosenGroup} />
 						) : (
 							<Text style={[styles.input]}>Chọn nhóm</Text>
 						)}
@@ -149,6 +129,8 @@ export const AddTransaction = ({ navigation, route }) => {
 						onChangeText={setDescription}
 						value={description}
 					></TextInput>
+
+					{/* Chọn ngày tháng */}
 					<TouchableOpacity onPress={() => setOpen(true)}>
 						{new Date().toLocaleDateString() ===
 						chosenDate.toLocaleDateString() ? (
@@ -159,7 +141,14 @@ export const AddTransaction = ({ navigation, route }) => {
 							</Text>
 						)}
 					</TouchableOpacity>
-					<Text style={[styles.input]}>{chosenWallet.name}</Text>
+					{/* Chọn ví */}
+					<TouchableOpacity onPress={()=> navigation.navigate("Chọn ví", {
+						chosenWallet: chosenWallet,
+						setChosenWallet: setChosenWallet
+					})}> 
+						<Text style={[styles.input]}>{chosenWallet.name}</Text>
+					</TouchableOpacity>
+				
 				</View>
 
 				{/* Buttons */}
@@ -206,7 +195,6 @@ export const AddTransaction = ({ navigation, route }) => {
 						dayTextColor: "white",
 						textDisabledColor: "#B1B1B1",
 						arrowColor: "white",
-						disabledArrowColor: "#d9e1e8",
 						monthTextColor: "white",
 						indicatorColor: "white",
 					}}
@@ -233,7 +221,7 @@ const styles = StyleSheet.create({
 	form: {
 		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
 		borderRadius: Variable.BORDER_RADIUS_MEDIUM,
-		height: 400,
+		paddingVertical: 20,
 		marginTop: 20,
 	},
 	input: {

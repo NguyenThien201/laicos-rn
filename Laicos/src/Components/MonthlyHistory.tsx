@@ -95,6 +95,7 @@ export const MonthlyHistory = () => {
 					firstItem={monthsData.length - 1}
 					onSnapToItem={(index) => setActive(index)}
 					inactiveSlideOpacity={1}
+					enableMomentum={false}
 				/>
 			</View>
 		</View>

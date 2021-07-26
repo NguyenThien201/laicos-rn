@@ -15,6 +15,7 @@ import {
 import { transactionGroup } from "../data";
 import { Variable } from "../styles/theme.style";
 import { ITransactionGroup } from "../type";
+import { LinearGradButton } from "./LinearGradButton";
 
 export const SpendingGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 	const [parentGroup, setParentGroup] = useState<ITransactionGroup[]>([]);
@@ -32,7 +33,6 @@ export const SpendingGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 			setParentGroup(data);
 		}
 	}, []);
-
 	useEffect(() => {
 		if (parentGroup.length > 0) {
 			const cG: Record<string, ITransactionGroup[]> = {};
@@ -210,7 +210,16 @@ export const SpendingGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 				renderItem={renderItem}
 				keyExtractor={(item) => item.id}
 			></FlatList>
-			<Button title="ADD"></Button>
+			<LinearGradButton
+				color={Variable.BUTTON_PRIMARY}
+				text={"Thêm mới"}
+				action={() =>
+					navigation.navigate("Thêm nhóm", {
+						type: "EARN",
+						setChosenGroup: setChosenGroup,
+					})
+				}
+			/>
 		</View>
 	);
 };

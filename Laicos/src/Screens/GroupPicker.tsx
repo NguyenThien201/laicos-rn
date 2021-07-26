@@ -17,6 +17,11 @@ import {
 import { EarningGroup } from "../Components/EarningGroup";
 import { SpendingGroup } from "../Components/SpendingGroup";
 import { Variable } from "../styles/theme.style";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 const renderTabBar = (props: any) => (
 	<TabBar
 		{...props}
@@ -36,7 +41,6 @@ const renderTabBar = (props: any) => (
 
 export const GroupPicker = ({ route, navigation }) => {
 	const { chosenGroup, setChosenGroup } = route.params;
-
 	const [index, setIndex] = useState(1);
 	const screenWidth = Dimensions.get("window").width;
 
@@ -46,7 +50,8 @@ export const GroupPicker = ({ route, navigation }) => {
 		{ key: "earn", title: "Khoản thu" },
 	]);
 
-	const renderScene = ({ route }) => {
+	const renderScene = useMemo(() => ({ route }) => {
+		console.log("ZOO TAB");
 		switch (route.key) {
 			case "loan":
 				return <View style={{ flex: 1, backgroundColor: "#ff4081" }} />;
@@ -69,8 +74,7 @@ export const GroupPicker = ({ route, navigation }) => {
 			default:
 				return null;
 		}
-	};
-
+	}, [chosenGroup])
 	return (
 		<View style={[styles.container]}>
 			<TouchableOpacity
@@ -85,6 +89,7 @@ export const GroupPicker = ({ route, navigation }) => {
 					<Text style={[styles.titleText]}>Chọn nhóm</Text>
 				</View>
 			</TouchableOpacity>
+			
 			<TabView
 				navigationState={{ index, routes }}
 				renderScene={renderScene}
@@ -95,6 +100,7 @@ export const GroupPicker = ({ route, navigation }) => {
 			/>
 		</View>
 	);
+
 };
 
 const styles = StyleSheet.create({

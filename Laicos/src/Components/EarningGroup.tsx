@@ -12,9 +12,11 @@ import {
 	ScrollView,
 	TouchableOpacity,
 } from "react-native-gesture-handler";
+import LinearGradient from "react-native-linear-gradient";
 import { transactionGroup } from "../data";
 import { Variable } from "../styles/theme.style";
 import { ITransactionGroup } from "../type";
+import { LinearGradButton } from "./LinearGradButton";
 
 export const EarningGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 	const [parentGroup, setParentGroup] = useState<ITransactionGroup[]>([]);
@@ -210,7 +212,18 @@ export const EarningGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 				renderItem={renderItem}
 				keyExtractor={(item) => item.id}
 			></FlatList>
-			<Button title="ADD"></Button>
+			<LinearGradButton
+				color={Variable.BUTTON_PRIMARY}
+				text={"Thêm mới"}
+				action={() =>
+					navigation.navigate("Thêm nhóm", {
+						type: "EARN",
+						setChosenGroup: setChosenGroup,
+					
+					})
+				}
+			/>
+			
 		</View>
 	);
 };
@@ -235,5 +248,11 @@ const styles = StyleSheet.create({
 		fontSize: Variable.FONT_SIZE_MEDIUM,
 		marginLeft: 10,
 		fontWeight: "900",
+	},buttonText: {
+		textAlign: "center",
+		paddingVertical: 10,
+		borderRadius: Variable.BORDER_RADIUS_MEDIUM,
+		color: "white",
+		fontSize: Variable.FONT_SIZE_MEDIUM,
 	},
 });
