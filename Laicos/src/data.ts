@@ -212,24 +212,97 @@ export const spendingData = [
 		legendFontSize: 13
 	},
 	{
-		name: "Tiền nhà",
+		name: "Nhà hàng",
 		money: 2800000,
 		color: "#F00",
 		legendFontColor: "white",
 		legendFontSize: 13
 	},
 	{
-		name: "Xe cộ",
+		name: "Mua sắm",
 		money: 8538000,
 		color: "#ffffff",
 		legendFontColor: "white",
 		legendFontSize: 13
 	},
 	{
-		name: "Đi chơi",
+		name: "Giáo dục",
 		money: 11920000,
 		color: "rgb(0, 0, 255)",
 		legendFontColor: "white",
 		legendFontSize: 13
 	}
+]
+export const incomeData = [
+	{
+		name: "Lương",
+		money: 21500000,
+		color: "rgba(131, 167, 234, 1)",
+		legendFontColor: "white",
+		legendFontSize: 13
+	},
+	{
+		name: "Thưởng",
+		money: 2800000,
+		color: "#F00",
+		legendFontColor: "white",
+		legendFontSize: 13
+	},
+]
+export const loanData = [
+	{
+		name: "Vay",
+		money: 21500000,
+		color: "rgba(131, 167, 234, 1)",
+		legendFontColor: "white",
+		legendFontSize: 13
+	},
+]
+
+export const spendingTransactions = [
+	{
+		group: transactionGroup[0],
+		money: 100000,
+		date: new Date("06/06/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[1],
+		money: 10000000,
+		date: new Date("06/07/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[3],
+		money: 70000,
+		date: new Date("06/05/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[7],
+		money: 1000000,
+		date: new Date("06/01/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+]
+
+export const incomeTransactions = [
+	{
+		group: transactionGroup[6],
+		money: 15000000,
+		date: new Date("10/06/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[13],
+		money: 1000000,
+		date: new Date("10/07/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
 ]

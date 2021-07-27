@@ -178,8 +178,8 @@ export default Statistic
 
 const renderScene = SceneMap({
   first: () => <StatisticTabItem type="vay" />,
-  second: () => <StatisticTabItem type="chi" />,
-  third: () => <StatisticTabItem type="thu" />,
+  second: () => <StatisticTabItem type="spending" />,
+  third: () => <StatisticTabItem type="income" />,
 })
 
 const renderTabBar = (props: any) => (
