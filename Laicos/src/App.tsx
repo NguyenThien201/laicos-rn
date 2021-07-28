@@ -23,6 +23,7 @@ import { AddTransaction } from "./Screens/AddTransaction";
 import { AddGroup } from "./Screens/AddGroup";
 import { ParentGroupPicker } from "./Screens/ParentGroupPicker";
 import { WalletPicker } from "./Screens/WalletPicker";
+import { HistoryScreen } from "./Screens/HistoryScreen";
 const Stack = createStackNavigator()
 
 const Index = () =>{
@@ -51,6 +52,7 @@ export default function App() {
 				<Stack.Screen name="Thêm nhóm" component={AddGroup}></Stack.Screen>	
 				<Stack.Screen name="Chọn nhóm cha" component={ParentGroupPicker}></Stack.Screen>	
 				<Stack.Screen name="Chọn ví" component={WalletPicker}></Stack.Screen>	
+			
 			</Stack.Navigator>
 		</NavigationContainer>
 	

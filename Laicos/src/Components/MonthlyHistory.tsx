@@ -34,7 +34,7 @@ const months: Date[] = (): Date[] => {
 	return d;
 };
 
-export const MonthlyHistory = () => {
+export const MonthlyHistory = ({navigation}) => {
 	const [monthsData, setMonthsData] = useState<Date[]>([]);
 	const [active, setActive] = useState(0);
 	useEffect(() => {
@@ -65,7 +65,7 @@ export const MonthlyHistory = () => {
 					<TransactionList date={item}></TransactionList>
 				</View>
 				<View style={styles.button}>
-					<TouchableOpacity style={{ flex: 1 }}>
+					<TouchableOpacity style={{ flex: 1 }} onPress={()=>navigation.navigate('Lịch sử')}>
 						<LinearGradient
 							start={{ x: 1, y: 1 }}
 							end={{ x: 0.25, y: 0.25 }}

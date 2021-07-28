@@ -6,10 +6,15 @@ export const formatter = (number: number): string => {
    
     let n = number
     const re = new RegExp(',', 'g');
+   
     if (number < 0)
     {
         n *= -1
         isSign = true
+    }
+    else if(n<10)
+    {
+        return n+""
     }
     while (n > 0) {
       

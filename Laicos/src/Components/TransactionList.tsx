@@ -26,7 +26,7 @@ export const TransactionList = ({ date }) => {
     }, [transactionHistory.length]);
 
     return (
-        <View style={{ flex: 1 , alignItems:"flex-start", justifyContent:"flex-start"}}>
+        <View style={{ flex: 1 , alignItems:"flex-start", justifyContent:"flex-start", paddingHorizontal:16}}>
             {transactions.length > 0 ?  transactions.map((item, indx) => (
                 <TransactionItem transaction={item} key={indx} />
             )) : <Text style={{color:"#fff", alignSelf:"center"}}>

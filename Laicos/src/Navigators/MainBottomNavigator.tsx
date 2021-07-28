@@ -1,40 +1,47 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image, View } from "react-native";
-import HomeScreen from "../Screens/HomeScreen";
 import { Variable } from "../styles/theme.style";
-import Statistic from "../Screens/Statistic"
+import Statistic from "../Screens/Statistic";
 import { AddTransaction } from "../Screens/AddTransaction";
+import HomeScreen from "../Screens/HomeScreen";
+import { HistoryScreen } from "../Screens/HistoryScreen";
+import { createStackNavigator } from "@react-navigation/stack";
 
 const Tab = createBottomTabNavigator();
 
+const HomeStack = createStackNavigator();
 
+const HomeScreenComponent = () => {
+	return (
+		<HomeStack.Navigator  headerMode="none">
+			<HomeStack.Screen name="Trang chủ" component={HomeScreen} />
+			<HomeStack.Screen name="Lịch sử" component={HistoryScreen} />
+		</HomeStack.Navigator>
+	);
+};
 
 // @refresh reset
 export const MainNavigator = () => {
-
 	return (
 		<Tab.Navigator
 			tabBarOptions={{
 				showLabel: false,
 				activeTintColor: "#3CD3AD",
 				style: {
-					marginTop:0,
-					
-					
+					marginTop: 0,
+
 					backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
-					height: 70,				
+					height: 70,
 					elevation: 10,
-					shadowColor: Variable.BACKGROUND_ITEM_COLOR
-					
+					shadowColor: Variable.BACKGROUND_ITEM_COLOR,
 				},
 			}}
 		>
 			<Tab.Screen
-				name="Trang chủ"
-				component={HomeScreen}
+				name="HomeStack"
+				component={HomeScreenComponent}
 				options={{
-					tabBarLabel: "Trang chủ",
 					tabBarIcon: ({ focused }) => (
 						<View>
 							<Image
@@ -72,7 +79,7 @@ export const MainNavigator = () => {
 				name="Thêm"
 				component={AddTransaction}
 				options={{
-					tabBarVisible:false	,
+					tabBarVisible: false,
 					tabBarLabel: "Thêm",
 					tabBarIcon: () => (
 						<View>

@@ -1,19 +1,19 @@
 import React, { useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, TouchableOpacityBase, View } from "react-native";
 import { MonthlyHistory } from "../Components/MonthlyHistory";
 import { WalletList } from "../Components/WalletList";
 import { globalStyles, Variable } from "../styles/theme.style";
 import {  TouchableRipple } from "react-native-paper";
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
 	const [hideMoney, setHideMoney] = useState(false);
 
 	return (
 		<View style={styles.container}>
 			<View style={{ padding: 16 }}>
-				<TouchableRipple
+				<TouchableOpacity
 					onPress={() => setHideMoney(!hideMoney)}
-					style={{ width: "50%" }}
-					rippleColor="rgba(255, 255, 255, .32)"
+					style={{ }}
+					
 				>
 					<View style={{flex:0, flexDirection:'row', alignItems:"center" }}>
 						<Text
@@ -30,7 +30,7 @@ const HomeScreen = () => {
 							style={{ width: 24, height: 24 }}
 						></Image>
 					</View>
-				</TouchableRipple>
+				</TouchableOpacity>
 				{!hideMoney? 	<Text
 					style={[
 						styles.whiteText,
@@ -44,7 +44,7 @@ const HomeScreen = () => {
 			</View>
 
 			<WalletList />
-			<MonthlyHistory />
+			<MonthlyHistory navigation={navigation}/>
 		</View>
 	);
 };

@@ -51,7 +51,6 @@ export const GroupPicker = ({ route, navigation }) => {
 	]);
 
 	const renderScene = useMemo(() => ({ route }) => {
-		console.log("ZOO TAB");
 		switch (route.key) {
 			case "loan":
 				return <View style={{ flex: 1, backgroundColor: "#ff4081" }} />;

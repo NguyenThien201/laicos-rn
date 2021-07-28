@@ -121,14 +121,43 @@ export const transactionGroup: ITransactionGroup[] = [
 
 export const transaction: ITransaction[] = [
 	{
+		group: transactionGroup[12],
+		money: 100000,
+		date: new Date("06/09/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[6],
+		money: 32000000,
+		date: new Date("06/08/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
 		group: transactionGroup[0],
 		money: 100000,
 		date: new Date("06/06/2021"),
 		description: "",
 		wallet: "BAMEBANK",
 	},
+
 	{
 		group: transactionGroup[1],
+		money: 100000,
+		date: new Date("06/06/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[3],
+		money: 100000,
+		date: new Date("06/06/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[4],
 		money: 10000000,
 		date: new Date("06/07/2021"),
 		description: "",

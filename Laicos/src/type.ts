@@ -24,3 +24,8 @@ export interface ITransaction {
     description: string,
     wallet: string // Trỏ sang tên của wallet
 }
+
+export interface ITransactionByDay {
+    date: Date,
+    items: ITransaction[]
+}

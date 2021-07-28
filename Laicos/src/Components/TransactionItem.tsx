@@ -1,42 +1,36 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Image, StyleSheet, Text, View } from "react-native"
 import { Variable } from "../styles/theme.style"
 import { formatter } from "../Utils/format"
 
 export const TransactionItem = ({ transaction }) => {
   return (
-    transaction && (
-      <View style={styles.containter}>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Image
-            source={transaction.group.icon}
-            style={{ width: 24, height: 24 }}
-            resizeMode="contain"
-          ></Image>
+    <View style={styles.containter}>
+      <View
+        style={{ flex: 1, flexDirection: "row", justifyContent: "flex-start" }}
+      >
+        {transaction.group.icon? <Image
+          source={transaction.group.icon}
+          style={{ width: 24, height: 24 }}
+          resizeMode="contain"
+        ></Image> : null}
 
-          <Text style={styles.text}>{transaction.group.name}</Text>
-        </View>
-        <View>
-          <Text
-            style={[
-              styles.text,
-              transaction.group.type === "EARN"
-                ? { color: Variable.GREEN_COLOR }
-                : { color: Variable.RED_COLOR },
-            ]}
-          >
-            {transaction.group.type === "EARN" ? "+" : "-"}{" "}
-            {formatter(transaction.money)}
-          </Text>
-        </View>
+        <Text style={styles.text}>{transaction.group.name}</Text>
       </View>
-    )
+      <View>
+        <Text
+          style={[
+            styles.text,
+            transaction.group.type === "EARN"
+              ? { color: Variable.GREEN_COLOR }
+              : { color: Variable.RED_COLOR },
+          ]}
+        >
+          {transaction.group.type === "EARN" ? "+" : "-"}{" "}
+          {formatter(transaction.money)}
+        </Text>
+      </View>
+    </View>
   )
 }
 
@@ -45,8 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 16,
-    paddingHorizontal: 16,
+
   },
   text: {
     marginLeft: 8,
