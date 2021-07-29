@@ -64,17 +64,8 @@ export const HistoryTransactionView = (props) => {
 		});
 		setTransactionByDay(groupArrays);
 	}, [transactionHistory]);
-	const config = {
-		velocityThreshold: 0.3,
-		directionalOffsetThreshold: 80,
-	};
-	const pan = useRef(new Animated.ValueXY()).current;
-	const panResponder = useRef(
-		PanResponder.create({
-			onMoveShouldSetPanResponder: () => true,
-			onPanResponderMove: Animated.event([null, { dy: pan.y }]),
-		})
-	).current;
+
+	
 	return (
 		<View style={[styles.containter]}>
 			<Animated.View
@@ -156,13 +147,13 @@ export const HistoryTransactionView = (props) => {
 						scrollY.setValue(e.nativeEvent.contentOffset.y);
 					}}
 				>
-					{transactionByDay ? (
+					{transactionHistory.length >0 ? (
 						<HistoryTransactionItem
 							transactionByDay={transactionByDay}
 							date={props.date}
 						/>
 					) : (
-						<Text style={{ color: "#fff", alignSelf: "center" }}>
+						<Text style={{ color: "#fff", alignSelf: "center", paddingTop: 50 }}>
 							Tháng này không có giao dịch
 						</Text>
 					)}
@@ -192,10 +183,12 @@ const styles = StyleSheet.create({
 		right: 0,
 		flexDirection: "row",
 		justifyContent: "space-between",
-		marginHorizontal: 16,
-		marginVertical: 12,
+		paddingHorizontal: 16,
+		paddingVertical: 12,
+		backgroundColor: Variable.BACKGROUND_COLOR,
 	},
 	history: {
+		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
 		height: "100%",
 		paddingTop: 90,
 		flex:2,
