@@ -34,6 +34,7 @@
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^12.1.1",
+    "react-native-swipe-gestures": "^1.0.5",
     "react-native-tab-view": "^3.0.1",
     "react-navigation": "^4.4.4",
     "typeface-roboto": "^1.1.13"

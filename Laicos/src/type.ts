@@ -27,5 +27,5 @@ export interface ITransaction {
 
 export interface ITransactionByDay {
     date: Date,
-    items: ITransaction[]
+    transactionItems: ITransaction[]
 }

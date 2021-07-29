@@ -1,20 +1,37 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import {
+	View,
+	Text,
+	StyleSheet,
+	ScrollView,
+	Dimensions,
+	Animated,
+	PanResponder,
+} from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { transaction } from "../data";
 import { globalStyles, Variable } from "../styles/theme.style";
 import { ITransaction } from "../type";
 import { formatter } from "../Utils/format";
 import { HistoryTransactionItem } from "./HistoryTransactionItem";
-
+import GestureRecognizer from "react-native-swipe-gestures";
+const windowHeight = Dimensions.get("window").height;
 export const HistoryTransactionView = (props) => {
 	const [transactionHistory, setTransactionHistory] = useState<
 		ITransaction[]
 	>([]);
 	const [transactionByDay, setTransactionByDay] =
 		useState<{ date: string; transactionItems: ITransaction[] }>();
+	const [moneyIn, setMoneyIn] = useState(0);
+	const [moneyOut, setMoneyOut] = useState(0);
+	const scrollY = new Animated.Value(0);
 
+	const diffClamp = Animated.diffClamp(scrollY, 0, 200);
+	const translateY = diffClamp.interpolate({
+		inputRange: [0, 200],
+		outputRange: [0, -200],
+	});
 	useEffect(() => {
 		const temp = [];
 		for (const trans of transaction) {
@@ -47,87 +64,110 @@ export const HistoryTransactionView = (props) => {
 		});
 		setTransactionByDay(groupArrays);
 	}, [transactionHistory]);
+	const config = {
+		velocityThreshold: 0.3,
+		directionalOffsetThreshold: 80,
+	};
+	const pan = useRef(new Animated.ValueXY()).current;
+	const panResponder = useRef(
+		PanResponder.create({
+			onMoveShouldSetPanResponder: () => true,
+			onPanResponderMove: Animated.event([null, { dy: pan.y }]),
+		})
+	).current;
 	return (
 		<View style={[styles.containter]}>
-			<View style={[styles.moneyContainer]}>
-				<View>
-					<Text
-						style={[
-							globalStyles.whiteText,
-							globalStyles.fontSizeSmall,
-							globalStyles.fontMedium,
-						]}
-					>
-						Tiền vào
-					</Text>
-					<Text
-						style={[
-							globalStyles.whiteText,
-							globalStyles.fontSizeSmall,
-							globalStyles.fontMedium,
-						]}
-					>
-						Tiền ra
-					</Text>
-				</View>
+			<Animated.View
+				style={{ transform: [{ translateY: translateY }], zIndex: 100}}
+			>
+				<View style={[styles.moneyContainer]}>
+					<View>
+						<Text
+							style={[
+								globalStyles.whiteText,
+								globalStyles.fontSizeSmall,
+								globalStyles.fontMedium,
+							]}
+						>
+							Tiền vào
+						</Text>
+						<Text
+							style={[
+								globalStyles.whiteText,
+								globalStyles.fontSizeSmall,
+								globalStyles.fontMedium,
+							]}
+						>
+							Tiền ra
+						</Text>
+					</View>
 
-				<View>
-					{/* Tiền vào */}
-					<Text
-						style={[
-							globalStyles.greenText,
-							globalStyles.fontBold,
-							globalStyles.fontSizeSmall,
-							{ alignSelf: "flex-end" },
-						]}
-					>
-						{formatter(1000000)}
-					</Text>
-					{/* Tiền ra */}
-					<Text
-						style={[
-							globalStyles.redText,
-							globalStyles.fontSizeSmall,
-							globalStyles.fontBold,
-							{ alignSelf: "flex-end" },
-						]}
-					>
-						{formatter(1000000)}
-					</Text>
-					{/* Line ngang */}
-					<View
-						style={{
-							borderBottomColor: "white",
-							borderBottomWidth: 1,
-							width: 100,
-							marginVertical: 3,
-						}}
-					/>
-					<Text
-						style={[
-							globalStyles.redText,
-							globalStyles.fontSizeSmall,
-							globalStyles.fontBold,
-							{ alignSelf: "flex-end", color: "#fff" },
-						]}
-					>
-						{formatter(0)}
-					</Text>
+					<View>
+						{/* Tiền vào */}
+						<Text
+							style={[
+								globalStyles.greenText,
+								globalStyles.fontBold,
+								globalStyles.fontSizeSmall,
+								{ alignSelf: "flex-end" },
+							]}
+						>
+							{formatter(1000000)}
+						</Text>
+						{/* Tiền ra */}
+						<Text
+							style={[
+								globalStyles.redText,
+								globalStyles.fontSizeSmall,
+								globalStyles.fontBold,
+								{ alignSelf: "flex-end" },
+							]}
+						>
+							{formatter(1000000)}
+						</Text>
+						{/* Line ngang */}
+						<View
+							style={{
+								borderBottomColor: "white",
+								borderBottomWidth: 1,
+								width: 100,
+								marginVertical: 3,
+							}}
+						/>
+						<Text
+							style={[
+								globalStyles.redText,
+								globalStyles.fontSizeSmall,
+								globalStyles.fontBold,
+								{ alignSelf: "flex-end", color: "#fff" },
+							]}
+						>
+							{formatter(0)}
+						</Text>
+					</View>
 				</View>
-			</View>
-
-			<View style={[styles.history]}>
-				{transactionByDay ? (
-					<HistoryTransactionItem
-						transactionByDay={transactionByDay}
-						date={props.date}
-					/>
-				) : (
-					<Text style={{ color: "#fff", alignSelf: "center" }}>
-						Tháng này không có giao dịch
-					</Text>
-				)}
-			</View>
+			</Animated.View>
+			
+				<Animated.ScrollView
+				
+					style={styles.history}
+					scrollEventThrottle={16}
+					onScroll={(e) => {
+						scrollY.setValue(e.nativeEvent.contentOffset.y);
+					}}
+				>
+					{transactionByDay ? (
+						<HistoryTransactionItem
+							transactionByDay={transactionByDay}
+							date={props.date}
+						/>
+					) : (
+						<Text style={{ color: "#fff", alignSelf: "center" }}>
+							Tháng này không có giao dịch
+						</Text>
+					)}
+				</Animated.ScrollView>
+			
 		</View>
 	);
 };
@@ -135,6 +175,7 @@ export const HistoryTransactionView = (props) => {
 const styles = StyleSheet.create({
 	containter: {
 		flex: 1,
+		position: "relative",
 	},
 	box: {
 		height: 50,
@@ -145,16 +186,19 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	moneyContainer: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		right: 0,
 		flexDirection: "row",
 		justifyContent: "space-between",
 		marginHorizontal: 16,
 		marginVertical: 12,
 	},
 	history: {
-		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
-
-		flex: 1,
-		borderTopEndRadius: Variable.BORDER_RADIUS_MEDIUM,
-		borderTopStartRadius: Variable.BORDER_RADIUS_MEDIUM,
+		height: "100%",
+		paddingTop: 90,
+		flex:2,
+		paddingBottom:180
 	},
 });
