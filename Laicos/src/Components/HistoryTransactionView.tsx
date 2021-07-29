@@ -23,8 +23,8 @@ export const HistoryTransactionView = (props) => {
 	>([]);
 	const [transactionByDay, setTransactionByDay] =
 		useState<{ date: string; transactionItems: ITransaction[] }>();
-	const [moneyIn, setMoneyIn] = useState(0);
-	const [moneyOut, setMoneyOut] = useState(0);
+	const [moneyIn,setMoneyIn] = useState(0);
+	const [moneyOut,setMoneyOut] = useState(0);
 	const scrollY = new Animated.Value(0);
 
 	const diffClamp = Animated.diffClamp(scrollY, 0, 200);
@@ -34,11 +34,22 @@ export const HistoryTransactionView = (props) => {
 	});
 	useEffect(() => {
 		const temp = [];
+		let mIn = 0;
+		let mOut = 0;
 		for (const trans of transaction) {
 			if (trans.date.getMonth() === props.date.getMonth()) {
 				temp.push(trans);
+				if (trans.group.type==="EARN")
+				{
+					mIn+= trans.money
+				}
+				else{
+					mOut += trans.money
+				}
 			}
 		}
+		setMoneyIn(mIn)
+		setMoneyOut(mOut)
 		temp.sort((a, b) => {
 			return moment(a.date).isBefore(b.date) ? 1 : -1;
 		});
@@ -103,7 +114,7 @@ export const HistoryTransactionView = (props) => {
 								{ alignSelf: "flex-end" },
 							]}
 						>
-							{formatter(1000000)}
+							{formatter(moneyIn)}
 						</Text>
 						{/* Tiền ra */}
 						<Text
@@ -114,7 +125,7 @@ export const HistoryTransactionView = (props) => {
 								{ alignSelf: "flex-end" },
 							]}
 						>
-							{formatter(1000000)}
+							{formatter(moneyOut)}
 						</Text>
 						{/* Line ngang */}
 						<View
@@ -133,7 +144,7 @@ export const HistoryTransactionView = (props) => {
 								{ alignSelf: "flex-end", color: "#fff" },
 							]}
 						>
-							{formatter(0)}
+							{formatter(moneyIn - moneyOut)}
 						</Text>
 					</View>
 				</View>

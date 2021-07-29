@@ -25,6 +25,7 @@ export const transactionGroup: ITransactionGroup[] = [
 		icon: require("./Assets/Images/Icons/ic_meal.png"),
 		type: "SPEND",
 		parent: null,
+		children:[3,4]
 	},
 	{
 		id: 3,
@@ -38,7 +39,7 @@ export const transactionGroup: ITransactionGroup[] = [
 		name: "Cà phê",
 		icon: require("./Assets/Images/Icons/ic_coffee.png"),
 		type: "SPEND",
-		parent: 3,
+		parent: 2
 	},
 	{
 		id: 5,
@@ -46,6 +47,7 @@ export const transactionGroup: ITransactionGroup[] = [
 		icon: require("./Assets/Images/Icons/ic_shopping.png"),
 		type: "SPEND",
 		parent: null,
+		children:[6,7]
 	},
 	{
 		id: 6,
@@ -117,6 +119,7 @@ export const transactionGroup: ITransactionGroup[] = [
 		type: "EARN",
 		parent: null,
 	},
+
 ]
 
 export const transaction: ITransaction[] = [
