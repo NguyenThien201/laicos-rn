@@ -1,10 +1,15 @@
 import { Picker } from "@react-native-picker/picker"
-import React, { useState } from "react"
-import { Dimensions, ScrollView, Text, View } from "react-native"
+import React, { useEffect, useState } from "react"
+import { Dimensions, Text, View } from "react-native"
 import { LineChart, StackedBarChart } from "react-native-chart-kit"
 import { SceneMap, TabBar, TabView } from "react-native-tab-view"
 import StatisticTabItem from "../Components/StatisticTabItem"
-import { chartConfig, lineChartData, stackedBarChartData } from "../data"
+import {
+  chartConfig,
+  lineChartData,
+  stackedBarChartData,
+  transaction,
+} from "../data"
 import { globalStyles } from "../styles/theme.style"
 const Statistic = () => {
   const screenWidth = Dimensions.get("window").width
@@ -18,6 +23,66 @@ const Statistic = () => {
     useState<string>("month")
   const [selectedChartType, setSelectedChartType] = useState<string>("line")
   const [isShowHeader, setIsShowHeader] = useState(true)
+
+  const renderTabBar = (props: any) => (
+    <TabBar
+      {...props}
+      indicatorStyle={{ backgroundColor: "#3CD3AD" }}
+      style={{ backgroundColor: "#212230" }}
+      renderLabel={({ route, focused }) =>
+        focused ? (
+          <Text style={{ color: "#3CD3AD" }}>{route.title}</Text>
+        ) : (
+          <Text style={{ color: "gray" }}>{route.title}</Text>
+        )
+      }
+    />
+  )
+  const renderScene = SceneMap({
+    first: () => <StatisticTabItem type="LOAN" data={transactionData} />,
+    second: () => <StatisticTabItem type="SPEND" data={transactionData} />,
+    third: () => <StatisticTabItem type="EARN" data={transactionData} />,
+  })
+
+  const [transactionData, setTransactionData] = useState<any[]>([])
+
+  const mergeTransaction = () => {
+    const parentsInData: any[] = []
+    for (let i = 0; i < transaction.length; i++) {
+      if (transaction[i].group.parent === null) {
+        parentsInData.find((e) => e.parentId === transaction[i].group.id) ===
+          undefined &&
+          parentsInData.push({
+            parentName: transaction[i].group.name,
+            parentId: transaction[i].group.id,
+            parentIcon: transaction[i].group.icon,
+            money: 0,
+            type: transaction[i].group.type,
+            childs: [],
+          })
+      }
+    }
+    for (let i = 0; i < transaction.length; i++) {
+      if (transaction[i].group.parent === null) {
+        let idx = parentsInData.findIndex(
+          (e) => e.parentId === transaction[i].group.id
+        )
+        if (idx >= 0) parentsInData[idx].money += transaction[i].money
+      } else {
+        let idx = parentsInData.findIndex(
+          (e) => e.parentId === transaction[i].group.parent
+        )
+        if (idx >= 0) parentsInData[idx].childs.push(transaction[i])
+      }
+    }
+    console.log(parentsInData)
+
+    return parentsInData
+  }
+
+  useEffect(() => {
+    setTransactionData(mergeTransaction())
+  }, [])
   return (
     <View>
       {isShowHeader && (
@@ -175,24 +240,3 @@ const Statistic = () => {
   )
 }
 export default Statistic
-
-const renderScene = SceneMap({
-  first: () => <StatisticTabItem type="vay" />,
-  second: () => <StatisticTabItem type="spending" />,
-  third: () => <StatisticTabItem type="income" />,
-})
-
-const renderTabBar = (props: any) => (
-  <TabBar
-    {...props}
-    indicatorStyle={{ backgroundColor: "#3CD3AD" }}
-    style={{ backgroundColor: "#212230" }}
-    renderLabel={({ route, focused }) =>
-      focused ? (
-        <Text style={{ color: "#3CD3AD" }}>{route.title}</Text>
-      ) : (
-        <Text style={{ color: "gray" }}>{route.title}</Text>
-      )
-    }
-  />
-)
