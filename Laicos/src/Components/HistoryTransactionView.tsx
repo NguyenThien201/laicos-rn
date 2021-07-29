@@ -23,8 +23,8 @@ export const HistoryTransactionView = (props) => {
 	>([]);
 	const [transactionByDay, setTransactionByDay] =
 		useState<{ date: string; transactionItems: ITransaction[] }>();
-	const [moneyIn, setMoneyIn] = useState(0);
-	const [moneyOut, setMoneyOut] = useState(0);
+	const [moneyIn,setMoneyIn] = useState(0);
+	const [moneyOut,setMoneyOut] = useState(0);
 	const scrollY = new Animated.Value(0);
 
 	const diffClamp = Animated.diffClamp(scrollY, 0, 200);
@@ -34,11 +34,22 @@ export const HistoryTransactionView = (props) => {
 	});
 	useEffect(() => {
 		const temp = [];
+		let mIn = 0;
+		let mOut = 0;
 		for (const trans of transaction) {
 			if (trans.date.getMonth() === props.date.getMonth()) {
 				temp.push(trans);
+				if (trans.group.type==="EARN")
+				{
+					mIn+= trans.money
+				}
+				else{
+					mOut += trans.money
+				}
 			}
 		}
+		setMoneyIn(mIn)
+		setMoneyOut(mOut)
 		temp.sort((a, b) => {
 			return moment(a.date).isBefore(b.date) ? 1 : -1;
 		});
@@ -64,17 +75,8 @@ export const HistoryTransactionView = (props) => {
 		});
 		setTransactionByDay(groupArrays);
 	}, [transactionHistory]);
-	const config = {
-		velocityThreshold: 0.3,
-		directionalOffsetThreshold: 80,
-	};
-	const pan = useRef(new Animated.ValueXY()).current;
-	const panResponder = useRef(
-		PanResponder.create({
-			onMoveShouldSetPanResponder: () => true,
-			onPanResponderMove: Animated.event([null, { dy: pan.y }]),
-		})
-	).current;
+
+	
 	return (
 		<View style={[styles.containter]}>
 			<Animated.View
@@ -112,7 +114,7 @@ export const HistoryTransactionView = (props) => {
 								{ alignSelf: "flex-end" },
 							]}
 						>
-							{formatter(1000000)}
+							{formatter(moneyIn)}
 						</Text>
 						{/* Tiền ra */}
 						<Text
@@ -123,7 +125,7 @@ export const HistoryTransactionView = (props) => {
 								{ alignSelf: "flex-end" },
 							]}
 						>
-							{formatter(1000000)}
+							{formatter(moneyOut)}
 						</Text>
 						{/* Line ngang */}
 						<View
@@ -142,7 +144,7 @@ export const HistoryTransactionView = (props) => {
 								{ alignSelf: "flex-end", color: "#fff" },
 							]}
 						>
-							{formatter(0)}
+							{formatter(moneyIn - moneyOut)}
 						</Text>
 					</View>
 				</View>
@@ -156,13 +158,13 @@ export const HistoryTransactionView = (props) => {
 						scrollY.setValue(e.nativeEvent.contentOffset.y);
 					}}
 				>
-					{transactionByDay ? (
+					{transactionHistory.length >0 ? (
 						<HistoryTransactionItem
 							transactionByDay={transactionByDay}
 							date={props.date}
 						/>
 					) : (
-						<Text style={{ color: "#fff", alignSelf: "center" }}>
+						<Text style={{ color: "#fff", alignSelf: "center", paddingTop: 50 }}>
 							Tháng này không có giao dịch
 						</Text>
 					)}
@@ -192,10 +194,12 @@ const styles = StyleSheet.create({
 		right: 0,
 		flexDirection: "row",
 		justifyContent: "space-between",
-		marginHorizontal: 16,
-		marginVertical: 12,
+		paddingHorizontal: 16,
+		paddingVertical: 12,
+		backgroundColor: Variable.BACKGROUND_COLOR,
 	},
 	history: {
+		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
 		height: "100%",
 		paddingTop: 90,
 		flex:2,

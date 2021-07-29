@@ -15,7 +15,8 @@ export interface ITransactionGroup
     name: string,
     icon: string,
     type: TTransactionType,
-    parent: number | null
+    parent: number | null,
+    children?: number[]
 }
 export interface ITransaction {
     group: ITransactionGroup,

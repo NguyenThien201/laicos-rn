@@ -12,66 +12,68 @@ export const HistoryTransactionItem = (props) => {
 	// Các giao dịch trong 1 ngày
 	const { transactionByDay, date } = props;
 
-
-	const reducerMoney = (groupTransaction:ITransactionByDay)=>{
-		let totalMoney = 0
-		for (const trans of groupTransaction.transactionItems){
-			if (trans.group.type ==="EARN")
-			{
-				totalMoney += trans.money
-			}
-			else{
-				totalMoney -= trans.money
+	const reducerMoney = (groupTransaction: ITransactionByDay) => {
+		let totalMoney = 0;
+		for (const trans of groupTransaction.transactionItems) {
+			if (trans.group.type === "EARN") {
+				totalMoney += trans.money;
+			} else {
+				totalMoney -= trans.money;
 			}
 		}
-		return totalMoney
-	}
+		return totalMoney;
+	};
 	return (
 		<View style={styles.containter}>
 			{/* Từng giao dịch theo ngày */}
-			{transactionByDay.map((groupTransaction: ITransactionByDay, indx) => (
-				<View style={styles.item}>
-					<View style={styles.dayHeader}>
-						<View style={styles.day}>
-							<Text style={styles.dayTitle}>
-								{moment(groupTransaction.date).format("DD")}
-							</Text>
-							<View>
-								<Text style={styles.dayFull}>
-									{moment(groupTransaction.date).format(
-										"dddd"
-									)}
+			{transactionByDay.map(
+				(groupTransaction: ITransactionByDay, indx: number) => (
+					<View style={styles.item}>
+						<View style={styles.dayHeader}>
+							<View style={styles.day}>
+								<Text style={styles.dayTitle}>
+									{moment(groupTransaction.date).format("DD")}
 								</Text>
-								<Text style={styles.dayFull}>
-									tháng{" "}
-									{moment(groupTransaction.date).format(
-										"MM/YYYY"
-									)}
-								</Text>
+								<View>
+									<Text style={styles.dayFull}>
+										{moment(groupTransaction.date).format(
+											"dddd"
+										)}
+									</Text>
+									<Text style={styles.dayFull}>
+										tháng{" "}
+										{moment(groupTransaction.date).format(
+											"MM/YYYY"
+										)}
+									</Text>
+								</View>
 							</View>
-						</View>
 
-						<Text style={styles.dayFull}>{formatter(reducerMoney(groupTransaction))}</Text>
+							<Text style={styles.dayFull}>
+								{formatter(reducerMoney(groupTransaction))}
+							</Text>
+						</View>
+						{/* Line ngang */}
+						<View
+							style={{
+								borderBottomColor: Variable.GREEN_LIGHT_COLOR,
+								borderBottomWidth: 1,
+								marginVertical: 3,
+							}}
+						/>
+						{/* Hiện các giao dịch */}
+						{groupTransaction.transactionItems.map(
+							(transaction: ITransaction, indx: number) => (
+								<TransactionItem
+									key={indx}
+									transaction={transaction}
+									showDescription={true}
+								/>
+							)
+						)}
 					</View>
-					{/* Line ngang */}
-					<View
-						style={{
-							borderBottomColor: Variable.GREEN_LIGHT_COLOR,
-							borderBottomWidth: 1,
-							marginVertical: 3,
-						}}
-					/>
-					{/* Hiện các giao dịch */}
-					{groupTransaction.transactionItems.map(
-						(transaction: ITransaction) => (
-							<TransactionItem
-								transaction={transaction}
-								showDescription={true}
-							/>
-						)
-					)}
-				</View>
-			))}
+				)
+			)}
 		</View>
 	);
 };
@@ -83,13 +85,13 @@ const styles = StyleSheet.create({
 		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
 		borderTopLeftRadius: Variable.BORDER_RADIUS_MEDIUM,
 		borderTopRightRadius: Variable.BORDER_RADIUS_MEDIUM,
-		paddingBottom:90
+		paddingBottom: 90,
 	},
-	dayHeader:{
+	dayHeader: {
 		flex: 1,
 		flexDirection: "row",
 		alignItems: "center",
-		justifyContent:"space-between"
+		justifyContent: "space-between",
 	},
 	day: {
 		flex: 1,
