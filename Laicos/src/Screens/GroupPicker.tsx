@@ -7,73 +7,21 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import {
-	SceneMap,
-	SceneRendererProps,
-	TabBar,
-	TabView,
-} from "react-native-tab-view";
+
 import { EarningGroup } from "../Components/EarningGroup";
 import { SpendingGroup } from "../Components/SpendingGroup";
 import { Variable } from "../styles/theme.style";
-import { LogBox } from 'react-native';
-
+import { LogBox } from "react-native";
+import ScrollableTabView, {
+	DefaultTabBar,
+	ScrollableTabBar,
+} from "react-native-scrollable-tab-view";
 LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state',
+	"Non-serializable values were found in the navigation state",
 ]);
-const renderTabBar = (props: any) => (
-	<TabBar
-		{...props}
-		indicatorStyle={{ backgroundColor: Variable.GREEN_LIGHT_COLOR }}
-		style={{ backgroundColor: Variable.BACKGROUND_COLOR }}
-		renderLabel={({ route, focused }) =>
-			focused ? (
-				<Text style={{ color: Variable.GREEN_LIGHT_COLOR }}>
-					{route.title}
-				</Text>
-			) : (
-				<Text style={{ color: "white" }}>{route.title}</Text>
-			)
-		}
-	/>
-);
 
 export const GroupPicker = ({ route, navigation }) => {
 	const { chosenGroup, setChosenGroup } = route.params;
-	const [index, setIndex] = useState(1);
-	const screenWidth = Dimensions.get("window").width;
-
-	const [routes] = useState([
-		{ key: "loan", title: "Khoản vay" },
-		{ key: "spend", title: "Khoản chi" },
-		{ key: "earn", title: "Khoản thu" },
-	]);
-
-	const renderScene = useMemo(() => ({ route }) => {
-		switch (route.key) {
-			case "loan":
-				return <View style={{ flex: 1, backgroundColor: "#ff4081" }} />;
-			case "spend":
-				return (
-					<SpendingGroup
-						navigation={navigation}
-						setChosenGroup={setChosenGroup}
-						chosenGroup={chosenGroup}
-					/>
-				);
-			case "earn":
-				return (
-					<EarningGroup
-						navigation={navigation}
-						setChosenGroup={setChosenGroup}
-						chosenGroup={chosenGroup}
-					/>
-				);
-			default:
-				return null;
-		}
-	}, [chosenGroup])
 	return (
 		<View style={[styles.container]}>
 			<TouchableOpacity
@@ -88,18 +36,38 @@ export const GroupPicker = ({ route, navigation }) => {
 					<Text style={[styles.titleText]}>Chọn nhóm</Text>
 				</View>
 			</TouchableOpacity>
-			
-			<TabView
-				navigationState={{ index, routes }}
-				renderScene={renderScene}
-				onIndexChange={setIndex}
-				initialLayout={{ width: screenWidth }}
-				style={{ backgroundColor: Variable.BACKGROUND_COLOR }}
-				renderTabBar={renderTabBar}
-			/>
+
+			<ScrollableTabView
+				tabBarPosition="top"
+				tabBarInactiveTextColor="white"
+				tabBarUnderlineStyle={{
+					backgroundColor: Variable.GREEN_LIGHT_COLOR,
+					elevation: 20,
+				}}
+				tabBarActiveTextColor={Variable.GREEN_LIGHT_COLOR}
+				tabBarTextStyle={{ fontSize: 16 }}
+				initialPage={1}
+				renderTabBar={() => <DefaultTabBar />}
+			>
+				<View
+					style={{ flex: 1, backgroundColor: "#ff4081" }}
+					tabLabel="Khoản vay"
+				/>
+				<SpendingGroup
+					tabLabel="Khoản chi"
+					navigation={navigation}
+					setChosenGroup={setChosenGroup}
+					chosenGroup={chosenGroup}
+				/>
+				<EarningGroup
+					tabLabel="Khoản thu"
+					navigation={navigation}
+					setChosenGroup={setChosenGroup}
+					chosenGroup={chosenGroup}
+				/>
+			</ScrollableTabView>
 		</View>
 	);
-
 };
 
 const styles = StyleSheet.create({

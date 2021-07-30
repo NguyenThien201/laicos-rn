@@ -16,12 +16,9 @@ import { transactionGroup } from "../data";
 import { Variable } from "../styles/theme.style";
 import { ITransactionGroup, TTransactionType } from "../type";
 
-export const ParentGroupPicker = ({
-	route, navigation,
-}) => {
+export const ParentGroupPicker = ({ route, navigation }) => {
 	const { chosenGroup, setChosenGroup, groupType } = route.params;
 	const [parentGroup, setParentGroup] = useState<ITransactionGroup[]>([]);
-	
 
 	useEffect(() => {
 		const type = groupType === "SPEND" ? "SPEND" : "EARN";
@@ -115,14 +112,14 @@ export const ParentGroupPicker = ({
 						source={require("../Assets/Images/Icons/ic_back.png")}
 						style={{ marginTop: 10, marginRight: 10 }}
 					></Image>
-					<Text style={[styles.titleText]}>Chọn nhóm cha</Text>	
+					<Text style={[styles.titleText]}>Chọn nhóm cha</Text>
 				</View>
 			</TouchableOpacity>
 			<FlatList
 				data={parentGroup}
 				renderItem={renderItem}
 				keyExtractor={(item) => item.id}
-			></FlatList>	
+			></FlatList>
 		</View>
 	);
 };

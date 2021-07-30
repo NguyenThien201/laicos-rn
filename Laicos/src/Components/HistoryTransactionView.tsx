@@ -160,6 +160,7 @@ export const HistoryTransactionView = (props) => {
 				>
 					{transactionHistory.length >0 ? (
 						<HistoryTransactionItem
+							key={transactionByDay}
 							transactionByDay={transactionByDay}
 							date={props.date}
 						/>

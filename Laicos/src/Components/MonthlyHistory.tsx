@@ -34,7 +34,7 @@ const months: Date[] = (): Date[] => {
 	return d;
 };
 
-export const MonthlyHistory = ({navigation}) => {
+export const MonthlyHistory = ({ navigation }) => {
 	const [monthsData, setMonthsData] = useState<Date[]>([]);
 	const [active, setActive] = useState(0);
 	useEffect(() => {
@@ -44,12 +44,7 @@ export const MonthlyHistory = ({navigation}) => {
 
 	const _renderItem = ({ item, index }) => {
 		return (
-			<View
-				style={[
-					styles.item,
-					
-				]}
-			>
+			<View style={[styles.item]}>
 				<View
 					style={{
 						flex: 1,
@@ -65,7 +60,12 @@ export const MonthlyHistory = ({navigation}) => {
 					<TransactionList date={item}></TransactionList>
 				</View>
 				<View style={styles.button}>
-					<TouchableOpacity style={{ flex: 1 }} onPress={()=>navigation.navigate('Lịch sử')}>
+					<TouchableOpacity
+						style={{ flex: 1 }}
+						onPress={() =>
+							navigation.navigate("Lịch sử", { selectedDay: item })
+						}
+					>
 						<LinearGradient
 							start={{ x: 1, y: 1 }}
 							end={{ x: 0.25, y: 0.25 }}
@@ -84,19 +84,25 @@ export const MonthlyHistory = ({navigation}) => {
 	return (
 		<View style={styles.pagerView}>
 			<View>
-				<Carousel
-					layout="default"
-					ref={carouselRef}
-					sliderWidth={screenWidth}
-					sliderHeight={25}
-					itemWidth={screenWidth - 80}
-					data={monthsData}
-					renderItem={_renderItem}
-					firstItem={monthsData.length - 1}
-					onSnapToItem={(index) => setActive(index)}
-					inactiveSlideOpacity={1}
-					enableMomentum={false}
-				/>
+				{monthsData.length > 0 ? (
+					<Carousel
+						layout="default"
+						ref={carouselRef}
+						sliderWidth={screenWidth}
+						sliderHeight={25}
+						itemWidth={screenWidth - 80}
+						data={monthsData}
+						renderItem={_renderItem}
+						firstItem={
+							monthsData.length > 0 ? monthsData.length - 1 : 0
+						}
+						onSnapToItem={(index) => setActive(index)}
+						inactiveSlideOpacity={1}
+						enableMomentum={true}
+						enableSnap={true}
+						decelerationRate="fast"
+					/>
+				) : null}
 			</View>
 		</View>
 	);
@@ -104,16 +110,15 @@ export const MonthlyHistory = ({navigation}) => {
 const styles = StyleSheet.create({
 	pagerView: {
 		flex: 2,
-		marginTop:16,
-	
+		marginTop: 16,
 	},
 	item: {
-		flex:0,
+		flex: 0,
 		width: screenWidth - 80,
 		height: 320,
 		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
 		borderRadius: Variable.BORDER_RADIUS_MEDIUM,
-		marginBottom: 6
+		marginBottom: 6,
 	},
 	monthTitle: {
 		textAlign: "center",

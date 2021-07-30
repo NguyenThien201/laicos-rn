@@ -28,7 +28,7 @@ export const HistoryTransactionItem = (props) => {
 			{/* Từng giao dịch theo ngày */}
 			{transactionByDay.map(
 				(groupTransaction: ITransactionByDay, indx: number) => (
-					<View style={styles.item}>
+					<View style={styles.item} key={indx}>
 						<View style={styles.dayHeader}>
 							<View style={styles.day}>
 								<Text style={styles.dayTitle}>
