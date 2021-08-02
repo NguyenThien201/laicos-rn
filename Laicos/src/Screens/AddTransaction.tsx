@@ -73,6 +73,7 @@ export const AddTransaction = ({ navigation, route }) => {
 				index: 0,
 				routes: [{ name: "Trang chủ" }],
 			});
+			navigation.goBack()
 		}
 	};
 	return (
