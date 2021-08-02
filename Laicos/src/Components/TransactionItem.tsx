@@ -1,11 +1,12 @@
 import React from "react"
-import { Image, StyleSheet, Text, View } from "react-native"
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { Variable } from "../styles/theme.style"
 import { formatter } from "../Utils/format"
 
-export const TransactionItem = ({ transaction, showDescription = false }) => {
+export const TransactionItem = ({ navigation=null, transaction, showDescription = false }) => {
+
   return (
-    <View style={styles.containter}>
+    <TouchableOpacity style={styles.containter} onPress={()=> navigation ? navigation!.navigate('Chi tiết giao dịch', {transaction: transaction}) : null} disabled={navigation ==null} >
       <View
         style={{
           flex: 1,
@@ -42,7 +43,7 @@ export const TransactionItem = ({ transaction, showDescription = false }) => {
           {formatter(transaction.money)}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

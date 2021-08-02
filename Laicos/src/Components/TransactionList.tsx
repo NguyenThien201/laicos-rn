@@ -5,7 +5,9 @@ import { transaction as transactionHistory } from "../data";
 import { Text, View } from "react-native";
 import { TransactionItem } from "./TransactionItem";
 import moment from "moment";
+import { useNavigation } from '@react-navigation/native';
 export const TransactionList = ({ date }) => {
+    const navigation = useNavigation();
     const [transactions, setTransactions] = useState<ITransaction[]>([]);
     useEffect(() => {
  
@@ -28,7 +30,7 @@ export const TransactionList = ({ date }) => {
     return (
         <View style={{ flex: 1 , alignItems:"flex-start", justifyContent:"flex-start", paddingHorizontal:16}}>
             {transactions.length > 0 ?  transactions.map((item, indx) => (
-                <TransactionItem transaction={item} key={indx} />
+                <TransactionItem transaction={item} key={indx} navigation={navigation} />
             )) : <Text style={{color:"#fff", alignSelf:"center"}}>
                     Tháng này không có giao dịch
                 </Text>}
