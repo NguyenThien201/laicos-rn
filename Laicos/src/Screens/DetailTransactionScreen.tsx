@@ -98,7 +98,7 @@ export const DetailTransaction = ({ route, navigation }) => {
 								style={{ width: 24, height: 24 }}
 								resizeMode="contain"
 							/>
-							<Text style={styles.infoText}>
+							<Text style={styles.infoText} ellipsizeMode='clip'>
 								{transaction.description}
 							</Text>
 						</View>
@@ -167,5 +167,6 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "flex-start",
 		marginVertical: 3,
+		width: "95%"
 	},
 });
