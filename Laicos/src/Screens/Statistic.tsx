@@ -1,7 +1,6 @@
 import { Picker } from "@react-native-picker/picker"
 import React, { useEffect, useState } from "react"
 import { Dimensions, Text, View } from "react-native"
-import { LineChart, StackedBarChart } from "react-native-chart-kit"
 import ScrollableTabView, {
 	DefaultTabBar
 } from "react-native-scrollable-tab-view"
@@ -156,14 +155,7 @@ const Statistic = () => {
 						]}
 					/>
 					) : (
-						<StackedBarChart
-							style={{ marginLeft: 10 }}
-							data={stackedBarChartData}
-							width={screenWidth - 10}
-							height={200}
-							chartConfig={chartConfig}
-							yAxisSuffix=" tr"
-						/>
+						null
 					)}
 				</View>
 			)}

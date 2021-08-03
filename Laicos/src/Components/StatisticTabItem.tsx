@@ -7,7 +7,6 @@ import {
   Text,
   View
 } from "react-native"
-import { PieChart } from "react-native-chart-kit"
 import { chartConfig, incomeData, loanData, spendingData } from "../data"
 import { globalStyles, Variable } from "../styles/theme.style"
 import { formatter } from "../Utils/format"
@@ -22,7 +21,7 @@ const StatisticTabItem: FC<{ type: string; data: any[] }> = ({
   return (
     data && (
       <ScrollView style={{ marginBottom: 50 }}>
-        <PieChart
+        {/* <PieChart
           data={
             type === "SPEND"
               ? spendingData
@@ -37,7 +36,7 @@ const StatisticTabItem: FC<{ type: string; data: any[] }> = ({
           backgroundColor={"transparent"}
           paddingLeft={"15"}
           // absolute
-        />
+        /> */}
         <Text
           style={[
             globalStyles.fontSizeMedium,
