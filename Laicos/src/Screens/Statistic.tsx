@@ -1,20 +1,20 @@
-import { Picker } from "@react-native-picker/picker";
-import React, { useEffect, useState } from "react";
-import { Dimensions, Text, View } from "react-native";
-import { LineChart, StackedBarChart } from "react-native-chart-kit";
-import { SceneMap, TabBar, TabView } from "react-native-tab-view";
-import StatisticTabItem from "../Components/StatisticTabItem";
+import { Picker } from "@react-native-picker/picker"
+import React, { useEffect, useState } from "react"
+import { Dimensions, Text, View } from "react-native"
+import { LineChart, StackedBarChart } from "react-native-chart-kit"
+import ScrollableTabView, {
+	DefaultTabBar
+} from "react-native-scrollable-tab-view"
+import StatisticTabItem from "../Components/StatisticTabItem"
 import {
 	chartConfig,
 	lineChartData,
 	stackedBarChartData,
-	transaction,
-} from "../data";
-import { globalStyles, Variable } from "../styles/theme.style";
-import ScrollableTabView, {
-	DefaultTabBar,
-	ScrollableTabBar,
-} from "react-native-scrollable-tab-view";
+	transaction
+} from "../data"
+import { globalStyles, Variable } from "../styles/theme.style"
+import {VictoryPie, VictoryTheme} from "victory-native"
+
 const Statistic = () => {
 	const screenWidth = Dimensions.get("window").width;
 	const [index, setIndex] = useState(0);
@@ -64,6 +64,14 @@ const Statistic = () => {
 	useEffect(() => {
 		setTransactionData(mergeTransaction());
 	}, []);
+
+	const data = [
+		{ quarter: 1, earnings: 13000 },
+		{ quarter: 2, earnings: 16500 },
+		{ quarter: 3, earnings: 14250 },
+		{ quarter: 4, earnings: 19000 }
+	];
+
 	return (
 		<View>
 			{isShowHeader && (
@@ -140,17 +148,13 @@ const Statistic = () => {
 						</View>
 					</View>
 					{selectedChartType === "line" ? (
-						<LineChart
-							data={lineChartData}
-							width={screenWidth}
-							height={200}
-							verticalLabelRotation={0}
-							chartConfig={chartConfig}
-							bezier
-							withShadow={false}
-							withDots={false}
-							yAxisSuffix=" tr"
-						/>
+						<VictoryPie
+						data={[
+							{ x: "Cats", y: 35 },
+							{ x: "Dogs", y: 40 },
+							{ x: "Birds", y: 55 }
+						]}
+					/>
 					) : (
 						<StackedBarChart
 							style={{ marginLeft: 10 }}
