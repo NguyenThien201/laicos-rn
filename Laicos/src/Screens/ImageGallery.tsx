@@ -16,24 +16,19 @@ export const ImageGallery = ({ navigation, route }) => {
   function renderItem(uri: string) {
     console.log("item");
     return (
-      <View style={(styles.thumbnail, styles.GridViewBlockStyle)}>
-        <TouchableOpacity
-          style={{ flex: 1 }}
-          onPress={() => {
-            navigation.navigate("ReviewImage", { imageUri: uri });
+      <TouchableOpacity
+        style={(styles.thumbnail, styles.GridViewBlockStyle)}
+        onPress={() => {
+          navigation.navigate("ReviewImage", { imageUri: uri });
+        }}
+      >
+        <Image
+          style={styles.thumbnail}
+          source={{
+            uri: uri,
           }}
-        >
-          <Image
-            style={styles.thumbnail}
-            source={{
-              uri: uri,
-            }}
-          />
-          {/*{position == 1 && 2 < images.length && (*/}
-          {/*    <Text style={styles.headline}>+{images.length - 2}</Text>*/}
-          {/*)}*/}
-        </TouchableOpacity>
-      </View>
+        />
+      </TouchableOpacity>
     );
   }
 
