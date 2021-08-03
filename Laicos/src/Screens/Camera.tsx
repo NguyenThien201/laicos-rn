@@ -9,7 +9,10 @@ import {
 } from "react-native";
 import { RNCamera } from "react-native-camera";
 import React from "react";
-
+import { Variable } from "../styles/theme.style";
+import { captureIcon } from "../Assets/Images/SvgIcon/CaptureIcon";
+import { cameraIcon } from "../Assets/Images/SvgIcon/CameraIcon";
+import { SvgXml } from "react-native-svg";
 export const Camera = ({ route, navigation }) => {
   // @ts-ignore
   const { didCaptureImg } = route.params;
@@ -33,7 +36,7 @@ export const Camera = ({ route, navigation }) => {
         }}
       />
       <TouchableOpacity onPress={takePicture} style={styles.capture}>
-        <Text>Tap</Text>
+        <SvgXml xml={captureIcon} width={80} height={80} />
       </TouchableOpacity>
     </View>
   );
@@ -54,7 +57,6 @@ export const Camera = ({ route, navigation }) => {
     await checkAndroidPermission();
     const path = `${RNFS.ExternalStorageDirectoryPath}/Laicos`;
     await RNFS.mkdir(path);
-    console.log(`hehehe ${path}`);
     if (camera) {
       // @ts-ignore
       const options = {
@@ -63,8 +65,6 @@ export const Camera = ({ route, navigation }) => {
         path: `${path}/${new Date().getTime().toString()}.png`,
       };
       let data = await camera.takePictureAsync(options);
-      console.log("capture");
-
       didCaptureImg(data.uri);
       navigation.goBack();
     }
@@ -73,9 +73,14 @@ export const Camera = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: "column",
-    backgroundColor: "black",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    borderRadius: Variable.BORDER_RADIUS_MEDIUM,
   },
   preview: {
     flex: 1,
@@ -84,11 +89,9 @@ const styles = StyleSheet.create({
   },
   capture: {
     flex: 0,
-    backgroundColor: "#fff",
     borderRadius: 5,
     padding: 15,
     paddingHorizontal: 20,
-    alignSelf: "center",
     margin: 20,
   },
 });

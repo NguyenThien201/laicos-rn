@@ -24,6 +24,7 @@ import { HistoryScreen } from "./Screens/HistoryScreen";
 import { DetailTransaction } from "./Screens/DetailTransactionScreen";
 import Camera from "./Screens/Camera";
 import { ReviewImage } from "./Screens/ReviewImage";
+import { ImageGallery } from "./Screens/ImageGallery";
 const Stack = createStackNavigator();
 
 const Index = () => {
@@ -49,6 +50,7 @@ export default function App() {
         <Stack.Screen name="Chọn ví" component={WalletPicker} />
         <Stack.Screen name="Chi tiết giao dịch" component={DetailTransaction} />
         <Stack.Screen name="Camera" component={Camera} />
+        <Stack.Screen name="ImageGallery" component={ImageGallery} />
         <Stack.Screen
           name="ReviewImage"
           component={ReviewImage}

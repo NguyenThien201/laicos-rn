@@ -66,8 +66,11 @@ export const BillImage = ({ navigation, image, setImages }) => {
             style={{ flex: 1 }}
             onPress={() => {
               const images = image as string[];
-              if (images.length >= 2) {
+              if (images.length == 2) {
                 navigation.navigate("ReviewImage", { imageUri: images[1] });
+              }
+              if (images.length > 2) {
+                navigation.navigate("ImageGallery", { images: images });
               }
             }}
           >
@@ -93,7 +96,7 @@ export const BillImage = ({ navigation, image, setImages }) => {
             }}
           />
           {position == 1 && 2 < images.length && (
-            <Text style={styles.headline}>+{images.length}</Text>
+            <Text style={styles.headline}>+{images.length - 2}</Text>
           )}
         </View>
       );
