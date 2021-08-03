@@ -1,6 +1,14 @@
 import moment from "moment";
 import React, { useEffect, useMemo, useState } from "react";
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import {
+	Dimensions,
+	Image,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	TouchableOpacityBase,
+	View,
+} from "react-native";
 import { TabBar, TabView } from "react-native-tab-view";
 import { globalStyles, Variable } from "../styles/theme.style";
 
@@ -12,7 +20,7 @@ import { HistoryTransactionView } from "../Components/HistoryTransactionView";
 import { IWallet } from "../type";
 import { wallets } from "../data";
 import { formatter } from "../Utils/format";
-
+import RNPickerSelect from "react-native-picker-select";
 export const HistoryScreen = ({ route, navigation }) => {
 	// Lấy ra ngày được chọn từ home screen
 	const { selectedDay } = route.params;
@@ -37,13 +45,12 @@ export const HistoryScreen = ({ route, navigation }) => {
 			}
 		}
 		d.reverse();
-	
+
 		// Thêm vài tháng cho tương lai
 		for (let i = 1; i <= 3; i++) {
 			const tempDate = new Date();
 			tempDate.setMonth(d[numberOfMonths].getMonth() + i);
 			d.push(tempDate);
-
 		}
 		return d;
 	};
@@ -55,20 +62,55 @@ export const HistoryScreen = ({ route, navigation }) => {
 	return (
 		<View style={[styles.container]}>
 			<View style={[styles.topNav]}>
-				<View style={[styles.walletSelection]}>
-					<Text
-						style={{
-							color: Variable.GREEN_LIGHT_COLOR,
-							marginRight: 16,
-							fontSize: Variable.FONT_SIZE_SMALL_16,
-						}}
-					>
-						Ví chính
-					</Text>
-					<Image
-						source={require("../Assets/Images/Icons/ic_arrow_right.png")}
-					/>
+				<View style={styles.header}>
+					<View style={[styles.walletSelection]}>
+						<Text
+							style={{
+								color: Variable.GREEN_LIGHT_COLOR,
+								marginRight: 16,
+								fontSize: Variable.FONT_SIZE_SMALL_16,
+							}}
+						>
+							Ví chính
+						</Text>
+						<Image
+							source={require("../Assets/Images/Icons/ic_arrow_right.png")}
+						/>
+					</View>
+					{/* Filter */}
+					<View>
+						
+							<RNPickerSelect
+							
+								onValueChange={(value) => console.log(value)}
+								items={[
+									{
+										label: "Xem theo tháng",
+										value: "month",
+									},
+									{
+										label: "Xem theo ngày",
+										value: "day",
+									},
+									{
+										label: "Xem theo nhóm",
+										value: "group",
+									},
+									{ label: "Tìm giao dịch", value: "search" },
+								]}
+								useNativeAndroidPickerStyle={false}
+								touchableWrapperProps={TouchableOpacity}
+								placeholder={{}}
+							
+							>
+								<Image
+									source={require("../Assets/Images/Icons/ic_filter.png")}
+								/>
+							</RNPickerSelect>
+					
+					</View>
 				</View>
+
 				{monthsData.length > 0 ? (
 					<ScrollableTabView
 						tabBarPosition="top"
@@ -114,8 +156,14 @@ const styles = StyleSheet.create({
 
 		marginTop: 16,
 	},
-	walletSelection: {
+	header: {
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 		marginHorizontal: 16,
+	},
+	walletSelection: {
 		flexDirection: "row",
 		justifyContent: "center",
 		alignItems: "center",

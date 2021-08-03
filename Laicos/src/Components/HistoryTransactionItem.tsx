@@ -8,10 +8,11 @@ import { ITransaction, ITransactionByDay } from "../type";
 import { formatter } from "../Utils/format";
 import { TransactionItem } from "./TransactionItem";
 import "moment/locale/vi";
+import { useNavigation } from "@react-navigation/native";
 export const HistoryTransactionItem = (props) => {
 	// Các giao dịch trong 1 ngày
 	const { transactionByDay, date } = props;
-
+	const navigation = useNavigation()
 	const reducerMoney = (groupTransaction: ITransactionByDay) => {
 		let totalMoney = 0;
 		for (const trans of groupTransaction.transactionItems) {
@@ -68,6 +69,7 @@ export const HistoryTransactionItem = (props) => {
 									key={indx}
 									transaction={transaction}
 									showDescription={true}
+									navigation={navigation}
 								/>
 							)
 						)}

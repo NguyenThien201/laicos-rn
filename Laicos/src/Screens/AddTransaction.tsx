@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  BackHandler,
   Image,
   KeyboardAvoidingView,
   StyleSheet,
@@ -39,6 +40,20 @@ export const AddTransaction = ({ navigation, route }) => {
     };
     return markedDate;
   };
+  useEffect(() => {
+    const backAction = () => {
+      resetState()
+      navigation.goBack()
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
   const resetState = () => {
     setMoney("");
     setChosenDate(new Date());
