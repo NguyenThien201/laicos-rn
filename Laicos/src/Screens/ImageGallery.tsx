@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { Variable } from "../styles/theme.style";
@@ -16,15 +17,22 @@ export const ImageGallery = ({ navigation, route }) => {
     console.log("item");
     return (
       <View style={(styles.thumbnail, styles.GridViewBlockStyle)}>
-        <Image
-          style={styles.thumbnail}
-          source={{
-            uri: uri,
+        <TouchableOpacity
+          style={{ flex: 1 }}
+          onPress={() => {
+            navigation.navigate("ReviewImage", { imageUri: uri });
           }}
-        />
-        {/*{position == 1 && 2 < images.length && (*/}
-        {/*    <Text style={styles.headline}>+{images.length - 2}</Text>*/}
-        {/*)}*/}
+        >
+          <Image
+            style={styles.thumbnail}
+            source={{
+              uri: uri,
+            }}
+          />
+          {/*{position == 1 && 2 < images.length && (*/}
+          {/*    <Text style={styles.headline}>+{images.length - 2}</Text>*/}
+          {/*)}*/}
+        </TouchableOpacity>
       </View>
     );
   }
