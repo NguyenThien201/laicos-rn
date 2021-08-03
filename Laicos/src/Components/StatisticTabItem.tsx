@@ -5,9 +5,9 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View
+  View,
 } from "react-native"
-import { chartConfig, incomeData, loanData, spendingData } from "../data"
+import { VictoryPie } from "victory-native"
 import { globalStyles, Variable } from "../styles/theme.style"
 import { formatter } from "../Utils/format"
 import { TransactionItem } from "./TransactionItem"
@@ -17,26 +17,51 @@ const StatisticTabItem: FC<{ type: string; data: any[] }> = ({
   data,
 }) => {
   const screenWidth = Dimensions.get("window").width
+  const spendingSample = [
+    { x: "Ăn uống", y: 3 },
+    { x: "Giải trí", y: 3 },
+    { x: "Mua sắm", y: 8 },
+    { x: "Giáo dục", y: 4 },
+  ]
+  const incomeSample = [
+    { x: "Lương", y: 5 },
+    { x: "Được tặng", y: 20 },
+  ]
+  const loanSample = [{ x: "Vay", y: 5 }]
 
   return (
     data && (
       <ScrollView style={{ marginBottom: 50 }}>
-        {/* <PieChart
-          data={
-            type === "SPEND"
-              ? spendingData
-              : type === "EARN"
-              ? incomeData
-              : loanData
-          }
-          width={screenWidth}
-          height={200}
-          chartConfig={chartConfig}
-          accessor={"money"}
-          backgroundColor={"transparent"}
-          paddingLeft={"15"}
-          // absolute
-        /> */}
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <VictoryPie
+            colorScale={[
+              "tomato",
+              "lightblue",
+              "orange",
+              "navy",
+              "green",
+              "white",
+            ]}
+            height={screenWidth - 150}
+            padding={{ top: 50, bottom: 50 }}
+            innerRadius={55}
+            data={
+              type === "SPEND"
+                ? spendingSample
+                : type === "EARN"
+                ? incomeSample
+                : loanSample
+            }
+            style={{ labels: { fill: "white" } }}
+          />
+        </View>
         <Text
           style={[
             globalStyles.fontSizeMedium,

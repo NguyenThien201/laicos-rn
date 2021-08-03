@@ -1,18 +1,18 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image, View } from "react-native";
-import { Variable } from "../styles/theme.style";
-import Statistic from "../Screens/Statistic";
-import { AddTransaction } from "../Screens/AddTransaction";
-import HomeScreen from "../Screens/HomeScreen";
-import { HistoryScreen } from "../Screens/HistoryScreen";
-import { createStackNavigator } from "@react-navigation/stack";
-import { SvgXml } from "react-native-svg";
-import { addIcon } from "../Assets/Images/SvgIcon/AddIcon";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { createStackNavigator } from "@react-navigation/stack"
+import React from "react"
+import { Image, View } from "react-native"
+import { SvgXml } from "react-native-svg"
+import { addIcon } from "../Assets/Images/SvgIcon/AddIcon"
+import { AddTransaction } from "../Screens/AddTransaction"
+import { HistoryScreen } from "../Screens/HistoryScreen"
+import HomeScreen from "../Screens/HomeScreen"
+import Statistic from "../Screens/Statistic"
+import { Variable } from "../styles/theme.style"
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator()
 
-const HomeStack = createStackNavigator();
+const HomeStack = createStackNavigator()
 
 const HomeScreenComponent = () => {
   return (
@@ -20,8 +20,8 @@ const HomeScreenComponent = () => {
       <HomeStack.Screen name="Trang chủ" component={HomeScreen} />
       <HomeStack.Screen name="Lịch sử" component={HistoryScreen} />
     </HomeStack.Navigator>
-  );
-};
+  )
+}
 
 // @refresh reset
 export const MainNavigator = () => {
@@ -129,5 +129,5 @@ export const MainNavigator = () => {
         }}
       />
     </Tab.Navigator>
-  );
-};
+  )
+}
