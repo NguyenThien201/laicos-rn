@@ -15,13 +15,19 @@ export interface ITransactionGroup {
   parent: number | null;
   children?: number[];
 }
+
+export interface IImage {
+  image: string;
+  title: string;
+}
+
 export interface ITransaction {
   group: ITransactionGroup;
   money: number;
   date: Date;
   description: string;
   wallet: string; // Trỏ sang tên của wallet
-  images: string[];
+  images: IImage[];
 }
 
 export interface ITransactionByDay {

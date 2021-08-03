@@ -4,6 +4,7 @@ import {
   Image,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -12,6 +13,8 @@ import { SvgXml } from "react-native-svg";
 import { cameraIcon } from "../Assets/Images/SvgIcon/CameraIcon";
 import { ReviewImage } from "../Screens/ReviewImage";
 import { white } from "react-native-paper/lib/typescript/styles/colors";
+import { IImage } from "../type";
+import { penIcon } from "../Assets/Images/SvgIcon/PenIcon";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -52,9 +55,14 @@ export const BillImage = ({ navigation, image, setImages }) => {
           <TouchableOpacity
             style={{ flex: 1 }}
             onPress={() => {
-              const images = image as string[];
+              const images = image as IImage[];
               if (images.length >= 1) {
-                navigation.navigate("ReviewImage", { imageUri: images[0] });
+                navigation.navigate("ReviewImage", {
+                  imageData: images[0],
+                  images: images,
+                  setImages: setImages,
+                  refresh: refresh,
+                });
               }
             }}
           >
@@ -65,12 +73,20 @@ export const BillImage = ({ navigation, image, setImages }) => {
           <TouchableOpacity
             style={{ flex: 1 }}
             onPress={() => {
-              const images = image as string[];
+              const images = image as IImage[];
               if (images.length == 2) {
-                navigation.navigate("ReviewImage", { imageUri: images[1] });
+                navigation.navigate("ReviewImage", {
+                  imageData: images[1],
+                  images: images,
+                  setImages: setImages,
+                  refresh: refresh,
+                });
               }
               if (images.length > 2) {
-                navigation.navigate("ImageGallery", { images: images });
+                navigation.navigate("ImageGallery", {
+                  images: images,
+                  setImages: setImages,
+                });
               }
             }}
           >
@@ -80,11 +96,9 @@ export const BillImage = ({ navigation, image, setImages }) => {
       </View>
     </View>
   );
-
+  function refresh() {}
   function renderImage(position: number) {
-    console.log("renmder render");
-    const images = image as string[];
-    console.log(images.toString());
+    const images = image as IImage[];
     if (images[position] != null) {
       return (
         <View style={styles.thumbnail}>
@@ -92,12 +106,24 @@ export const BillImage = ({ navigation, image, setImages }) => {
             style={styles.thumbnail}
             blurRadius={position == 1 && 2 < images.length ? 5 : 0}
             source={{
-              uri: images[position],
+              uri: images[position].image,
             }}
           />
           {position == 1 && 2 < images.length && (
             <Text style={styles.headline}>+{images.length - 2}</Text>
           )}
+          <View style={styles.imageTitle}>
+            <TextInput
+              style={[styles.input]}
+              placeholderTextColor="white"
+              onChangeText={(text) => {
+                images[position].title = text;
+              }}
+            >
+              {images[position].title}
+            </TextInput>
+            <SvgXml xml={penIcon} width={20} height={50} />
+          </View>
         </View>
       );
     }
@@ -105,8 +131,9 @@ export const BillImage = ({ navigation, image, setImages }) => {
   }
 
   function didCaptureImg(uri: string) {
-    const copyImage = image as string[];
-    copyImage.push(uri);
+    const copyImage = image as IImage[];
+    const newImg: IImage = { image: uri, title: "" };
+    copyImage.push(newImg);
     setImages([...copyImage]);
   }
 };
@@ -119,6 +146,9 @@ const styles = StyleSheet.create({
   headline: {
     fontWeight: "bold",
     fontSize: 32,
+    padding: 10,
+    alignContent: "center",
+    alignSelf: "center",
     color: "white",
   },
   thumbnail: {
@@ -127,8 +157,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "flex-end",
     borderRadius: Variable.BORDER_RADIUS_MEDIUM,
   },
   imageIcon: {
@@ -176,5 +206,22 @@ const styles = StyleSheet.create({
     borderRadius: Variable.BORDER_RADIUS_MEDIUM,
     color: "white",
     fontSize: Variable.FONT_SIZE_MEDIUM,
+  },
+  imageTitle: {
+    flexDirection: "row",
+    alignContent: "stretch",
+    marginLeft: 16,
+    marginRight: 4,
+    marginBottom: -4,
+  },
+  input: {
+    flex: 1,
+    textShadowRadius: 10,
+    textShadowColor: "black",
+    // backgroundColor: "red",
+    textAlign: "right",
+    borderColor: "white",
+    color: "white",
+    fontSize: Variable.FONT_SIZE_SMALL_14,
   },
 });

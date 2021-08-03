@@ -14,7 +14,7 @@ import Modal from "react-native-modalbox";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradButton } from "../Components/LinearGradButton";
 import { Variable } from "../styles/theme.style";
-import { ITransaction, ITransactionGroup, IWallet } from "../type";
+import { IImage, ITransaction, ITransactionGroup, IWallet } from "../type";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
 import { transaction, wallets } from "../data";
@@ -26,7 +26,7 @@ export const AddTransaction = ({ navigation, route }) => {
     null
   );
   const [money, setMoney] = useState("");
-  const [image, setImages] = useState<string[]>([]);
+  const [image, setImages] = useState<IImage[]>([]);
   const [chosenDate, setChosenDate] = useState<Date>(new Date());
   const [isCalanderOpened, setOpen] = useState(false);
   const [description, setDescription] = useState("");
