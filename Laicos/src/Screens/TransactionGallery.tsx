@@ -45,7 +45,7 @@ export const AddTransaction = ({ navigation, route }) => {
     setDescription("");
     setChosenGroup(null);
     setChosenWallet(wallets[0]);
-    setImages([]);
+    setImages([...image]);
   };
   const createNewTransaction = () => {
     const toMoney = parseInt(money);
@@ -99,11 +99,15 @@ export const AddTransaction = ({ navigation, route }) => {
           </View>
         </TouchableOpacity>
         {/* Chụp ảnh */}
-        <BillImage
-          navigation={navigation}
-          image={image}
-          setImages={setImages}
-        />
+        {image ? (
+          <BillImage
+            navigation={navigation}
+            image={image}
+            setImages={setImages}
+          />
+        ) : (
+          <Text>awdawd</Text>
+        )}
         {/* Form input */}
         <View style={[styles.form]}>
           <TextInput

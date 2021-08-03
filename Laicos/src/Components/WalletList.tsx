@@ -1,18 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-	Dimensions,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
-} from "react-native";
-import { IWallet } from "../type";
-import { WalletItem } from "./WalletItem";
-import { globalStyles, Variable } from "../styles/theme.style";
-import Carousel, { Pagination } from "react-native-snap-carousel";
-import { PaginationComponent } from "./PaginationCarousel";
+import React, {useEffect, useRef, useState} from "react";
+import {Dimensions, StyleSheet, View,} from "react-native";
+import {IWallet} from "../type";
+import {WalletItem} from "./WalletItem";
+import Carousel from "react-native-snap-carousel";
+import {PaginationComponent} from "./PaginationCarousel";
 
-import { wallets as walletsData } from "../data";
+import {wallets as walletsData} from "../data";
+
 const { width: screenWidth } = Dimensions.get("window");
 
 export const WalletList = () => {

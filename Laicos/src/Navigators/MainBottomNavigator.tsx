@@ -84,7 +84,7 @@ export const MainNavigator = () => {
 					tabBarIcon: () => (
 						<View>
 							<Image
-								source={require("../Assets/Images/add.png")}
+								source={require("../Assets/Images/Add.png")}
 								resizeMode="contain"
 							/>
 						</View>
