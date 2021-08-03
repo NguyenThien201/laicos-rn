@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -15,13 +15,23 @@ import { formatter } from "../Utils/format";
 import { IImage } from "../type";
 import { SvgXml } from "react-native-svg";
 import { penIcon } from "../Assets/Images/SvgIcon/PenIcon";
+import { cameraIcon } from "../Assets/Images/SvgIcon/CameraIcon";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 export const DetailTransaction = ({ route, navigation }) => {
   const { transaction } = route.params;
-  const [images, setImages] = useState<IImage[]>(
-    transaction.images as IImage[]
-  );
+  const [images, setImages] = useState<IImage[]>([]);
+
+  useEffect(() => {
+    setImages(transaction.images ?? []);
+    return;
+  }, []);
+  function didCaptureImg(uri: string) {
+    const copyImage = images as IImage[];
+    const newImg: IImage = { image: uri, title: "" };
+    copyImage.push(newImg);
+    setImages([...copyImage]);
+  }
   function renderImage(position: number) {
     if (images[position] != null) {
       return (
@@ -85,21 +95,25 @@ export const DetailTransaction = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.imgItem}>
-        <TouchableOpacity
-          style={{ flex: 1 }}
-          onPress={() => {
-            const images = transaction.images as IImage[];
+      {images.length > 0 ? (
+        <View style={styles.imgItem}>
+          <TouchableOpacity
+            style={{ flex: 1 }}
+            onPress={() => {
+              const images = transaction.images as IImage[];
 
-            navigation.navigate("ImageGallery", {
-              images: images,
-              setImages: setImages,
-            });
-          }}
-        >
-          {renderImage(0)}
-        </TouchableOpacity>
-      </View>
+              navigation.navigate("ImageGallery", {
+                images: images,
+                setImages: setImages,
+              });
+            }}
+          >
+            {renderImage(0)}
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View />
+      )}
       <View style={styles.item}>
         {transaction?.group.icon ? (
           <Image
@@ -262,5 +276,11 @@ const styles = StyleSheet.create({
     borderColor: "white",
     color: "white",
     fontSize: Variable.FONT_SIZE_SMALL_14,
+  },
+  imageIcon: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
