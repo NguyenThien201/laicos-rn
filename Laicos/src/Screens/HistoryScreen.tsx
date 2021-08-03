@@ -21,6 +21,7 @@ import { IWallet } from "../type";
 import { wallets } from "../data";
 import { formatter } from "../Utils/format";
 import RNPickerSelect from "react-native-picker-select";
+import { WalletSelectionComponent } from "../Components/WalletSelectionComponent";
 export const HistoryScreen = ({ route, navigation }) => {
 	// Lấy ra ngày được chọn từ home screen
 	const { selectedDay } = route.params;
@@ -63,20 +64,7 @@ export const HistoryScreen = ({ route, navigation }) => {
 		<View style={[styles.container]}>
 			<View style={[styles.topNav]}>
 				<View style={styles.header}>
-					<View style={[styles.walletSelection]}>
-						<Text
-							style={{
-								color: Variable.GREEN_LIGHT_COLOR,
-								marginRight: 16,
-								fontSize: Variable.FONT_SIZE_SMALL_16,
-							}}
-						>
-							Ví chính
-						</Text>
-						<Image
-							source={require("../Assets/Images/Icons/ic_arrow_right.png")}
-						/>
-					</View>
+					<WalletSelectionComponent/>
 					{/* Filter */}
 					<View>
 						

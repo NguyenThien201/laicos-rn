@@ -62,5 +62,9 @@ export const globalStyles = StyleSheet.create({
 	},
 	fontMedium:{
 		fontWeight:"900"
+	},
+	rowDisplay:{
+		display:"flex",
+		flexDirection:"row"
 	}
 })

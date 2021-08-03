@@ -9,6 +9,7 @@ import { HistoryScreen } from "../Screens/HistoryScreen"
 import HomeScreen from "../Screens/HomeScreen"
 import Statistic from "../Screens/Statistic"
 import { Variable } from "../styles/theme.style"
+import { Account } from "../Screens/AccountScreen";
 
 const Tab = createBottomTabNavigator()
 
@@ -111,7 +112,7 @@ export const MainNavigator = () => {
       />
       <Tab.Screen
         name="Cá nhân"
-        component={HomeScreen}
+        component={Account}
         options={{
           tabBarLabel: "Cá nhân",
           tabBarIcon: ({ focused }) => (
