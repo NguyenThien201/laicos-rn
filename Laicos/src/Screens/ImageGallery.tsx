@@ -17,7 +17,7 @@ export const ImageGallery = ({ navigation, route }) => {
     console.log("item");
     return (
       <TouchableOpacity
-        style={(styles.thumbnail, styles.GridViewBlockStyle)}
+        style={(styles.thumbnail, styles.block)}
         onPress={() => {
           navigation.navigate("ReviewImage", { imageUri: uri });
         }}
@@ -67,16 +67,15 @@ const styles = StyleSheet.create({
     fontSize: Variable.FONT_SIZE_LARGE,
     fontWeight: "bold",
   },
-  GridViewBlockStyle: {
+  block: {
     justifyContent: "center",
     flex: 1,
     alignItems: "center",
-    aspectRatio: 1,
+    aspectRatio: 0.8,
     margin: 5,
   },
 
   GridViewInsideTextItemStyle: {
-    color: "#fff",
     padding: 10,
     fontSize: 18,
     justifyContent: "center",

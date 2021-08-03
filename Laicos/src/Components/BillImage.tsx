@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   item: {
     flex: 1,
-    height: screenWidth / 3,
+    aspectRatio: 0.8,
     backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
     borderRadius: Variable.BORDER_RADIUS_MEDIUM,
     margin: 6,
