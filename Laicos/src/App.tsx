@@ -9,7 +9,7 @@
  */
 import "react-native-gesture-handler";
 import { NavigationContainer, Theme } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Variable } from "./styles/theme.style";
 import { MainNavigator } from "./Navigators/MainBottomNavigator";
@@ -25,12 +25,17 @@ import { DetailTransaction } from "./Screens/DetailTransactionScreen";
 import Camera from "./Screens/Camera";
 import { ReviewImage } from "./Screens/ReviewImage";
 import { ImageGallery } from "./Screens/ImageGallery";
+import { BackHandler } from "react-native";
 const Stack = createStackNavigator();
 
 const Index = () => {
   return <MainNavigator />;
 };
 export default function App() {
+  useEffect(() => {
+    console.disableYellowBox = true;
+    return;
+  }, []);
   const CustomDarkTheme: Theme = {
     colors: {
       background: Variable.BACKGROUND_COLOR,

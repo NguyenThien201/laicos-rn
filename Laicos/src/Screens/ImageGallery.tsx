@@ -98,6 +98,7 @@ export const ImageGallery = ({ navigation, route }) => {
           extraData={state}
           renderItem={({ item }) => renderItem(item)}
           numColumns={3}
+          keyExtractor={(item, index) => index.toString()}
         />
       )}
     </KeyboardAvoidingView>
