@@ -22,6 +22,7 @@ export const Camera = ({ route, navigation }) => {
   let RNFS = require("react-native-fs");
   useEffect(() => {
     const backAction = () => {
+      navigation.back();
       return false;
     };
 
