@@ -2,6 +2,7 @@
 
 import {
   BackHandler,
+  Image,
   PermissionsAndroid,
   StyleSheet,
   Text,
@@ -19,16 +20,19 @@ export const Camera = ({ route, navigation }) => {
   const { didCaptureImg } = route.params;
   let camera: RNCamera;
   let RNFS = require("react-native-fs");
-  const backAction = () => {
-    navigation.goBack();
-    return true;
-  };
-
   useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backAction);
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
+    const backAction = () => {
+      return false;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
   }, []);
+
   return (
     <View style={styles.container}>
       <RNCamera
@@ -44,7 +48,23 @@ export const Camera = ({ route, navigation }) => {
           buttonPositive: "Ok",
           buttonNegative: "Cancel",
         }}
-      />
+      ></RNCamera>
+
+      <View style={[styles.title]}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={{ flex: 0, flexDirection: "row" }}
+        >
+          <Image
+            source={require("../Assets/Images/Icons/ic_back.png")}
+            style={{ marginTop: 10, marginRight: 10 }}
+          ></Image>
+          <Text style={[styles.titleText]}>Trở về</Text>
+        </TouchableOpacity>
+      </View>
+
       <TouchableOpacity onPress={takePicture} style={styles.capture}>
         <SvgXml xml={captureIcon} width={80} height={80} />
       </TouchableOpacity>
@@ -103,6 +123,19 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingHorizontal: 20,
     margin: 20,
+  },
+  title: {
+    position: "absolute",
+    top: 20,
+    left: 16,
+
+    flexDirection: "row",
+    alignContent: "flex-start",
+  },
+  titleText: {
+    color: "white",
+    fontSize: Variable.FONT_SIZE_LARGE,
+    fontWeight: "bold",
   },
 });
 
