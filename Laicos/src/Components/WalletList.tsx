@@ -39,7 +39,7 @@ export const WalletList = () => {
 					onSnapToItem={(index) => setActive(index)}
 				/>
 		
-				<PaginationComponent items={wallets} active={active} />
+			
 			
 			</View>
 			
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		alignContent: "flex-start",
 		justifyContent: "flex-start",
-		marginBottom:20,
+		marginBottom:0,
 	},
 	item: {
 		flex: 0,

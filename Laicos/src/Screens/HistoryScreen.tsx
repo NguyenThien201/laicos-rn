@@ -20,7 +20,7 @@ import { HistoryTransactionView } from "../Components/HistoryTransactionView";
 import { IWallet } from "../type";
 import { wallets } from "../data";
 import { formatter } from "../Utils/format";
-import RNPickerSelect from "react-native-picker-select";
+// import RNPickerSelect from "react-native-picker-select";
 import { WalletSelectionComponent } from "../Components/WalletSelectionComponent";
 export const HistoryScreen = ({ route, navigation }) => {
 	// Lấy ra ngày được chọn từ home screen
@@ -66,8 +66,8 @@ export const HistoryScreen = ({ route, navigation }) => {
 				<View style={styles.header}>
 					<WalletSelectionComponent/>
 					{/* Filter */}
-					<View>
-						
+					<TouchableOpacity>
+{/* 						
 							<RNPickerSelect
 							
 								onValueChange={(value) => console.log(value)}
@@ -91,12 +91,12 @@ export const HistoryScreen = ({ route, navigation }) => {
 								placeholder={{}}
 							
 							>
-								<Image
+							
+							</RNPickerSelect> */}
+							<Image
 									source={require("../Assets/Images/Icons/ic_filter.png")}
 								/>
-							</RNPickerSelect>
-					
-					</View>
+					</TouchableOpacity>
 				</View>
 
 				{monthsData.length > 0 ? (
@@ -151,15 +151,5 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		marginHorizontal: 16,
 	},
-	walletSelection: {
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
-		borderColor: Variable.GREEN_LIGHT_COLOR,
-		borderWidth: 1,
-		borderRadius: Variable.BORDER_RADIUS_SMALL,
-		width: 120,
-		padding: 8,
-		height: 45,
-	},
+
 });

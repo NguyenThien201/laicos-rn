@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
 		borderTopLeftRadius: Variable.BORDER_RADIUS_MEDIUM,
 		borderTopRightRadius: Variable.BORDER_RADIUS_MEDIUM,
 		paddingBottom: 90,
+		paddingTop: 24
 	},
 	dayHeader: {
 		flex: 1,

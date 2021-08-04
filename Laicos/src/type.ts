@@ -27,7 +27,7 @@ export interface ITransaction {
   date: Date;
   description: string;
   wallet: string; // Trỏ sang tên của wallet
-  images: IImage[];
+  images?: IImage[];
 }
 
 export interface ITransactionByDay {

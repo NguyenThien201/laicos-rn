@@ -110,7 +110,7 @@ export const MonthlyHistory = ({ navigation }) => {
 const styles = StyleSheet.create({
 	pagerView: {
 		flex: 2,
-		marginTop: 16,
+		marginTop: 0,
 	},
 	item: {
 		flex: 0,
@@ -124,9 +124,9 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		marginTop: 16,
 		backgroundColor: Variable.GREEN_LIGHT_COLOR,
-		fontSize: Variable.FONT_SIZE_SMALL_16,
+		fontSize: Variable.FONT_SIZE_SMALL_14,
 		paddingVertical: 8,
-		paddingHorizontal: 60,
+		paddingHorizontal: "30%",
 		borderRadius: 5,
 	},
 	button: {
