@@ -115,24 +115,24 @@ export const DetailTransaction = ({ route, navigation }) => {
         <View />
       )}
       <View style={styles.item}>
-        {transaction?.group.icon ? (
+        {transaction?.group?.icon ? (
           <Image
             source={transaction.group.icon}
             style={{ width: 32, height: 32 }}
             resizeMode="contain"
           ></Image>
         ) : null}
-        <Text style={styles.itemText}>{transaction.group.name}</Text>
-        <Text
+        {transaction.group ? <Text style={styles.itemText}>{transaction.group.name}</Text > : <Text style={styles.itemText}>Ảnh chụp hóa đơn</Text>} 
+        {transaction.group ?<Text
           style={[
             styles.itemText,
-            transaction.group.type === "EARN"
+            transaction.group?.type === "EARN"
               ? { color: Variable.GREEN_COLOR }
               : { color: Variable.RED_COLOR },
           ]}
         >
           {formatter(transaction.money)} VNĐ
-        </Text>
+        </Text> : <Text style={styles.itemText}>0 VNĐ</Text>}
 
         <View style={styles.info}>
           <View style={styles.infoItem}>
