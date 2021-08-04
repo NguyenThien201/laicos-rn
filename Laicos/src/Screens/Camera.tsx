@@ -15,6 +15,7 @@ import { Variable } from "../styles/theme.style";
 import { captureIcon } from "../Assets/Images/SvgIcon/CaptureIcon";
 import { cameraIcon } from "../Assets/Images/SvgIcon/CameraIcon";
 import { SvgXml } from "react-native-svg";
+import { TitleHeader } from "./Title";
 export const Camera = ({ route, navigation }) => {
   // @ts-ignore
   const { didCaptureImg } = route.params;
@@ -60,11 +61,7 @@ export const Camera = ({ route, navigation }) => {
           }}
           style={{ flex: 0, flexDirection: "row" }}
         >
-          <Image
-            source={require("../Assets/Images/Icons/ic_back.png")}
-            style={{ marginTop: 10, marginRight: 10 }}
-          ></Image>
-          <Text style={[styles.titleText]}>Trở về</Text>
+          <TitleHeader title={"Trở về"}/>
         </TouchableOpacity>
       </View>
 
