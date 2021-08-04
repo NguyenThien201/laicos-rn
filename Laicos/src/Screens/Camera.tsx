@@ -22,8 +22,8 @@ export const Camera = ({ route, navigation }) => {
   let RNFS = require("react-native-fs");
   useEffect(() => {
     const backAction = () => {
-      navigation.back();
-      return false;
+      navigation.goBack();
+      return true;
     };
 
     const backHandler = BackHandler.addEventListener(
@@ -50,7 +50,9 @@ export const Camera = ({ route, navigation }) => {
           buttonNegative: "Cancel",
         }}
       ></RNCamera>
-
+      <View
+        style={[styles.container, { backgroundColor: "rgba(52, 52, 52, 0)" }]}
+      />
       <View style={[styles.title]}>
         <TouchableOpacity
           onPress={() => {
