@@ -63,7 +63,7 @@ export const TransactionItem = ({
 					</View>
 				</>
 			) : (
-				<Text>ảnh đã chụp</Text>
+				<Text  style={styles.text}	>Ảnh đã chụp</Text>
 			)}
 		</TouchableOpacity>
 	);

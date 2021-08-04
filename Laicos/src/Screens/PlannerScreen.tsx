@@ -21,6 +21,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { MonthlyHistory } from "../Components/MonthlyHistory";
 import { WalletList } from "../Components/WalletList";
 import { globalStyles, Variable } from "../styles/theme.style";
+import { TitleHeader } from "./Title";
 const PlannerScreen = ({ navigation }) => {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
@@ -31,13 +32,9 @@ const PlannerScreen = ({ navigation }) => {
           }}
           style={{ flex: 0 }}
         >
-          <View style={[styles.title]}>
-            <Image
-              source={require("../Assets/Images/Icons/ic_back.png")}
-              style={{ marginTop: 10, marginRight: 10 }}
-            ></Image>
-            <Text style={[styles.titleText]}>Kế hoạch</Text>
-          </View>
+         <Text style={globalStyles.title}>
+           Kế hoạch
+         </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -148,7 +145,7 @@ const styles = StyleSheet.create({
   },
   sText: {
     color: "#BABABA",
-    fontSize: Variable.FONT_SIZE_SMALL_14,
+    fontSize: Variable.FONT_SIZE_SMALL,
     fontWeight: "bold",
   },
   form: {

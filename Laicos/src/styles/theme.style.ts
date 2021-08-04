@@ -1,10 +1,9 @@
 import { StyleSheet } from "react-native"
 
 export const Variable = {
-	FONT_SIZE_SMALL_16: 16,
-	FONT_SIZE_SMALL_14: 14,
-	FONT_SIZE_MEDIUM: 20,
-	FONT_SIZE_LARGE: 28,
+	FONT_SIZE_MEDIUM: 16,
+	FONT_SIZE_SMALL: 14,
+	FONT_SIZE_LARGE: 20,
 	GREEN_LIGHT_COLOR: '#3CD3AD',
 	RED_COLOR: '#D83B57',
 	GREEN_COLOR: '#00FF57',
@@ -24,6 +23,11 @@ export const globalStyles = StyleSheet.create({
 	width100: {
 		width: "100%"
 	},
+	title:{
+		color: "white",
+		fontSize: Variable.FONT_SIZE_LARGE,
+		fontWeight: "bold"
+	},
 	height100:{
 		height: "100%"
 	},
@@ -34,7 +38,7 @@ export const globalStyles = StyleSheet.create({
 		fontSize: Variable.FONT_SIZE_MEDIUM
 	},
 	fontSizeSmall:{
-		fontSize: Variable.FONT_SIZE_SMALL_16
+		fontSize: Variable.FONT_SIZE_SMALL
 	},
 	fontSizeLarge:{
 		fontSize: Variable.FONT_SIZE_LARGE
@@ -47,12 +51,6 @@ export const globalStyles = StyleSheet.create({
 	},
 	greenText:{
 		color: Variable.GREEN_COLOR
-	},
-	card: {
-	
-		borderRadius:Variable.BORDER_RADIUS_SMALL,
-		height: 160,
-		padding: 16
 	},
 	textAlign: {
 		textAlign: "center"

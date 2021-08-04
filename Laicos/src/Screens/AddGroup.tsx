@@ -15,6 +15,7 @@ import { LinearGradButton } from "../Components/LinearGradButton";
 import { transactionGroup } from "../data";
 import { Variable } from "../styles/theme.style";
 import { ITransactionGroup } from "../type";
+import { TitleHeader } from "./Title";
 
 // @ts-ignore
 export const AddGroup = ({ route, navigation }) => {
@@ -47,13 +48,7 @@ export const AddGroup = ({ route, navigation }) => {
         }}
         style={{ flex: 0 }}
       >
-        <View style={[styles.title]}>
-          <Image
-            source={require("../Assets/Images/Icons/ic_back.png")}
-            style={{ marginTop: 10, marginRight: 10 }}
-          />
-          <Text style={[styles.titleText]}>Thêm nhóm chi tiêu mới</Text>
-        </View>
+       <TitleHeader title={"Thêm nhóm mới"} />
       </TouchableOpacity>
 
       <View style={[styles.form]}>
@@ -150,7 +145,7 @@ const styles = StyleSheet.create({
   form: {
     backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
     borderRadius: Variable.BORDER_RADIUS_MEDIUM,
-    marginTop: 20,
+    marginTop: 24,
   },
   input: {
     margin: 14,

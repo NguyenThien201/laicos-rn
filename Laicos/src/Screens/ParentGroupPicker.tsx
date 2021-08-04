@@ -12,9 +12,11 @@ import {
 	ScrollView,
 	TouchableOpacity,
 } from "react-native-gesture-handler";
+import { Title } from "react-native-paper";
 import { transactionGroup } from "../data";
 import { Variable } from "../styles/theme.style";
 import { ITransactionGroup, TTransactionType } from "../type";
+import { TitleHeader } from "./Title";
 
 export const ParentGroupPicker = ({ route, navigation }) => {
 	const { chosenGroup, setChosenGroup, groupType } = route.params;
@@ -107,13 +109,7 @@ export const ParentGroupPicker = ({ route, navigation }) => {
 				}}
 				style={{ flex: 0 }}
 			>
-				<View style={[styles.title]}>
-					<Image
-						source={require("../Assets/Images/Icons/ic_back.png")}
-						style={{ marginTop: 10, marginRight: 10 }}
-					></Image>
-					<Text style={[styles.titleText]}>Chọn nhóm cha</Text>
-				</View>
+				<TitleHeader title={"Chọn nhóm cha"}/>
 			</TouchableOpacity>
 			<FlatList
 				data={parentGroup}

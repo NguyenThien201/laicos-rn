@@ -49,7 +49,7 @@ const StatisticTabItem: FC<{ type: string; data: any[] }> = ({
               "green",
               "white",
             ]}
-            height={screenWidth - 150}
+            height={screenWidth}
             padding={{ top: 50, bottom: 50 }}
             innerRadius={55}
             data={
@@ -165,20 +165,20 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     textAlign: "left",
     color: "white",
-    fontSize: Variable.FONT_SIZE_SMALL_16,
+    fontSize: Variable.FONT_SIZE_SMALL,
     fontWeight: "900",
   },
   money: {
     textAlign: "right",
     color: "white",
-    fontSize: Variable.FONT_SIZE_SMALL_16,
+    fontSize: Variable.FONT_SIZE_SMALL,
     fontWeight: "900",
   },
   description: {
     marginLeft: 8,
     textAlign: "left",
     color: "white",
-    fontSize: Variable.FONT_SIZE_SMALL_14,
+    fontSize: Variable.FONT_SIZE_SMALL,
     fontWeight: "400",
   },
 })

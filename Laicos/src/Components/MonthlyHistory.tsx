@@ -109,13 +109,13 @@ export const MonthlyHistory = ({ navigation }) => {
 };
 const styles = StyleSheet.create({
 	pagerView: {
-		flex: 2,
 		marginTop: 0,
+		flex:3,
 	},
 	item: {
 		flex: 0,
 		width: screenWidth - 80,
-		height: 320,
+		height: "95%",
 		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
 		borderRadius: Variable.BORDER_RADIUS_MEDIUM,
 		marginBottom: 6,

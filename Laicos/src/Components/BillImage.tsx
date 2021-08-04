@@ -174,7 +174,6 @@ const styles = StyleSheet.create({
   pagerView: {
     // marginLeft: -screenWidth / 2,a
     flex: 2,
-    paddingHorizontal: 10,
     marginTop: 16,
   },
   item: {
@@ -213,6 +212,6 @@ const styles = StyleSheet.create({
     textAlign: "right",
     borderColor: "white",
     color: "white",
-    fontSize: Variable.FONT_SIZE_SMALL_14,
+    fontSize: Variable.FONT_SIZE_SMALL,
   },
 });

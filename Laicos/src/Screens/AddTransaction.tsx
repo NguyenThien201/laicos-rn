@@ -20,6 +20,7 @@ import moment from "moment";
 import { transaction, wallets } from "../data";
 import { ChosenGroupView } from "../Components/ChosenGroupVIew";
 import { BillImage } from "../Components/BillImage";
+import { TitleHeader } from "./Title";
 
 export const AddTransaction = ({ navigation, route }) => {
 	const [chosenGroup, setChosenGroup] = useState<ITransactionGroup | null>(
@@ -106,15 +107,16 @@ export const AddTransaction = ({ navigation, route }) => {
 					}}
 					style={{ flex: 0 }}
 				>
-					<View style={[styles.title]}>
+					{/* <View style={[styles.title]}>
 						<Image
 							source={require("../Assets/Images/Icons/ic_back.png")}
-							style={{ marginTop: 10, marginRight: 10 }}
+							style={{marginRight: 10 }}
 						></Image>
 						<Text style={[styles.titleText]}>
 							Thêm chi tiêu mới
 						</Text>
-					</View>
+					</View> */}
+					<TitleHeader title={"Thêm chi tiêu mới"}/>
 				</TouchableOpacity>
 				{/* Chụp ảnh */}
 				<BillImage
@@ -181,7 +183,7 @@ export const AddTransaction = ({ navigation, route }) => {
 
 				{/* Buttons */}
 				<View
-					style={[{ flex: 1, marginTop: 16, marginHorizontal: 16 }]}
+					style={[{ flex: 1, marginTop: 16,}]}
 				>
 					<LinearGradButton
 						color={Variable.BUTTON_PRIMARY}
@@ -238,10 +240,12 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		marginVertical: 16,
+		marginHorizontal: 16
 	},
 	title: {
+		marginHorizontal: 16,
 		flexDirection: "row",
-		alignContent: "flex-start",
+		alignItems: "center",
 	},
 	titleText: {
 		color: "white",
@@ -253,14 +257,13 @@ const styles = StyleSheet.create({
 		borderRadius: Variable.BORDER_RADIUS_MEDIUM,
 		paddingVertical: 8,
 		marginTop: 16,
-		marginHorizontal: 16,
 	},
 	input: {
 		margin: 14,
 		borderBottomWidth: 1,
 		borderColor: "white",
 		color: "white",
-		fontSize: Variable.FONT_SIZE_SMALL_14,
+		fontSize: Variable.FONT_SIZE_MEDIUM,
 		padding: 6,
 	},
 	modalView: {

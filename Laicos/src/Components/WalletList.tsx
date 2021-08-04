@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Dimensions, StyleSheet, View,} from "react-native";
-import {IWallet} from "../type";
-import {WalletItem} from "./WalletItem";
+import React, { useEffect, useRef, useState } from "react";
+import { Dimensions, StyleSheet, View } from "react-native";
+import { IWallet } from "../type";
+import { WalletItem } from "./WalletItem";
 import Carousel from "react-native-snap-carousel";
-import {PaginationComponent} from "./PaginationCarousel";
+import { PaginationComponent } from "./PaginationCarousel";
 
-import {wallets as walletsData} from "../data";
+import { wallets as walletsData } from "../data";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -19,7 +19,7 @@ export const WalletList = () => {
 
 	const _renderItem = ({ item, index }) => {
 		return (
-			<View style={[styles.item,]}>
+			<View style={{margin:4}}>
 				<WalletItem wallet={item} />
 			</View>
 		);
@@ -27,37 +27,29 @@ export const WalletList = () => {
 
 	return (
 		<View style={styles.pagerView}>
-			<View style={{marginBottom:16}}>
-				<Carousel
-					layout="default"
-					ref={carouselRef}
-					sliderWidth={screenWidth}
-					sliderHeight={100}
-					itemWidth={screenWidth - 80}
-					data={wallets}
-					renderItem={_renderItem}
-					onSnapToItem={(index) => setActive(index)}
-				/>
-		
-			
-			
-			</View>
-			
+			<Carousel
+				layout="default"
+				ref={carouselRef}
+				sliderWidth={screenWidth}
+				sliderHeight={80}
+				itemWidth={screenWidth - 80}
+				data={wallets}
+				renderItem={_renderItem}
+				onSnapToItem={(index) => setActive(index)}
+			/>
 		</View>
 	);
 };
 const styles = StyleSheet.create({
 	pagerView: {
-		flex: 1,
 		margin: 0,
 		padding: 0,
 		flexDirection: "column",
 		alignContent: "flex-start",
 		justifyContent: "flex-start",
-		marginBottom:0,
+		marginBottom: 26,
 	},
 	item: {
-		flex: 0,
 		width: screenWidth - 80,
 	},
 });

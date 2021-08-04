@@ -4,7 +4,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { globalStyles, Variable } from "../styles/theme.style";
 import { formatter } from "../Utils/format";
 
-export const WalletItem = ({  wallet }) => {
+export const WalletItem = ({ wallet }) => {
 	const moneyLeft = wallet.moneyIn - wallet.moneyOut;
 	return (
 		<LinearGradient
@@ -13,14 +13,14 @@ export const WalletItem = ({  wallet }) => {
 			colors={Variable.WALLET_GRADIENT}
 			style={[style.card]}
 		>
-			<View style={[{ display:"flex"	, padding: 2,height:400},style.card]}>
+			<View style={[{ display: "flex", padding: 6 }]}>
 				<View style={[style.title]}>
-					<View style={style.box}>
+					<View>
 						<Text style={globalStyles.whiteText}>
 							{wallet.name}
 						</Text>
 					</View>
-					<View style={style.box}>
+					<View>
 						<Text style={globalStyles.whiteText}>...</Text>
 					</View>
 				</View>
@@ -56,7 +56,6 @@ export const WalletItem = ({  wallet }) => {
 						>
 							Tiền ra
 						</Text>
-						
 					</View>
 
 					<View>
@@ -89,7 +88,6 @@ export const WalletItem = ({  wallet }) => {
 								borderBottomWidth: 1,
 								width: 100,
 								marginVertical: 3,
-
 							}}
 						/>
 						<Text
@@ -123,11 +121,10 @@ const style = StyleSheet.create({
 	moneyContainer: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		marginBottom: 1
+		marginBottom: 1,
 	},
 	card: {
-		borderRadius:Variable.BORDER_RADIUS_SMALL,
-		height: "100%",
-		padding: 8
+		borderRadius: Variable.BORDER_RADIUS_SMALL,
+		padding: 8,
 	},
 });

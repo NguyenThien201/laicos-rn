@@ -77,7 +77,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		color: "#fff",
-		flex: 1,
+		flex:1,
 	},
 	whiteText: {
 		color: "#fff",
