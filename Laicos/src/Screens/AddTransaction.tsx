@@ -21,6 +21,7 @@ import { transaction, wallets } from "../data";
 import { ChosenGroupView } from "../Components/ChosenGroupVIew";
 import { BillImage } from "../Components/BillImage";
 import { TitleHeader } from "./Title";
+import { formatter } from "../Utils/format";
 
 export const AddTransaction = ({ navigation, route }) => {
 	const [chosenGroup, setChosenGroup] = useState<ITransactionGroup | null>(
@@ -55,6 +56,43 @@ export const AddTransaction = ({ navigation, route }) => {
 
 		return () => backHandler.remove();
 	}, []);
+
+
+	const predictGroup = ()=>{
+		const toMoney = parseInt(money);
+		console.log(money);
+		if (toMoney >= 0 && chosenGroup == null)
+		{
+			const predict: Record<string, number> = {};
+			let _max = 0 
+			let _group: ITransactionGroup | null | undefined = null
+			for (const trans of transaction )
+			{
+				if (trans.money)
+				{
+					if (Math.abs(toMoney - trans.money) <= 1)
+					{
+						if(predict[trans.group!.name]){
+							predict[trans.group!.name] ++
+						}
+						else{
+							predict[trans.group!.name] = 1
+						}
+						if (predict[trans.group!.name] > _max )
+						{
+							_max = predict[trans.group!.name]
+							_group = trans.group
+						}
+ 					}
+				}
+			}
+			if (_group && predict[_group!.name] >= 3)
+			{
+				setChosenGroup(_group)
+			}
+		}
+	}
+	
 	const resetState = () => {
 		setMoney("");
 		setChosenDate(new Date());
@@ -65,7 +103,6 @@ export const AddTransaction = ({ navigation, route }) => {
 	};
 	const createNewTransaction = () => {
 		const toMoney = parseInt(money);
-		console.log(image);
 		if (image.length > 0 || (chosenGroup && toMoney >= 0)) {
 			const newTransaction: ITransaction = {
 				date: chosenDate,
@@ -96,7 +133,13 @@ export const AddTransaction = ({ navigation, route }) => {
 			navigation.goBack();
 		}
 	};
-
+	const getFormattedMoney = (value: string) =>{
+		return formatter(parseInt(removeComma(value)))
+	}
+	const removeComma = (value: string) =>{
+		const re = new RegExp(',', 'g');
+		return value.replace(re, "")
+	}
 	return (
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
 			<ScrollView style={[styles.container]}>
@@ -129,10 +172,11 @@ export const AddTransaction = ({ navigation, route }) => {
 					<TextInput
 						style={[styles.input]}
 						placeholder="0đ"
-						onChangeText={setMoney}
-						value={money}
+						onChangeText={(value)=> setMoney(removeComma(value))}
+						value={getFormattedMoney(money)}
 						keyboardType="numeric"
 						placeholderTextColor="white"
+						onBlur={predictGroup}
 					></TextInput>
 					<TouchableOpacity
 						onPress={() =>

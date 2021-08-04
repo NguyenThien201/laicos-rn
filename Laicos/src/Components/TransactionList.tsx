@@ -19,12 +19,12 @@ export const TransactionList = ({ date }) => {
             ) {
                 temp.push(t);
             }
-            if (temp.length>3) break
+       
         }
         temp.sort((a,b)=>{
             return moment(a.date).isBefore(b.date) ? 1 : -1
         })
-        return setTransactions(temp);
+        return setTransactions(temp.slice(0,4));
     }, [transactionHistory.length]);
 
     return (

@@ -1,4 +1,4 @@
-import { ITransaction, ITransactionGroup, IWallet } from "./type"
+import { ITransaction, ITransactionGroup, IWallet } from "./type";
 
 export const wallets: IWallet[] = [
 	{
@@ -16,7 +16,7 @@ export const wallets: IWallet[] = [
 		moneyIn: 100000000,
 		moneyOut: 5000000,
 	},
-]
+];
 
 export const transactionGroup: ITransactionGroup[] = [
 	{
@@ -25,7 +25,7 @@ export const transactionGroup: ITransactionGroup[] = [
 		icon: require("./Assets/Images/Icons/ic_meal.png"),
 		type: "SPEND",
 		parent: null,
-		children:[3,4]
+		children: [3, 4],
 	},
 	{
 		id: 3,
@@ -39,7 +39,7 @@ export const transactionGroup: ITransactionGroup[] = [
 		name: "Cà phê",
 		icon: require("./Assets/Images/Icons/ic_coffee.png"),
 		type: "SPEND",
-		parent: 2
+		parent: 2,
 	},
 	{
 		id: 5,
@@ -47,7 +47,7 @@ export const transactionGroup: ITransactionGroup[] = [
 		icon: require("./Assets/Images/Icons/ic_shopping.png"),
 		type: "SPEND",
 		parent: null,
-		children:[6,7]
+		children: [6, 7],
 	},
 	{
 		id: 6,
@@ -119,10 +119,23 @@ export const transactionGroup: ITransactionGroup[] = [
 		type: "EARN",
 		parent: null,
 	},
-
-]
+	{
+		id: 16,
+		name: "Xăng dầu",
+		icon: require("./Assets/Images/Icons/ic_gas.png"),
+		type: "SPEND",
+		parent: 11,
+	},
+];
 
 export const transaction: ITransaction[] = [
+	{
+		group: transactionGroup[4],
+		money: 150000,
+		date: new Date("08/04/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
 	{
 		group: transactionGroup[4],
 		money: 150000,
@@ -138,6 +151,13 @@ export const transaction: ITransaction[] = [
 		wallet: "BAMEBANK",
 	},
 	{
+		group: transactionGroup[14],
+		money: 50000,
+		date: new Date("08/04/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
 		group: transactionGroup[6],
 		money: 10000000,
 		date: new Date("08/04/2021"),
@@ -146,16 +166,30 @@ export const transaction: ITransaction[] = [
 	},
 	{
 		group: transactionGroup[12],
-		money: 100000,
+		money: 1000000,
 		date: new Date("06/09/2021"),
 		description: "Trên trời rơi xuống",
 		wallet: "BAMEBANK",
 	},
 	{
+		group: transactionGroup[14],
+		money: 50000,
+		date: new Date("07/04/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[14],
+		money: 50000,
+		date: new Date("06/10/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
 		group: transactionGroup[6],
-		money: 32000000,
+		money: 10000000,
 		date: new Date("06/08/2021"),
-		description: "Nhà hàng 1000 sao ở đường NVC",
+		description: "Lương trên trời rơi xuống",
 		wallet: "BAMEBANK",
 	},
 	{
@@ -215,7 +249,14 @@ export const transaction: ITransaction[] = [
 		description: "",
 		wallet: "BAMEBANK",
 	},
-]
+	{
+		group: transactionGroup[6],
+		money: 10000000,
+		date: new Date("05/10/2021"),
+		description: "Lương trên trời rơi xuống",
+		wallet: "BAMEBANK",
+	},
+];
 export const lineChartData = {
 	labels: ["T3", "T4", "T5", "T6", "T7"],
 	datasets: [
@@ -236,7 +277,7 @@ export const lineChartData = {
 		},
 	],
 	legend: ["Vay", "Chi", "Thu"], // optional
-}
+};
 export const stackedBarChartData = {
 	labels: ["T3", "T4", "T5", "T6", "T7"],
 	legend: ["Vay", "Chi", "Thu"],
@@ -247,70 +288,74 @@ export const stackedBarChartData = {
 		[1, 8, 15],
 		[0, 4, 15],
 	],
-	barColors: [`rgba(255, 255, 255, 1)`, `rgba(243, 74, 47, 1)`, `rgba(60, 211, 173, 1)`]
-}
+	barColors: [
+		`rgba(255, 255, 255, 1)`,
+		`rgba(243, 74, 47, 1)`,
+		`rgba(60, 211, 173, 1)`,
+	],
+};
 export const chartConfig = {
 	backgroundGradientFrom: "#151321",
 	backgroundGradientTo: "#151321",
 	color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
 	strokeWidth: 2, // optional, default 3
 	barPercentage: 0.5,
-}
+};
 export const spendingData = [
 	{
 		name: "Ăn uống",
 		money: 21500000,
 		color: "rgba(131, 167, 234, 1)",
 		legendFontColor: "white",
-		legendFontSize: 13
+		legendFontSize: 13,
 	},
 	{
 		name: "Mua sắm",
 		money: 8538000,
 		color: "#ffffff",
 		legendFontColor: "white",
-		legendFontSize: 13
+		legendFontSize: 13,
 	},
 	{
 		name: "Giáo dục",
 		money: 11920000,
 		color: "rgb(0, 0, 255)",
 		legendFontColor: "white",
-		legendFontSize: 13
+		legendFontSize: 13,
 	},
 	{
 		name: "Hẹn hò",
 		money: 1110000,
 		color: "red",
 		legendFontColor: "white",
-		legendFontSize: 13
-	}
-]
+		legendFontSize: 13,
+	},
+];
 export const incomeData = [
 	{
 		name: "Lương",
 		money: 21500000,
 		color: "rgba(131, 167, 234, 1)",
 		legendFontColor: "white",
-		legendFontSize: 13
+		legendFontSize: 13,
 	},
 	{
 		name: "Thưởng",
 		money: 2800000,
 		color: "#F00",
 		legendFontColor: "white",
-		legendFontSize: 13
+		legendFontSize: 13,
 	},
-]
+];
 export const loanData = [
 	{
 		name: "Vay",
 		money: 21500000,
 		color: "rgba(131, 167, 234, 1)",
 		legendFontColor: "white",
-		legendFontSize: 13
+		legendFontSize: 13,
 	},
-]
+];
 
 export const spendingTransactions = [
 	{
@@ -341,7 +386,7 @@ export const spendingTransactions = [
 		description: "",
 		wallet: "BAMEBANK",
 	},
-]
+];
 
 export const incomeTransactions = [
 	{
@@ -358,4 +403,4 @@ export const incomeTransactions = [
 		description: "",
 		wallet: "BAMEBANK",
 	},
-]
+];
