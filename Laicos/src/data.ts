@@ -126,9 +126,30 @@ export const transactionGroup: ITransactionGroup[] = [
 		type: "SPEND",
 		parent: 11,
 	},
+	{
+		id: 17,
+		name: "Gửi xe",
+		icon: require("./Assets/Images/Icons/ic_parking.png"),
+		type: "SPEND",
+		parent: 11,
+	},
 ];
 
 export const transaction: ITransaction[] = [
+	{
+		group: transactionGroup[15],
+		money: 5000,
+		date: new Date("08/04/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[11],
+		money: 150000,
+		date: new Date("08/04/2021"),
+		description: "Đi với ấy",
+		wallet: "NGUOIYEUBANK",
+	},
 	{
 		group: transactionGroup[4],
 		money: 150000,
@@ -186,10 +207,24 @@ export const transaction: ITransaction[] = [
 		wallet: "BAMEBANK",
 	},
 	{
+		group: transactionGroup[15],
+		money: 5000,
+		date: new Date("06/10/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
 		group: transactionGroup[6],
 		money: 10000000,
 		date: new Date("06/08/2021"),
 		description: "Lương trên trời rơi xuống",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[15],
+		money: 5000,
+		date: new Date("06/04/2021"),
+		description: "",
 		wallet: "BAMEBANK",
 	},
 	{
@@ -253,6 +288,20 @@ export const transaction: ITransaction[] = [
 		group: transactionGroup[6],
 		money: 10000000,
 		date: new Date("05/10/2021"),
+		description: "Lương trên trời rơi xuống",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[15],
+		money: 5000,
+		date: new Date("04/30/2021"),
+		description: "",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[6],
+		money: 11000000,
+		date: new Date("04/03/2021"),
 		description: "Lương trên trời rơi xuống",
 		wallet: "BAMEBANK",
 	},
