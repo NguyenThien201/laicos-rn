@@ -1,6 +1,7 @@
 // @ts-ignore
 
 import {
+  BackHandler,
   PermissionsAndroid,
   StyleSheet,
   Text,
@@ -8,7 +9,7 @@ import {
   View,
 } from "react-native";
 import { RNCamera } from "react-native-camera";
-import React from "react";
+import React, { useEffect } from "react";
 import { Variable } from "../styles/theme.style";
 import { captureIcon } from "../Assets/Images/SvgIcon/CaptureIcon";
 import { cameraIcon } from "../Assets/Images/SvgIcon/CameraIcon";
@@ -18,7 +19,16 @@ export const Camera = ({ route, navigation }) => {
   const { didCaptureImg } = route.params;
   let camera: RNCamera;
   let RNFS = require("react-native-fs");
+  const backAction = () => {
+    navigation.goBack();
+    return true;
+  };
 
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
   return (
     <View style={styles.container}>
       <RNCamera
