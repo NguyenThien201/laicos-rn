@@ -22,8 +22,8 @@ export interface IImage {
 }
 
 export interface ITransaction {
-  group: ITransactionGroup;
-  money: number;
+  group?: ITransactionGroup | null;
+  money?: number;
   date: Date;
   description: string;
   wallet: string; // Trỏ sang tên của wallet

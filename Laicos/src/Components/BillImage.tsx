@@ -185,15 +185,6 @@ const styles = StyleSheet.create({
     margin: 6,
     marginBottom: 6,
   },
-  monthTitle: {
-    textAlign: "center",
-    marginTop: 16,
-    backgroundColor: Variable.GREEN_LIGHT_COLOR,
-    fontSize: Variable.FONT_SIZE_SMALL_16,
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-  },
   button: {
     flex: 1,
     alignItems: "center",
