@@ -11,9 +11,9 @@ export const WalletItem = ({  wallet }) => {
 			start={{ x: 1, y: 1 }}
 			end={{ x: 0.25, y: 0.25 }}
 			colors={Variable.WALLET_GRADIENT}
-			style={[globalStyles.card]}
+			style={[style.card]}
 		>
-			<View style={{ flex:1	, padding: 2 }}>
+			<View style={[{ display:"flex"	, padding: 2,height:400},style.card]}>
 				<View style={[style.title]}>
 					<View style={style.box}>
 						<Text style={globalStyles.whiteText}>
@@ -28,7 +28,7 @@ export const WalletItem = ({  wallet }) => {
 					<Text
 						style={[
 							globalStyles.whiteText,
-							globalStyles.fontSizeMedium,
+							globalStyles.fontSizeSmall,
 							globalStyles.textAlign,
 							globalStyles.fontBold,
 						]}
@@ -111,23 +111,23 @@ export const WalletItem = ({  wallet }) => {
 
 const style = StyleSheet.create({
 	title: {
-		flex: 2,
 		fontWeight: "900",
 		flexDirection: "row",
 		justifyContent: "space-between",
 	},
-	box: {
-		height: 50,
-	},
+
 	total: {
-		flex: 2,
 		alignContent: "center",
 		justifyContent: "center",
 	},
 	moneyContainer: {
-		flex: 3,
 		flexDirection: "row",
 		justifyContent: "space-between",
 		marginBottom: 1
+	},
+	card: {
+		borderRadius:Variable.BORDER_RADIUS_SMALL,
+		height: "100%",
+		padding: 8
 	},
 });

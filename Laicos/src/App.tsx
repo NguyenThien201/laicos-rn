@@ -26,6 +26,7 @@ import Camera from "./Screens/Camera";
 import { ReviewImage } from "./Screens/ReviewImage";
 import { ImageGallery } from "./Screens/ImageGallery";
 import { BackHandler } from "react-native";
+import DetailPlanner from "./Screens/DetailPlanner";
 const Stack = createStackNavigator();
 
 const Index = () => {
@@ -56,6 +57,7 @@ export default function App() {
         <Stack.Screen name="Chi tiết giao dịch" component={DetailTransaction} />
         <Stack.Screen name="Camera" component={Camera} />
         <Stack.Screen name="ImageGallery" component={ImageGallery} />
+        <Stack.Screen name="Detail Planner" component={DetailPlanner} />
         <Stack.Screen
           name="ReviewImage"
           component={ReviewImage}

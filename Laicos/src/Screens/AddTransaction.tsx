@@ -177,7 +177,7 @@ export const AddTransaction = ({ navigation, route }) => {
         </View>
 
         {/* Buttons */}
-        <View style={[{ flex: 1, marginTop: 26 }]}>
+        <View style={[{ flex: 1, marginTop: 16, marginHorizontal: 16 }]}>
           <LinearGradButton
             color={Variable.BUTTON_PRIMARY}
             text={"LƯU"}
@@ -247,8 +247,8 @@ const styles = StyleSheet.create({
   form: {
     backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
     borderRadius: Variable.BORDER_RADIUS_MEDIUM,
-    paddingVertical: 20,
-    marginTop: 20,
+    paddingVertical: 8,
+    marginTop: 16,
     marginHorizontal: 16,
   },
   input: {
@@ -256,12 +256,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "white",
     color: "white",
-    fontSize: Variable.FONT_SIZE_MEDIUM,
+    fontSize: Variable.FONT_SIZE_SMALL_14,
     padding: 6,
   },
   modalView: {
     margin: 0,
-
     justifyContent: "flex-end",
     height: 300,
   },
