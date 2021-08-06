@@ -28,7 +28,7 @@ export const WalletItem = ({ wallet }) => {
 					<Text
 						style={[
 							globalStyles.whiteText,
-							globalStyles.fontSizeSmall,
+							globalStyles.fontSizeMedium,
 							globalStyles.textAlign,
 							globalStyles.fontBold,
 						]}
@@ -117,6 +117,7 @@ const style = StyleSheet.create({
 	total: {
 		alignContent: "center",
 		justifyContent: "center",
+		marginVertical: 4,
 	},
 	moneyContainer: {
 		flexDirection: "row",
@@ -126,5 +127,6 @@ const style = StyleSheet.create({
 	card: {
 		borderRadius: Variable.BORDER_RADIUS_SMALL,
 		padding: 8,
+		paddingVertical: 12,
 	},
 });
