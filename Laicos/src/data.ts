@@ -144,7 +144,7 @@ export const transaction: ITransaction[] = [
 		description: "",
 		wallet: "BAMEBANK",
 		images: [{
-			image:"./Assets/Images/home.png",
+			image:require("./Assets/Images/img.png"),
 			title: "Test"
 		}]
 	},

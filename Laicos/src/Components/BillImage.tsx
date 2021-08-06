@@ -132,6 +132,7 @@ export const BillImage = ({ navigation, image, setImages }) => {
 
   function didCaptureImg(uri: string) {
     const copyImage = image as IImage[];
+    console.log("Iu Khoa: " + uri);
     const newImg: IImage = { image: uri, title: "" };
     copyImage.push(newImg);
     setImages([...copyImage]);
