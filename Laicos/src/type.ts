@@ -34,3 +34,8 @@ export interface ITransactionByDay {
   date: Date;
   transactionItems: ITransaction[];
 }
+
+export interface INotification {  
+  content: string, 
+  date: Date
+}

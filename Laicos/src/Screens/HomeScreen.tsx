@@ -61,12 +61,12 @@ const HomeScreen = ({ navigation }) => {
 					) : null}
 				</View>
 
-				<View>
+				<TouchableOpacity onPress={()=>navigation.navigate('Thông báo')}>
 					<Image
 						source={require("../Assets/Images/Icons/ic_notification.png")}
 						style={{ width: 24, height: 24 }}
 					></Image>
-				</View>
+				</TouchableOpacity>
 			</View>
 
 			<WalletList />

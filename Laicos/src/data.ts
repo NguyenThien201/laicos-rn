@@ -1,4 +1,4 @@
-import { ITransaction, ITransactionGroup, IWallet } from "./type";
+import { INotification, ITransaction, ITransactionGroup, IWallet } from "./type";
 
 export const wallets: IWallet[] = [
 	{
@@ -458,3 +458,14 @@ export const incomeTransactions = [
 		wallet: "BAMEBANK",
 	},
 ];
+
+export const notifications: INotification[] = [
+	{
+		content: "Xem báo cáo tháng 7",
+		date: new Date("08/01/2021")
+	},
+	{
+		content: "Xem báo cáo tháng 6",
+		date: new Date("07/01/2021")
+	}
+]

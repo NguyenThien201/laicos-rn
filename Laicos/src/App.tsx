@@ -27,6 +27,8 @@ import { ReviewImage } from "./Screens/ReviewImage";
 import { ImageGallery } from "./Screens/ImageGallery";
 import { BackHandler } from "react-native";
 import DetailPlanner from "./Screens/DetailPlanner";
+import { EditTransaction } from "./Screens/EditTransaction";
+import { Notification } from "./Screens/NotificationScreen";
 const Stack = createStackNavigator();
 
 const Index = () => {
@@ -55,9 +57,11 @@ export default function App() {
         <Stack.Screen name="Chọn nhóm cha" component={ParentGroupPicker} />
         <Stack.Screen name="Chọn ví" component={WalletPicker} />
         <Stack.Screen name="Chi tiết giao dịch" component={DetailTransaction} />
+        <Stack.Screen name="Sửa giao dịch" component={EditTransaction} />
         <Stack.Screen name="Camera" component={Camera} />
         <Stack.Screen name="ImageGallery" component={ImageGallery} />
         <Stack.Screen name="Detail Planner" component={DetailPlanner} />
+        <Stack.Screen name="Thông báo" component={Notification} />
         <Stack.Screen
           name="ReviewImage"
           component={ReviewImage}
