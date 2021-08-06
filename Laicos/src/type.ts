@@ -30,12 +30,23 @@ export interface ITransaction {
   images?: IImage[];
 }
 
+export function parseITransactionObject(json: JSON): ITransaction {
+  return {
+    date: new Date(json["date"]),
+    description: json["description"],
+    wallet: json["wallet"],
+    money: json["money"],
+    group: json["group"],
+    images: json["images"],
+  };
+}
+
 export interface ITransactionByDay {
   date: Date;
   transactionItems: ITransaction[];
 }
 
-export interface INotification {  
-  content: string, 
-  date: Date
+export interface INotification {
+  content: string;
+  date: Date;
 }
