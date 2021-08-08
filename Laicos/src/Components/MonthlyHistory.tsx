@@ -41,7 +41,9 @@ export const MonthlyHistory = ({ navigation }) => {
 		return setMonthsData(months);
 	}, []);
 	const carouselRef = useRef(null);
-
+	navigation.addListener('focus', payload=>{
+		return setMonthsData(months);
+	})
 	const _renderItem = ({ item, index }) => {
 		return (
 			<View style={[styles.item]}>

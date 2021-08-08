@@ -22,18 +22,24 @@ import { ChosenGroupView } from "../Components/ChosenGroupVIew";
 import { BillImage } from "../Components/BillImage";
 import { TitleHeader } from "./Title";
 import { formatter } from "../Utils/format";
-
-export const EditTransaction = ({ navigation, route }) => {
-	const { transaction } = route.params;
-	console.log(transaction);
+import { useNavigation } from "@react-navigation/native";
+const removeComma = (value: string) => {
+	const re = new RegExp(",", "g");
+	return value.replace(re, "");
+};
+export const EditTransaction = ({  route }) => {
+	const navigation = useNavigation()
+	const { transaction,setTransaction } = route.params;
 	const [chosenGroup, setChosenGroup] = useState<ITransactionGroup | null>(
 		transaction.group ?? null
 	);
-	const [money, setMoney] = useState(transaction.money+"");
-	const [image, setImages] = useState<IImage[]>(transaction.images?.length>0 ? transaction.images : [] );
+	const [money, setMoney] = useState(transaction.money + "");
+	const [image, setImages] = useState<IImage[]>(
+		transaction.images?.length > 0 ? transaction.images : []
+	);
 	const [chosenDate, setChosenDate] = useState<Date>(transaction.date);
 	const [isCalanderOpened, setOpen] = useState(false);
-	const [description, setDescription] = useState(transaction.date);
+	const [description, setDescription] = useState("");
 	const [chosenWallet, setChosenWallet] = useState<IWallet>(wallets[0]);
 	const getMarkedDate = () => {
 		const markedDate: Record<string, any> = {};
@@ -54,7 +60,6 @@ export const EditTransaction = ({ navigation, route }) => {
 	}, []);
 	useEffect(() => {
 		const backAction = () => {
-			resetState();
 			navigation.goBack();
 			return true;
 		};
@@ -95,27 +100,10 @@ export const EditTransaction = ({ navigation, route }) => {
 		}
 	};
 
-	const resetState = () => {
-		setMoney("");
-		setChosenDate(new Date());
-		setDescription("");
-		setChosenGroup(null);
-		setChosenWallet(wallets[0]);
-		setImages([]);
-	};
-	const createNewTransaction = () => {
+
+	const editTransaction = () => {
 		const toMoney = parseInt(money);
 		if (image.length > 0 || (chosenGroup && toMoney >= 0)) {
-			const newTransaction: ITransaction = {
-				date: chosenDate,
-				description: description,
-				wallet: chosenWallet.name,
-				money: toMoney,
-				group: chosenGroup,
-				images: image,
-			};
-
-			transaction.push(newTransaction);
 			if (chosenGroup)
 				for (const wallet of wallets) {
 					if (wallet.name === chosenWallet.name) {
@@ -127,32 +115,38 @@ export const EditTransaction = ({ navigation, route }) => {
 						break;
 					}
 				}
-			resetState();
-			navigation.reset({
-				index: 0,
-				routes: [{ name: "Chi tiết giao dịch" }],
-			});
-			navigation.goBack();
+			transaction.date = chosenDate;
+			transaction.description = description;
+			transaction.wallet = chosenWallet.name;
+			transaction.money = toMoney;
+			transaction.group = chosenGroup;
+			transaction.images = image;
+			const newTransaction: ITransaction = {
+				date: chosenDate,
+				description: description,
+				wallet: chosenWallet.name,
+				money: toMoney,
+				group: chosenGroup,
+				images: image,
+			};
+			setTransaction(newTransaction)
+	
+			navigation.goBack()
 		}
 	};
 	const getFormattedMoney = (value: string) => {
 		return formatter(parseInt(removeComma(value)));
 	};
-	const removeComma = (value: string) => {
-		const re = new RegExp(",", "g");
-		return value.replace(re, "");
-	};
+
 	return (
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
 			<ScrollView style={[styles.container]}>
 				<TouchableOpacity
 					onPress={() => {
-						resetState();
 						navigation.goBack();
 					}}
 					style={{ flex: 0 }}
 				>
-
 					<TitleHeader title={"Chỉnh sửa giao dịch"} />
 				</TouchableOpacity>
 				{/* Chụp ảnh */}
@@ -224,13 +218,12 @@ export const EditTransaction = ({ navigation, route }) => {
 					<LinearGradButton
 						color={Variable.BUTTON_PRIMARY}
 						text={"LƯU"}
-						action={createNewTransaction}
+						action={editTransaction}
 					/>
 					<LinearGradButton
 						color={Variable.BUTTON_CANCEL}
 						text={"HỦY"}
 						action={() => {
-							resetState();
 							navigation.goBack();
 						}}
 					/>

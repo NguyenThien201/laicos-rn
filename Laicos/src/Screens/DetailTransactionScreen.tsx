@@ -12,7 +12,7 @@ import {
 
 import { globalStyles, Variable } from "../styles/theme.style";
 import { formatter } from "../Utils/format";
-import { IImage } from "../type";
+import { IImage, ITransaction } from "../type";
 import { SvgXml } from "react-native-svg";
 import { penIcon } from "../Assets/Images/SvgIcon/PenIcon";
 import { cameraIcon } from "../Assets/Images/SvgIcon/CameraIcon";
@@ -22,11 +22,16 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 export const DetailTransaction = ({ route, navigation }) => {
 	const { transaction } = route.params;
 	const [images, setImages] = useState<IImage[]>([]);
-
+	const [_transaction, setTransaction] = useState<ITransaction>(transaction);
 	useEffect(() => {
-		setImages(transaction.images ?? []);
+		setImages(_transaction.images ?? []);
 		return;
 	}, []);
+
+	useEffect(() => {
+		return console.log("change", _transaction);
+	}, [_transaction]);
+
 	function didCaptureImg(uri: string) {
 		const copyImage = images as IImage[];
 		const newImg: IImage = { image: uri, title: "" };
@@ -71,7 +76,9 @@ export const DetailTransaction = ({ route, navigation }) => {
 		<View style={[styles.container]}>
 			<View style={styles.header}>
 				<TouchableOpacity
-					onPress={() => navigation.goBack()}
+					onPress={() => {
+						navigation.pop()
+					}}
 					style={{ flex: 0 }}
 				>
 					<TitleHeader title={"Chi tiết giao dịch"} />
@@ -80,7 +87,8 @@ export const DetailTransaction = ({ route, navigation }) => {
 					<TouchableOpacity
 						onPress={() =>
 							navigation.navigate("Sửa giao dịch", {
-								transaction,
+								transaction: transaction,
+								setTransaction,
 							})
 						}
 					>
@@ -105,7 +113,7 @@ export const DetailTransaction = ({ route, navigation }) => {
 					<TouchableOpacity
 						style={{ flex: 1 }}
 						onPress={() => {
-							const images = transaction.images as IImage[];
+							const images = _transaction.images as IImage[];
 
 							navigation.navigate("ImageGallery", {
 								images: images,
@@ -121,16 +129,16 @@ export const DetailTransaction = ({ route, navigation }) => {
 			<View style={styles.item}>
 				<Text style={styles.label}>Số tiền</Text>
 				{/* Số tiền giao dịch */}
-				{transaction.group ? (
+				{_transaction.group ? (
 					<Text
 						style={[
 							styles.itemText,
-							transaction.group?.type === "EARN"
+							_transaction.group?.type === "EARN"
 								? { color: Variable.GREEN_COLOR }
 								: { color: Variable.RED_COLOR },
 						]}
 					>
-						{formatter(transaction.money)} VNĐ
+						{formatter(_transaction.money)} VNĐ
 					</Text>
 				) : (
 					<Text style={styles.itemText}>0 VNĐ</Text>
@@ -143,7 +151,7 @@ export const DetailTransaction = ({ route, navigation }) => {
 						resizeMode="contain"
 					/>
 					<Text style={styles.infoText}>
-						{moment(transaction.date).format("DD/MM/YYYY")}
+						{moment(_transaction.date).format("DD/MM/YYYY")}
 					</Text>
 				</View>
 
@@ -153,9 +161,9 @@ export const DetailTransaction = ({ route, navigation }) => {
 					<View style={styles.infoContainer}>
 						<Text style={styles.label}>Nhóm giao dịch</Text>
 						<View style={[styles.infoItem]}>
-							{transaction?.group?.icon ? (
+							{_transaction?.group?.icon ? (
 								<Image
-									source={transaction.group.icon}
+									source={_transaction.group.icon}
 									style={{
 										width: 24,
 										height: 24,
@@ -164,9 +172,9 @@ export const DetailTransaction = ({ route, navigation }) => {
 								></Image>
 							) : null}
 
-							{transaction.group ? (
+							{_transaction.group ? (
 								<Text style={styles.infoText}>
-									{transaction.group.name}
+									{_transaction.group.name}
 								</Text>
 							) : (
 								<Text style={styles.infoText}>
@@ -186,7 +194,7 @@ export const DetailTransaction = ({ route, navigation }) => {
 								resizeMode="contain"
 							/>
 							<Text style={styles.infoText}>
-								{transaction.wallet}
+								{_transaction.wallet}
 							</Text>
 						</View>
 					</View>
@@ -202,7 +210,7 @@ export const DetailTransaction = ({ route, navigation }) => {
 								resizeMode="contain"
 							/>
 							<Text style={styles.infoText} ellipsizeMode="clip">
-								{transaction.description}
+								{_transaction.description}
 							</Text>
 						</View>
 					</View>
