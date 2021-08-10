@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
 	Dimensions,
 	KeyboardAvoidingView,
@@ -19,12 +19,12 @@ export const AddDescription = () => {
 	const route = useRoute();
 	const { description, setDescription } = route.params;
 	const [des, setDes] = useState<string>(description);
-
 	const saveDescription = () => {
 		setDescription(des);
 
 		navigation.goBack();
 	};
+    const inputRef = useRef();
 	return (
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
 			<ScrollView style={[styles.container]}>
@@ -36,13 +36,15 @@ export const AddDescription = () => {
 				>
 					<TitleHeader title={"Thêm ghi chú"} />
 				</TouchableOpacity>
-				<View style={styles.form}>
+				<View style={styles.form} onTouchStart={()=>{inputRef?.current.focus(); console.log("ok")}}>
 					<TextInput
+                        ref ={inputRef}
 						style={[styles.input]}
 						placeholder="Thêm ghi chú"
 						placeholderTextColor="white"
 						onChangeText={setDes}
 						value={des}
+                       
 					/>
 				</View>
 
