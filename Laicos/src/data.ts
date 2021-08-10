@@ -132,7 +132,7 @@ export const transactionGroup: ITransactionGroup[] = [
 		name: "Gửi xe",
 		icon: require("./Assets/Images/Icons/ic_parking.png"),
 		type: "SPEND",
-		parent: 11,
+		parent: 9,
 	},
 ];
 
