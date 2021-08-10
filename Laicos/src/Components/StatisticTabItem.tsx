@@ -49,9 +49,9 @@ const StatisticTabItem: FC<{ type: string; data: any[] }> = ({
               "green",
               "white",
             ]}
-            height={screenWidth}
+            height={screenWidth*0.8}
             padding={{ top: 50, bottom: 50 }}
-            innerRadius={55}
+            innerRadius={screenWidth * 0.22}
             data={
               type === "SPEND"
                 ? spendingSample
@@ -113,7 +113,7 @@ const StatisticTabItem: FC<{ type: string; data: any[] }> = ({
     )
   )
 }
-const ParentItem = ({ item }) => {
+const ParentItem: FC<{ item: any }> = ({ item }) => {
   return (
     <View style={styles.containter}>
       <View
