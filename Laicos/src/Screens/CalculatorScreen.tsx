@@ -191,7 +191,7 @@ export const CalculatorScreen = ({navigation, route}) => {
 						) : item.startsWith("-") ? (
 							<Text style={resultStyles.sub}> {toCommas(Number(item))} </Text>
 						) : (
-							<Text style={resultStyles.nor}> {item} </Text>
+							<Text style={resultStyles.nor}> {item.replace("*", "x").replace("/","÷")} </Text>
 						)
 					}
 					keyExtractor={(item, index) => index.toString()}
@@ -206,7 +206,7 @@ export const CalculatorScreen = ({navigation, route}) => {
 				) : currentStr.current.startsWith("-") ? (
 					<Text style={resultStyles.sub}> {current} </Text>
 				) : (
-					<Text style={resultStyles.nor}> {(current == "0" ? "" : current)} </Text>
+					<Text style={resultStyles.nor}> {(current == "0" ? "" : current.replace("*", "x").replace("/","÷"))} </Text>
 				)}
 				{/*<Text style={resultStyles.nor}> {current} </Text>*/}
 				<View style={resultStyles.separateLine}></View>
