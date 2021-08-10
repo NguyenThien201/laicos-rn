@@ -49,7 +49,7 @@ const StatisticTabItem: FC<{ type: string; data: any[] }> = ({
               "green",
               "white",
             ]}
-            height={screenWidth*0.8}
+            height={screenWidth * 0.8}
             padding={{ top: 50, bottom: 50 }}
             innerRadius={screenWidth * 0.22}
             data={

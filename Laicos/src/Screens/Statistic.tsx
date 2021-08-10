@@ -1,25 +1,21 @@
 import { Picker } from "@react-native-picker/picker"
-import React, { useEffect, useState } from "react"
-import { Text, View } from "react-native"
-import ScrollableTabView, {
-  DefaultTabBar,
-} from "react-native-scrollable-tab-view"
+import React, { FC, useEffect, useState } from "react"
+import { Dimensions, Text, View } from "react-native"
+import ScrollableTabView from "react-native-scrollable-tab-view"
 import {
   VictoryAxis,
   VictoryBar,
   VictoryChart,
   VictoryGroup,
   VictoryLegend,
-  VictoryLine,
 } from "victory-native"
 import StatisticTabItem from "../Components/StatisticTabItem"
 import { transaction } from "../data"
 import { globalStyles, Variable } from "../styles/theme.style"
 
-const Statistic = () => {
+const Statistic: FC<{}> = () => {
   const [selectedLabelChartType, setSelectedLabelChartType] =
     useState<string>("month")
-  const [selectedChartType, setSelectedChartType] = useState<string>("line")
   const [isShowHeader, setIsShowHeader] = useState(true)
 
   const [transactionData, setTransactionData] = useState<any[]>([])
@@ -56,7 +52,6 @@ const Statistic = () => {
           if (idx >= 0) parentsInData[idx].childs.push(transaction[i])
         }
     }
-    console.log(parentsInData)
 
     return parentsInData
   }
@@ -127,7 +122,7 @@ const Statistic = () => {
           backgroundColor: "#212230",
           width: 70,
           height: 25,
-          paddingTop: 8,
+          paddingTop: 10,
           alignSelf: "center",
           alignItems: "center",
           borderTopLeftRadius: 20,
@@ -142,9 +137,9 @@ const Statistic = () => {
               height: 0,
               backgroundColor: "transparent",
               borderStyle: "solid",
-              borderLeftWidth: 10,
-              borderRightWidth: 10,
-              borderBottomWidth: 10,
+              borderLeftWidth: 12,
+              borderRightWidth: 12,
+              borderBottomWidth: 8,
               borderLeftColor: "transparent",
               borderRightColor: "transparent",
               borderBottomColor: "white",
@@ -183,9 +178,6 @@ const Statistic = () => {
           }}
           tabBarActiveTextColor={Variable.GREEN_LIGHT_COLOR}
           tabBarTextStyle={{ fontSize: 16 }}
-          renderTabBar={() => (
-            <DefaultTabBar tabs={["Khoản vay", "Khoản chi", "Khoản thu"]} />
-          )}
         >
           <StatisticTabItem
             type="LOAN"
@@ -211,95 +203,152 @@ const Statistic = () => {
 export default Statistic
 
 const MultipleBarChart = () => {
+  const screenWidth = Dimensions.get("window").width
+  const [isShowDetail, setIsShowDetail] = useState(false)
   return (
-    <VictoryChart height={260}>
-      <VictoryLegend
-        x={40}
-        y={0}
-        orientation="horizontal"
-        gutter={90}
-        data={[
-          {
-            name: "Chi",
-            symbol: { fill: "#F34A2F" },
-            labels: { fill: "white" },
-          },
-          {
-            name: "Vay",
-            symbol: { fill: "white" },
-            labels: { fill: "white" },
-          },
-          {
-            name: "Thu",
-            symbol: { fill: "#3CD3AD" },
-            labels: { fill: "#3CD3AD" },
-          },
-        ]}
-      />
-      <VictoryAxis
-        crossAxis
+    <>
+      <VictoryChart height={260}>
+        <VictoryLegend
+          x={40}
+          y={0}
+          orientation="horizontal"
+          gutter={90}
+          data={[
+            {
+              name: "Vay",
+              symbol: { fill: "white" },
+              labels: { fill: "white" },
+            },
+            {
+              name: "Chi",
+              symbol: { fill: "#F34A2F" },
+              labels: { fill: "white" },
+            },
+            {
+              name: "Thu",
+              symbol: { fill: "#3CD3AD" },
+              labels: { fill: "#3CD3AD" },
+            },
+          ]}
+        />
+        <VictoryAxis
+          crossAxis
+          style={{
+            axis: { stroke: "#B1B1B1", strokeWidth: 0.9 },
+            tickLabels: {
+              fill: ({ index }) => (+index === 2 ? "#3CD3AD" : "#B1B1B1"),
+            },
+          }}
+        />
+        <VictoryAxis
+          domain={[0, 12]}
+          standalone={false}
+          dependentAxis
+          label="( triệu Đồng )"
+          orientation="left"
+          style={{
+            grid: {
+              stroke: ({ index }) => (+index % 2 !== 0 ? "#B1B1B1" : "none"),
+              strokeWidth: 0.5,
+            },
+            tickLabels: {
+              fill: ({ index }) => (+index % 2 !== 0 ? "#B1B1B1" : "none"),
+            },
+            axisLabel: { fill: "#B1B1B1" },
+          }}
+        />
+        <VictoryGroup
+          offset={10}
+          colorScale={"qualitative"}
+          animate={{ duration: 500, onLoad: { duration: 500 } }}
+        >
+          <VictoryBar
+            name="vay"
+            style={{
+              data: { fill: "white" },
+            }}
+            data={[
+              { x: "MAY", y: 2 },
+              { x: "JUN", y: 3 },
+              { x: "JUL", y: 2 },
+              { x: "AUG", y: 3 },
+              { x: "SEP", y: 2 },
+            ]}
+          />
+          <VictoryBar
+            name="thu"
+            style={{
+              data: { fill: "#F34A2F" },
+            }}
+            data={[
+              { x: "MAY", y: 8 },
+              { x: "JUN", y: 5 },
+              { x: "JUL", y: 7 },
+              { x: "AUG", y: 9 },
+              { x: "SEP", y: 10 },
+            ]}
+          />
+
+          <VictoryBar
+            name="chi"
+            style={{
+              data: { fill: "#3CD3AD" },
+            }}
+            data={[
+              { x: "MAY", y: 11 },
+              { x: "JUN", y: 9 },
+              { x: "JUL", y: 10 },
+              { x: "AUG", y: 12 },
+              { x: "SEP", y: 10 },
+            ]}
+          />
+        </VictoryGroup>
+      </VictoryChart>
+      <Text
         style={{
-          axis: { stroke: "#B1B1B1", strokeWidth: 0.9 },
-          tickLabels: {
-            fill: ({ index }) => (+index === 2 ? "#3CD3AD" : "#B1B1B1"),
-          },
+          position: "absolute",
+          backgroundColor: "transparent",
+          height: 260 - 70,
+          width: 50,
+          bottom: 20,
+          left: screenWidth / 2.25,
+          zIndex: 9999,
         }}
-      />
-      <VictoryAxis
-        domain={[0, 12]}
-        standalone={false}
-        dependentAxis
-        label="( triệu Đồng )"
-        orientation="left"
-        style={{
-          grid: {
-            stroke: ({ index }) => (+index % 2 !== 0 ? "#B1B1B1" : "none"),
-            strokeWidth: 0.5,
-          },
-          tickLabels: {
-            fill: ({ index }) => (+index % 2 !== 0 ? "#B1B1B1" : "none"),
-          },
-          axisLabel: { fill: "#B1B1B1" },
+        onPress={() => {
+          setIsShowDetail(!isShowDetail)
         }}
-      />
-      <VictoryGroup offset={10} colorScale={"qualitative"}>
-        <VictoryBar
+      ></Text>
+      {isShowDetail && (
+        <View
           style={{
-            data: { fill: "#F34A2F" },
+            position: "absolute",
+            backgroundColor: "#212230",
+            height: 50,
+            width: 80,
+            top: 50,
+            left: screenWidth / 2.4,
+            borderRadius: 10,
+            paddingLeft: 10,
+            paddingRight: 10,
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            borderWidth: 0.4,
+            borderColor: "white",
           }}
-          data={[
-            { x: "MAY", y: 8 },
-            { x: "JUN", y: 5 },
-            { x: "JUL", y: 7 },
-            { x: "AUG", y: 9 },
-            { x: "SEP", y: 10 },
-          ]}
-        />
-        <VictoryBar
-          style={{
-            data: { fill: "white" },
-          }}
-          data={[
-            { x: "MAY", y: 2 },
-            { x: "JUN", y: 3 },
-            { x: "JUL", y: 2 },
-            { x: "AUG", y: 3 },
-            { x: "SEP", y: 2 },
-          ]}
-        />
-        <VictoryBar
-          style={{
-            data: { fill: "#3CD3AD" },
-          }}
-          data={[
-            { x: "MAY", y: 11 },
-            { x: "JUN", y: 9 },
-            { x: "JUL", y: 10 },
-            { x: "AUG", y: 12 },
-            { x: "SEP", y: 10 },
-          ]}
-        />
-      </VictoryGroup>
-    </VictoryChart>
+        >
+          <View>
+            <Text style={{ fontSize: 12, color: "white" }}>Vay:</Text>
+            <Text style={{ fontSize: 12, color: "#F34A2F" }}>Chi:</Text>
+            <Text style={{ fontSize: 12, color: "#3CD3AD" }}>Thu:</Text>
+          </View>
+          <View>
+            <Text style={{ fontSize: 12, color: "white" }}>2tr</Text>
+            <Text style={{ fontSize: 12, color: "#F34A2F" }}>7tr</Text>
+            <Text style={{ fontSize: 12, color: "#3CD3AD" }}>10tr</Text>
+          </View>
+        </View>
+      )}
+    </>
   )
 }
