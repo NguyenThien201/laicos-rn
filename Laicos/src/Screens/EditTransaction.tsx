@@ -180,17 +180,26 @@ export const EditTransaction = ({  route }) => {
 						{chosenGroup ? (
 							<ChosenGroupView chosenGroup={chosenGroup} />
 						) : (
-							<Text style={[styles.input]}>Chọn nhóm</Text>
+							<Text style={[styles.placeholder]}>Chọn nhóm</Text>
 						)}
 					</TouchableOpacity>
 
-					<TextInput
-						style={[styles.input]}
-						placeholder="Thêm ghi chú"
-						placeholderTextColor="white"
-						onChangeText={setDescription}
-						value={description}
-					></TextInput>
+					<TouchableOpacity
+						onPress={() =>
+							navigation.navigate("Thêm ghi chú", {
+								setDescription,
+								description,
+							})
+						}
+					>
+						{description ? (
+							<Text style={[styles.input]}>{description}</Text>
+						) : (
+							<Text style={[styles.placeholder]}>
+								Thêm ghi chú
+							</Text>
+						)}
+					</TouchableOpacity>
 
 					{/* Chọn ngày tháng */}
 					<TouchableOpacity onPress={() => setOpen(true)}>
@@ -303,5 +312,12 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-end",
 		height: 300,
 	},
-	calendarView: {},
+	placeholder: {
+		margin: 14,
+		borderBottomWidth: 1,
+		borderColor: "white",
+		color: "grey",
+		fontSize: Variable.FONT_SIZE_MEDIUM,
+		padding: 6,
+	},
 });

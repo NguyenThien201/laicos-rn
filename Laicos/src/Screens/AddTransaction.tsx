@@ -1,20 +1,28 @@
-import React, {useEffect, useState} from "react";
-import {BackHandler, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+	BackHandler,
+	KeyboardAvoidingView,
+	StyleSheet,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from "react-native";
 
 import Modal from "react-native-modalbox";
-import {ScrollView} from "react-native-gesture-handler";
-import {LinearGradButton} from "../Components/LinearGradButton";
-import {Variable} from "../styles/theme.style";
-import {IImage, ITransaction, ITransactionGroup, IWallet} from "../type";
-import {Calendar} from "react-native-calendars";
+import { ScrollView } from "react-native-gesture-handler";
+import { LinearGradButton } from "../Components/LinearGradButton";
+import { Variable } from "../styles/theme.style";
+import { IImage, ITransaction, ITransactionGroup, IWallet } from "../type";
+import { Calendar } from "react-native-calendars";
 import moment from "moment";
-import {transaction, wallets} from "../data";
-import {ChosenGroupView} from "../Components/ChosenGroupVIew";
-import {BillImage} from "../Components/BillImage";
-import {TitleHeader} from "./Title";
-import {formatter} from "../Utils/format";
+import { transaction, wallets } from "../data";
+import { ChosenGroupView } from "../Components/ChosenGroupVIew";
+import { BillImage } from "../Components/BillImage";
+import { TitleHeader } from "./Title";
+import { formatter } from "../Utils/format";
 
-export const AddTransaction = ({navigation, route}) => {
+export const AddTransaction = ({ navigation, route }) => {
 	const [chosenGroup, setChosenGroup] = useState<ITransactionGroup | null>(
 		null
 	);
@@ -48,34 +56,33 @@ export const AddTransaction = ({navigation, route}) => {
 		return () => backHandler.remove();
 	}, []);
 
-
 	const predictGroup = () => {
 		const toMoney = parseInt(money);
 		console.log(money);
 		if (toMoney >= 0 && chosenGroup == null) {
 			const predict: Record<string, number> = {};
-			let _max = 0
-			let _group: ITransactionGroup | null | undefined = null
+			let _max = 0;
+			let _group: ITransactionGroup | null | undefined = null;
 			for (const trans of transaction) {
 				if (trans.money) {
 					if (Math.abs(toMoney - trans.money) <= 1) {
 						if (predict[trans.group!.name]) {
-							predict[trans.group!.name]++
+							predict[trans.group!.name]++;
 						} else {
-							predict[trans.group!.name] = 1
+							predict[trans.group!.name] = 1;
 						}
 						if (predict[trans.group!.name] > _max) {
-							_max = predict[trans.group!.name]
-							_group = trans.group
+							_max = predict[trans.group!.name];
+							_group = trans.group;
 						}
 					}
 				}
 			}
 			if (_group && predict[_group!.name] >= 3) {
-				setChosenGroup(_group)
+				setChosenGroup(_group);
 			}
 		}
-	}
+	};
 
 	const resetState = () => {
 		setMoney("0");
@@ -112,27 +119,27 @@ export const AddTransaction = ({navigation, route}) => {
 			resetState();
 			navigation.reset({
 				index: 0,
-				routes: [{name: "Trang chủ"}],
+				routes: [{ name: "Trang chủ" }],
 			});
 			navigation.goBack();
 		}
 	};
 	const getFormattedMoney = (value: string) => {
-		return formatter(parseInt(removeComma(value)))
-	}
+		return formatter(parseInt(removeComma(value)));
+	};
 	const removeComma = (value: string) => {
-		const re = new RegExp(',', 'g');
-		return value.replace(re, "")
-	}
+		const re = new RegExp(",", "g");
+		return value.replace(re, "");
+	};
 	return (
-		<KeyboardAvoidingView style={{flex: 1}} behavior="height">
+		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
 			<ScrollView style={[styles.container]}>
 				<TouchableOpacity
 					onPress={() => {
 						resetState();
 						navigation.goBack();
 					}}
-					style={{flex: 0}}
+					style={{ flex: 0 }}
 				>
 					{/* <View style={[styles.title]}>
 						<Image
@@ -143,7 +150,7 @@ export const AddTransaction = ({navigation, route}) => {
 							Thêm chi tiêu mới
 						</Text>
 					</View> */}
-					<TitleHeader title={"Thêm chi tiêu mới"}/>
+					<TitleHeader title={"Thêm chi tiêu mới"} />
 				</TouchableOpacity>
 				{/* Chụp ảnh */}
 				<BillImage
@@ -162,7 +169,9 @@ export const AddTransaction = ({navigation, route}) => {
 							})
 						}
 					>
-						<Text style={[styles.input]}>{getFormattedMoney(money)}đ</Text>
+						<Text style={[styles.input]}>
+							{getFormattedMoney(money)}đ
+						</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() =>
@@ -173,19 +182,35 @@ export const AddTransaction = ({navigation, route}) => {
 						}
 					>
 						{chosenGroup ? (
-							<ChosenGroupView chosenGroup={chosenGroup}/>
+							<ChosenGroupView chosenGroup={chosenGroup} />
 						) : (
-							<Text style={[styles.input]}>Chọn nhóm</Text>
+							<Text style={[styles.placeholder]}>Chọn nhóm</Text>
 						)}
 					</TouchableOpacity>
-
-					<TextInput
+					{/* Thêm ghi chú */}
+					<TouchableOpacity
+						onPress={() =>
+							navigation.navigate("Thêm ghi chú", {
+								setDescription,
+								description,
+							})
+						}
+					>
+						{description ? (
+							<Text style={[styles.input]}>{description}</Text>
+						) : (
+							<Text style={[styles.placeholder]}>
+								Thêm ghi chú
+							</Text>
+						)}
+					</TouchableOpacity>
+					{/* <TextInput
 						style={[styles.input]}
 						placeholder="Thêm ghi chú"
 						placeholderTextColor="white"
 						onChangeText={setDescription}
 						value={description}
-					/>
+					/> */}
 
 					{/* Chọn ngày tháng */}
 					<TouchableOpacity onPress={() => setOpen(true)}>
@@ -212,9 +237,7 @@ export const AddTransaction = ({navigation, route}) => {
 				</View>
 
 				{/* Buttons */}
-				<View
-					style={[{flex: 1, marginTop: 16,}]}
-				>
+				<View style={[{ flex: 1, marginTop: 16 }]}>
 					<LinearGradButton
 						color={Variable.BUTTON_PRIMARY}
 						text={"LƯU"}
@@ -270,7 +293,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		marginVertical: 16,
-		marginHorizontal: 16
+		marginHorizontal: 16,
 	},
 	title: {
 		marginHorizontal: 16,
@@ -301,5 +324,12 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-end",
 		height: 300,
 	},
-	calendarView: {},
+	placeholder: {
+		margin: 14,
+		borderBottomWidth: 1,
+		borderColor: "white",
+		color: "grey",
+		fontSize: Variable.FONT_SIZE_MEDIUM,
+		padding: 6,
+	},
 });
