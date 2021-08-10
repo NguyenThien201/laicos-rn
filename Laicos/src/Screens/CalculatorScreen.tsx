@@ -221,7 +221,7 @@ export const CalculatorScreen = ({navigation, route}) => {
 				{/*<Text style={resultStyles.nor}> {current} </Text>*/}
 				<View style={resultStyles.separateLine}></View>
 				{/* Tổng */}
-				<Text style={resultStyles.numberText}>VND {toCommas(Number(total.current.toFixed()))}</Text>
+				<Text style={resultStyles.numberText}>VND {toCommas(Number(total.current.toFixed(2)))}</Text>
 				<View
 					style={{
 						flexDirection: "column",
