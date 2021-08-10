@@ -26,7 +26,7 @@ export const SpendingGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 		if (parentGroup.length === 0) {
 			const data: ITransactionGroup[] = [];
 			for (const group of transactionGroup) {
-				if (!group.parent && group.type == "SPEND") {
+				if (group.parent == null && group.type == "SPEND") {
 					data.push(group);
 				}
 			}

@@ -15,7 +15,7 @@ export const EarningGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 		if (parentGroup.length === 0) {
 			const data: ITransactionGroup[] = [];
 			for (const group of transactionGroup) {
-				if (!group.parent && group.type == "EARN") {
+				if (group.parent == null && group.type == "EARN") {
 					data.push(group);
 				}
 			}
