@@ -123,6 +123,8 @@ export const SpendingGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 				</TouchableOpacity>
 				{childrenGroup[item.id] ? (
 					<FlatList
+						showsVerticalScrollIndicator={false}
+						showsHorizontalScrollIndicator={false}
 						data={childrenGroup[item.id]}
 						renderItem={renderItem}
 						keyExtractor={(item) => item.id}
@@ -184,6 +186,8 @@ export const SpendingGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 			</TouchableOpacity>
 			{childrenGroup[item.id] ? (
 				<FlatList
+					showsVerticalScrollIndicator={false}
+					showsHorizontalScrollIndicator={false}
 					data={childrenGroup[item.id]}
 					renderItem={renderSubItem}
 					keyExtractor={(item) => item.id}
@@ -206,6 +210,8 @@ export const SpendingGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 	return (
 		<View style={[styles.containter]}>
 			<FlatList
+				showsVerticalScrollIndicator={false}
+				showsHorizontalScrollIndicator={false}
 				data={parentGroup}
 				renderItem={renderItem}
 				keyExtractor={(item) => item.id}

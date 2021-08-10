@@ -79,6 +79,8 @@ export const WalletPicker = ({ route, navigation }) => {
 				</View>
 			</TouchableOpacity>
 			<FlatList
+				showsVerticalScrollIndicator={false}
+				showsHorizontalScrollIndicator={false}
 				data={walletsData}
 				renderItem={renderItem}
 				keyExtractor={(item) => item.name}

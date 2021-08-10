@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
-import {Image, StyleSheet, Text, View,} from "react-native";
-import {FlatList, TouchableOpacity,} from "react-native-gesture-handler";
-import {transactionGroup} from "../data";
-import {Variable} from "../styles/theme.style";
-import {ITransactionGroup} from "../type";
-import {LinearGradButton} from "./LinearGradButton";
+import React, { useEffect, useState } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { transactionGroup } from "../data";
+import { Variable } from "../styles/theme.style";
+import { ITransactionGroup } from "../type";
+import { LinearGradButton } from "./LinearGradButton";
 
 export const EarningGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 	const [parentGroup, setParentGroup] = useState<ITransactionGroup[]>([]);
@@ -113,6 +113,8 @@ export const EarningGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 				</TouchableOpacity>
 				{childrenGroup[item.id] ? (
 					<FlatList
+						showsVerticalScrollIndicator={false}
+						showsHorizontalScrollIndicator={false}
 						data={childrenGroup[item.id]}
 						renderItem={renderItem}
 						keyExtractor={(item) => item.id}
@@ -174,6 +176,8 @@ export const EarningGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 			</TouchableOpacity>
 			{childrenGroup[item.id] ? (
 				<FlatList
+					showsVerticalScrollIndicator={false}
+					showsHorizontalScrollIndicator={false}
 					data={childrenGroup[item.id]}
 					renderItem={renderSubItem}
 					keyExtractor={(item) => item.id}
@@ -196,6 +200,8 @@ export const EarningGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 	return (
 		<View style={[styles.containter]}>
 			<FlatList
+				showsVerticalScrollIndicator={false}
+				showsHorizontalScrollIndicator={false}
 				data={parentGroup}
 				renderItem={renderItem}
 				keyExtractor={(item) => item.id}
@@ -207,11 +213,9 @@ export const EarningGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 					navigation.navigate("Thêm nhóm", {
 						type: "EARN",
 						setChosenGroup: setChosenGroup,
-					
 					})
 				}
 			/>
-			
 		</View>
 	);
 };
@@ -236,7 +240,8 @@ const styles = StyleSheet.create({
 		fontSize: Variable.FONT_SIZE_MEDIUM,
 		marginLeft: 10,
 		fontWeight: "900",
-	},buttonText: {
+	},
+	buttonText: {
 		textAlign: "center",
 		paddingVertical: 10,
 		borderRadius: Variable.BORDER_RADIUS_MEDIUM,

@@ -27,7 +27,7 @@ export const AddDescription = () => {
     const inputRef = useRef();
 	return (
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
-			<ScrollView style={[styles.container]}>
+			<ScrollView style={[styles.container]} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();

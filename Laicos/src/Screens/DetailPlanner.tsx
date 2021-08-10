@@ -30,7 +30,7 @@ import GradientButton from "react-native-gradient-buttons";
 const DetailPlanner = ({ navigation }) => {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
-      <ScrollView style={[styles.container]}>
+      <ScrollView style={[styles.container]}  showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();

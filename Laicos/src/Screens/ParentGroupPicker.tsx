@@ -109,9 +109,11 @@ export const ParentGroupPicker = ({ route, navigation }) => {
 				}}
 				style={{ flex: 0 }}
 			>
-				<TitleHeader title={"Chọn nhóm cha"}/>
+				<TitleHeader title={"Chọn nhóm cha"} />
 			</TouchableOpacity>
 			<FlatList
+				showsVerticalScrollIndicator={false}
+				showsHorizontalScrollIndicator={false}
 				data={parentGroup}
 				renderItem={renderItem}
 				keyExtractor={(item) => item.id}
