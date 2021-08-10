@@ -85,12 +85,6 @@ export const CalculatorScreen = ({navigation, route}) => {
 			list.push(currentStr.current.toString())
 			setOptList([...list])
 
-			// if (total.current == 0) {
-			// } else {
-			console.log("opt" + currentStr.current[0])
-			console.log("toal" + total.current)
-			console.log("int" + currentInt.current)
-
 			switch (currentStr.current[0]) {
 				case "+":
 					total.current += currentInt.current
@@ -172,7 +166,6 @@ export const CalculatorScreen = ({navigation, route}) => {
 		var displayString = "";
 		//fucking stupid ts
 		if (["+", "-", "x", "÷"].includes(currentStr.current)) {
-			console.log(currentStr.current)
 			displayString += currentStr.current;
 		} else if (["x", "÷"].includes(currentStr.current[0])) {
 			currentInt.current = Number(currentStr.current.substring(1, currentStr.current.length));
