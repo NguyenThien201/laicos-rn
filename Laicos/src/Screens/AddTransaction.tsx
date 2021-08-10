@@ -78,7 +78,7 @@ export const AddTransaction = ({navigation, route}) => {
 	}
 
 	const resetState = () => {
-		setMoney("");
+		setMoney("0");
 		setChosenDate(new Date());
 		setDescription("");
 		setChosenGroup(null);

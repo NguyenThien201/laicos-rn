@@ -20,13 +20,13 @@ export const CalculatorScreen = ({navigation, route}) => {
 	const {money, setMoney} = route.params;
 	const currentStr = useRef("");
 	const currentInt = useRef<number>(0.0);
-	const total = useRef<number>(0.0);
+	const total = useRef<number>(Number(money));
 	const currentOpt = useRef<string>("");
 	const [isFetching, setIsFetching] = useState(false);
-	const [optList, setOptList] = useState<string[]>([]);
-	// const tempList = useRef<string[]>([]);
-	// const [current, setCurrent] =
+	const [optList, setOptList] = useState<string[]>((money == "0" ? [] : [money]));
+	const evalString = useRef<string>((money == "0" ? "" : money));
 	const [current, setCurrent] = useState("");
+
 	useEffect(() => {
 		const backAction = () => {
 			navigation.goBack();
@@ -39,6 +39,11 @@ export const CalculatorScreen = ({navigation, route}) => {
 		);
 
 		return () => backHandler.remove();
+	}, []);
+
+	useEffect(() => {
+		console.log(money)
+		return;
 	}, []);
 
 	const getFormattedMoney = (value: string) => {
@@ -55,9 +60,10 @@ export const CalculatorScreen = ({navigation, route}) => {
 			currentOpt.current = opt;
 			currentStr.current = opt;
 		}
-		if (currentStr.current.length == 0 || ["+", "-", "x", "÷"].includes(currentStr.current)) {
+		if (currentStr.current.length == 0 || ["+", "-", "*", "/"].includes(currentStr.current)) {
 			currentOpt.current = opt;
 			currentStr.current = opt;
+
 		} else {
 			onEqualsPress(opt)
 		}
@@ -75,43 +81,28 @@ export const CalculatorScreen = ({navigation, route}) => {
 		if (currentStr.current.length == 0) {
 			return
 		}
-		if (optList.length == 0) {
-			total.current = currentInt.current
-			var list = optList
-			list.push(currentStr.current.toString())
-			setOptList([...list])
-		} else {
-			var list = optList
-			list.push(currentStr.current.toString())
-			setOptList([...list])
 
-			switch (currentStr.current[0]) {
-				case "+":
-					total.current += currentInt.current
-					break
-				case "-":
-					total.current += currentInt.current
-					break
-				case "x":
-					total.current = total.current * currentInt.current
-					break
-				case "÷":
-					total.current = total.current / currentInt.current
-					break
-			}
+		total.current = currentInt.current
+		var list = optList
+		list.push(currentStr.current.toString())
 
-		}
-
+		console.log("." + currentStr.current + ".")
+		// evalString.current += currentStr.current
+		var res = eval(evalString.current + currentStr.current)
+		console.log("-" + total.current.toString() + currentStr.current + ".")
+		total.current = Number(res)
+		evalString.current = res
+		// evalString.current += " " + opt
 		if (opt != "=") {
-			currentOpt.current = opt
-			currentStr.current = opt
+			currentOpt.current = opt;
+			currentStr.current = opt;
 		} else {
 			currentOpt.current = ""
 			currentStr.current = ""
 		}
-
 		setIsFetching(true);
 		updateRes();
+
 	};
 
 	const onClearPress = () => {
@@ -129,7 +120,7 @@ export const CalculatorScreen = ({navigation, route}) => {
 	};
 
 	const addNumber = (num: string) => {
-		if (currentOpt.current == "÷" && currentStr.current.length >= 1 && (num == "0" || num == "000")) {
+		if (currentOpt.current == "/" && currentStr.current.length >= 1 && (num == "0" || num == "000")) {
 			return
 		}
 		if (currentStr.current.includes(".")) {
@@ -165,9 +156,9 @@ export const CalculatorScreen = ({navigation, route}) => {
 	function updateRes() {
 		var displayString = "";
 		//fucking stupid ts
-		if (["+", "-", "x", "÷"].includes(currentStr.current)) {
+		if (["+", "-", "*", "/"].includes(currentStr.current)) {
 			displayString += currentStr.current;
-		} else if (["x", "÷"].includes(currentStr.current[0])) {
+		} else if (["*", "/"].includes(currentStr.current[0])) {
 			currentInt.current = Number(currentStr.current.substring(1, currentStr.current.length));
 			displayString += currentStr.current[0]
 			// currentStr.current.substring(1,currentStr.current.length))
@@ -194,9 +185,8 @@ export const CalculatorScreen = ({navigation, route}) => {
 					contentContainerStyle={{flexDirection: 'column-reverse'}}
 					data={optList}
 					refreshing={isFetching}
-					// extraData={optList}
 					renderItem={({item}) =>
-						item.startsWith("+") ? (
+						item.startsWith("+") || Number(item) > 0 ? (
 							<Text style={resultStyles.add}> +{toCommas(Number(item))} </Text>
 						) : item.startsWith("-") ? (
 							<Text style={resultStyles.sub}> {toCommas(Number(item))} </Text>
@@ -232,7 +222,11 @@ export const CalculatorScreen = ({navigation, route}) => {
 					{/* Gợi ý */}
 					<View style={suggestStyles.container}>
 						{/*Trăm Triệu*/}
-						<TouchableOpacity style={suggestStyles.box}>
+						<TouchableOpacity style={suggestStyles.box} onPress={() =>
+							replaceNumber(
+								Math.abs(currentInt.current * 100).toFixed().toString()
+							)
+						}>
 							{currentInt.current.toString().length < 8 &&
 							currentInt.current != 0 &&
 							!Number.isNaN(currentInt.current) && (
@@ -240,18 +234,16 @@ export const CalculatorScreen = ({navigation, route}) => {
 									style={suggestStyles.numberText}
 									numberOfLines={1}
 									ellipsizeMode="tail"
-									onPress={() =>
-										replaceNumber(
-											Math.abs(currentInt.current * 100).toFixed().toString()
-										)
-									}
+
 								>
 									{toCommas(Number(Math.abs(currentInt.current * 100).toFixed()))}
 								</Text>
 							)}
 						</TouchableOpacity>
 						{/*Chục Triệu*/}
-						<TouchableOpacity style={suggestStyles.box}>
+						<TouchableOpacity style={suggestStyles.box} onPress={() =>
+							replaceNumber(Math.abs(currentInt.current * 1000).toFixed())
+						}>
 							{currentInt.current.toString().length < 7 &&
 							currentInt.current != 0 &&
 							!Number.isNaN(currentInt.current) && (
@@ -259,16 +251,16 @@ export const CalculatorScreen = ({navigation, route}) => {
 									style={suggestStyles.numberText}
 									numberOfLines={1}
 									ellipsizeMode="tail"
-									onPress={() =>
-										replaceNumber(Math.abs(currentInt.current * 1000).toFixed())
-									}
+
 								>
 									{toCommas(Number(Math.abs(currentInt.current * 1000).toFixed()))}
 								</Text>
 							)}
 						</TouchableOpacity>
 						{/*Triệu*/}
-						<TouchableOpacity style={suggestStyles.box}>
+						<TouchableOpacity style={suggestStyles.box} onPress={() =>
+							replaceNumber(Math.abs(currentInt.current * 10000).toFixed())
+						}>
 							{currentInt.current.toString().length < 6 &&
 							currentInt.current != 0 &&
 							!Number.isNaN(currentInt.current) && (
@@ -276,9 +268,6 @@ export const CalculatorScreen = ({navigation, route}) => {
 									style={suggestStyles.numberText}
 									numberOfLines={1}
 									ellipsizeMode="tail"
-									onPress={() =>
-										replaceNumber(Math.abs(currentInt.current * 10000).toFixed())
-									}
 								>
 									{toCommas(Number(Math.abs(currentInt.current * 10000).toFixed()))}
 								</Text>
@@ -293,19 +282,19 @@ export const CalculatorScreen = ({navigation, route}) => {
 							flex: 1,
 						}}
 					>
-						<TouchableOpacity style={keyboardStyles.actionButton}>
-							<Text style={keyboardStyles.actionText} onPress={() => onClearPress()}>C</Text>
+						<TouchableOpacity style={keyboardStyles.actionButton} onPress={() => onClearPress()}>
+							<Text style={keyboardStyles.actionText}>C</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={keyboardStyles.actionButton}>
-							<Text style={keyboardStyles.actionText} onPress={() => onOperation("÷")}>÷</Text>
+						<TouchableOpacity style={keyboardStyles.actionButton} onPress={() => onOperation("/")}>
+							<Text style={keyboardStyles.actionText}>÷</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={keyboardStyles.actionButton}>
-							<Text style={keyboardStyles.actionText} onPress={() => onOperation("x")}>x</Text>
+						<TouchableOpacity style={keyboardStyles.actionButton} onPress={() => onOperation("*")}>
+							<Text style={keyboardStyles.actionText}>x</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={keyboardStyles.actionButtonLastCol}>
+						<TouchableOpacity style={keyboardStyles.actionButtonLastCol} onPress={() => onBackspacePress()}>
 							<Text
 								style={keyboardStyles.actionText}
-								onPress={() => onBackspacePress()}
+
 							>
 								⌫
 							</Text>
@@ -435,8 +424,8 @@ export const CalculatorScreen = ({navigation, route}) => {
 								</TouchableOpacity>
 							</View>
 						</View>
-						<TouchableOpacity style={keyboardStyles.equalBtn}>
-							<Text style={keyboardStyles.equalText} onPress={() => onEqualsPress("=")}>=</Text>
+						<TouchableOpacity style={keyboardStyles.equalBtn} onPress={() => onEqualsPress("=")}>
+							<Text style={keyboardStyles.equalText}>=</Text>
 						</TouchableOpacity>
 						{/*<View style={{flex: 1}}></View>*/}
 					</View>
@@ -452,17 +441,8 @@ export const CalculatorScreen = ({navigation, route}) => {
 				onPress={() => {
 					navigation.goBack();
 				}}
-				style={{flex: 0}}
+				style={keyboardStyles.title}
 			>
-				{/* <View style={[styles.title]}>
-						<Image
-							source={require("../Assets/Images/Icons/ic_back.png")}
-							style={{marginRight: 10 }}
-						></Image>
-						<Text style={[styles.titleText]}>
-							Thêm chi tiêu mới
-						</Text>
-					</View> */}
 				<TitleHeader title={"Nhập số tiền"}/>
 			</TouchableOpacity>
 			{/*</ScrollView>*/}
@@ -487,7 +467,8 @@ const keyboardStyles = StyleSheet.create({
 		// marginHorizontal: 16
 	},
 	title: {
-		marginHorizontal: 16,
+		flex: 0,
+		margin: 16,
 		flexDirection: "row",
 		alignItems: "center",
 	},
