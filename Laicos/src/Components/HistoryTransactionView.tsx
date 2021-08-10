@@ -39,13 +39,16 @@ export const HistoryTransactionView = (props) => {
 		for (const trans of transaction) {
 			if (trans.date.getMonth() === props.date.getMonth()) {
 				temp.push(trans);
-				if (trans.group.type==="EARN")
-				{
-					mIn+= trans.money
+				if (trans?.group) {
+					if (trans?.group?.type==="EARN")
+					{
+						mIn+= trans.money
+					}
+					else{
+						mOut += trans.money
+					}
 				}
-				else{
-					mOut += trans.money
-				}
+
 			}
 		}
 		setMoneyIn(mIn)
@@ -76,7 +79,7 @@ export const HistoryTransactionView = (props) => {
 		setTransactionByDay(groupArrays);
 	}, [transactionHistory]);
 
-	
+
 	return (
 		<View style={[styles.containter]}>
 			<Animated.View
@@ -149,9 +152,9 @@ export const HistoryTransactionView = (props) => {
 					</View>
 				</View>
 			</Animated.View>
-			
+
 				<Animated.ScrollView
-				
+
 					style={styles.history}
 					scrollEventThrottle={16}
 					onScroll={(e) => {
@@ -170,7 +173,7 @@ export const HistoryTransactionView = (props) => {
 						</Text>
 					)}
 				</Animated.ScrollView>
-			
+
 		</View>
 	);
 };

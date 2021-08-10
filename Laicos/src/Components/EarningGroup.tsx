@@ -1,22 +1,10 @@
-import React, { useEffect, useState } from "react";
-import {
-	Button,
-	Image,
-	StyleSheet,
-	Text,
-	TouchableOpacityBase,
-	View,
-} from "react-native";
-import {
-	FlatList,
-	ScrollView,
-	TouchableOpacity,
-} from "react-native-gesture-handler";
-import LinearGradient from "react-native-linear-gradient";
-import { transactionGroup } from "../data";
-import { Variable } from "../styles/theme.style";
-import { ITransactionGroup } from "../type";
-import { LinearGradButton } from "./LinearGradButton";
+import React, {useEffect, useState} from "react";
+import {Image, StyleSheet, Text, View,} from "react-native";
+import {FlatList, TouchableOpacity,} from "react-native-gesture-handler";
+import {transactionGroup} from "../data";
+import {Variable} from "../styles/theme.style";
+import {ITransactionGroup} from "../type";
+import {LinearGradButton} from "./LinearGradButton";
 
 export const EarningGroup = ({ navigation, setChosenGroup, chosenGroup }) => {
 	const [parentGroup, setParentGroup] = useState<ITransactionGroup[]>([]);

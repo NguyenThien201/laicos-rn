@@ -1,33 +1,23 @@
-import React, { useEffect, useMemo, useState } from "react";
-import {
-	Dimensions,
-	Image,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import React from "react";
+import {LogBox, StyleSheet, TouchableOpacity, View,} from "react-native";
 
-import { EarningGroup } from "../Components/EarningGroup";
-import { SpendingGroup } from "../Components/SpendingGroup";
-import { Variable } from "../styles/theme.style";
-import { LogBox } from "react-native";
-import ScrollableTabView, {
-	DefaultTabBar,
-	ScrollableTabBar,
-} from "react-native-scrollable-tab-view";
-import { TitleHeader } from "./Title";
+import {EarningGroup} from "../Components/EarningGroup";
+import {SpendingGroup} from "../Components/SpendingGroup";
+import {Variable} from "../styles/theme.style";
+import ScrollableTabView, {DefaultTabBar,} from "react-native-scrollable-tab-view";
+import {TitleHeader} from "./Title";
+
 LogBox.ignoreLogs([
 	"Non-serializable values were found in the navigation state",
 ]);
 
-export const GroupPicker = ({ route, navigation }) => {
-	const { chosenGroup, setChosenGroup } = route.params;
+export const GroupPicker = ({route, navigation}) => {
+	const {chosenGroup, setChosenGroup} = route.params;
 	return (
 		<View style={[styles.container]}>
 			<TouchableOpacity
 				onPress={() => navigation.goBack()}
-				style={{ flex: 0 , marginHorizontal: 16,}}
+				style={{flex: 0, marginHorizontal: 16,}}
 			>
 				<TitleHeader title={"Chọn nhóm"}/>
 			</TouchableOpacity>
@@ -40,12 +30,12 @@ export const GroupPicker = ({ route, navigation }) => {
 					elevation: 20,
 				}}
 				tabBarActiveTextColor={Variable.GREEN_LIGHT_COLOR}
-				tabBarTextStyle={{ fontSize: Variable.FONT_SIZE_SMALL }}
+				tabBarTextStyle={{fontSize: Variable.FONT_SIZE_SMALL}}
 				initialPage={1}
-				renderTabBar={() => <DefaultTabBar />}
+				renderTabBar={() => <DefaultTabBar/>}
 			>
 				<View
-					style={{ flex: 1, backgroundColor: "#ff4081" }}
+					style={{flex: 1, backgroundColor: "#ff4081"}}
 					tabLabel="Khoản vay"
 				/>
 				<SpendingGroup
@@ -68,9 +58,9 @@ export const GroupPicker = ({ route, navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		
+
 		marginVertical: 16,
-		
+
 	},
 
 });

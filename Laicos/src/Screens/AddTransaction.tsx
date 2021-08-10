@@ -1,33 +1,24 @@
-import React, { useEffect, useState } from "react";
-import {
-	BackHandler,
-	Image,
-	KeyboardAvoidingView,
-	StyleSheet,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import React, {useEffect, useState} from "react";
+import {BackHandler, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 
 import Modal from "react-native-modalbox";
-import { ScrollView } from "react-native-gesture-handler";
-import { LinearGradButton } from "../Components/LinearGradButton";
-import { Variable } from "../styles/theme.style";
-import { IImage, ITransaction, ITransactionGroup, IWallet } from "../type";
-import { Calendar } from "react-native-calendars";
+import {ScrollView} from "react-native-gesture-handler";
+import {LinearGradButton} from "../Components/LinearGradButton";
+import {Variable} from "../styles/theme.style";
+import {IImage, ITransaction, ITransactionGroup, IWallet} from "../type";
+import {Calendar} from "react-native-calendars";
 import moment from "moment";
-import { transaction, wallets } from "../data";
-import { ChosenGroupView } from "../Components/ChosenGroupVIew";
-import { BillImage } from "../Components/BillImage";
-import { TitleHeader } from "./Title";
-import { formatter } from "../Utils/format";
+import {transaction, wallets} from "../data";
+import {ChosenGroupView} from "../Components/ChosenGroupVIew";
+import {BillImage} from "../Components/BillImage";
+import {TitleHeader} from "./Title";
+import {formatter} from "../Utils/format";
 
-export const AddTransaction = ({ navigation, route }) => {
+export const AddTransaction = ({navigation, route}) => {
 	const [chosenGroup, setChosenGroup] = useState<ITransactionGroup | null>(
 		null
 	);
-	const [money, setMoney] = useState("");
+	const [money, setMoney] = useState("0");
 	const [image, setImages] = useState<IImage[]>([]);
 	const [chosenDate, setChosenDate] = useState<Date>(new Date());
 	const [isCalanderOpened, setOpen] = useState(false);
@@ -58,41 +49,34 @@ export const AddTransaction = ({ navigation, route }) => {
 	}, []);
 
 
-	const predictGroup = ()=>{
+	const predictGroup = () => {
 		const toMoney = parseInt(money);
 		console.log(money);
-		if (toMoney >= 0 && chosenGroup == null)
-		{
+		if (toMoney >= 0 && chosenGroup == null) {
 			const predict: Record<string, number> = {};
-			let _max = 0 
+			let _max = 0
 			let _group: ITransactionGroup | null | undefined = null
-			for (const trans of transaction )
-			{
-				if (trans.money)
-				{
-					if (Math.abs(toMoney - trans.money) <= 1)
-					{
-						if(predict[trans.group!.name]){
-							predict[trans.group!.name] ++
-						}
-						else{
+			for (const trans of transaction) {
+				if (trans.money) {
+					if (Math.abs(toMoney - trans.money) <= 1) {
+						if (predict[trans.group!.name]) {
+							predict[trans.group!.name]++
+						} else {
 							predict[trans.group!.name] = 1
 						}
-						if (predict[trans.group!.name] > _max )
-						{
+						if (predict[trans.group!.name] > _max) {
 							_max = predict[trans.group!.name]
 							_group = trans.group
 						}
- 					}
+					}
 				}
 			}
-			if (_group && predict[_group!.name] >= 3)
-			{
+			if (_group && predict[_group!.name] >= 3) {
 				setChosenGroup(_group)
 			}
 		}
 	}
-	
+
 	const resetState = () => {
 		setMoney("");
 		setChosenDate(new Date());
@@ -128,27 +112,27 @@ export const AddTransaction = ({ navigation, route }) => {
 			resetState();
 			navigation.reset({
 				index: 0,
-				routes: [{ name: "Trang chủ" }],
+				routes: [{name: "Trang chủ"}],
 			});
 			navigation.goBack();
 		}
 	};
-	const getFormattedMoney = (value: string) =>{
+	const getFormattedMoney = (value: string) => {
 		return formatter(parseInt(removeComma(value)))
 	}
-	const removeComma = (value: string) =>{
+	const removeComma = (value: string) => {
 		const re = new RegExp(',', 'g');
 		return value.replace(re, "")
 	}
 	return (
-		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
+		<KeyboardAvoidingView style={{flex: 1}} behavior="height">
 			<ScrollView style={[styles.container]}>
 				<TouchableOpacity
 					onPress={() => {
 						resetState();
 						navigation.goBack();
 					}}
-					style={{ flex: 0 }}
+					style={{flex: 0}}
 				>
 					{/* <View style={[styles.title]}>
 						<Image
@@ -169,15 +153,17 @@ export const AddTransaction = ({ navigation, route }) => {
 				/>
 				{/* Form input */}
 				<View style={[styles.form]}>
-					<TextInput
-						style={[styles.input]}
-						placeholder="0đ"
-						onChangeText={(value)=> setMoney(removeComma(value))}
-						value={getFormattedMoney(money)}
-						keyboardType="numeric"
-						placeholderTextColor="white"
-						onBlur={predictGroup}
-					></TextInput>
+					{/*Calculator*/}
+					<TouchableOpacity
+						onPress={() =>
+							navigation.navigate("Calculator", {
+								money: money,
+								setMoney: setMoney,
+							})
+						}
+					>
+						<Text style={[styles.input]}>{getFormattedMoney(money)}đ</Text>
+					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() =>
 							navigation.navigate("Chọn nhóm", {
@@ -187,7 +173,7 @@ export const AddTransaction = ({ navigation, route }) => {
 						}
 					>
 						{chosenGroup ? (
-							<ChosenGroupView chosenGroup={chosenGroup} />
+							<ChosenGroupView chosenGroup={chosenGroup}/>
 						) : (
 							<Text style={[styles.input]}>Chọn nhóm</Text>
 						)}
@@ -199,7 +185,7 @@ export const AddTransaction = ({ navigation, route }) => {
 						placeholderTextColor="white"
 						onChangeText={setDescription}
 						value={description}
-					></TextInput>
+					/>
 
 					{/* Chọn ngày tháng */}
 					<TouchableOpacity onPress={() => setOpen(true)}>
@@ -227,7 +213,7 @@ export const AddTransaction = ({ navigation, route }) => {
 
 				{/* Buttons */}
 				<View
-					style={[{ flex: 1, marginTop: 16,}]}
+					style={[{flex: 1, marginTop: 16,}]}
 				>
 					<LinearGradButton
 						color={Variable.BUTTON_PRIMARY}

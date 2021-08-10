@@ -29,6 +29,7 @@ import { EditTransaction } from "./Screens/EditTransaction";
 import { Notification } from "./Screens/NotificationScreen";
 import { transaction } from "./data";
 import {ITransaction, parseITransactionObject} from "./type";
+import {CalculatorScreen} from "./Screens/CalculatorScreen";
 
 const Stack = createStackNavigator();
 
@@ -101,6 +102,7 @@ export default function App() {
         <Stack.Screen name="ImageGallery" component={ImageGallery} />
         <Stack.Screen name="Detail Planner" component={DetailPlanner} />
         <Stack.Screen name="Thông báo" component={Notification} />
+        <Stack.Screen name="Calculator" component={CalculatorScreen} />
         <Stack.Screen
           name="ReviewImage"
           component={ReviewImage}

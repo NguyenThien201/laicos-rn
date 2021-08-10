@@ -30,3 +30,7 @@ export const formatter = (number: number): string => {
     return result
 
 }
+
+export function toCommas(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

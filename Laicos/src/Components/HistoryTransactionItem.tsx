@@ -16,10 +16,12 @@ export const HistoryTransactionItem = (props) => {
 	const reducerMoney = (groupTransaction: ITransactionByDay) => {
 		let totalMoney = 0;
 		for (const trans of groupTransaction.transactionItems) {
-			if (trans.group.type === "EARN") {
-				totalMoney += trans.money;
-			} else {
-				totalMoney -= trans.money;
+			if (trans?.group) {
+				if (trans.group.type === "EARN") {
+					totalMoney += trans.money;
+				} else {
+					totalMoney -= trans.money;
+				}
 			}
 		}
 		return totalMoney;

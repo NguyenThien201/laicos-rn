@@ -1,21 +1,20 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import {
-	Dimensions,
-	Image,
-	StyleSheet,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	View,
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
-import { globalStyles, Variable } from "../styles/theme.style";
+import { Variable } from "../styles/theme.style";
 import { formatter } from "../Utils/format";
 import { IImage, ITransaction } from "../type";
 import { SvgXml } from "react-native-svg";
 import { penIcon } from "../Assets/Images/SvgIcon/PenIcon";
-import { cameraIcon } from "../Assets/Images/SvgIcon/CameraIcon";
 import { TitleHeader } from "./Title";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -41,183 +40,179 @@ export const DetailTransaction = ({ route, navigation }) => {
 	function renderImage(position: number) {
 		if (images[position] != null) {
 			return (
-				<View style={styles.thumbnail}>
-					<Image
-						style={styles.thumbnail}
-						blurRadius={position == 1 && 2 < images.length ? 5 : 0}
-						// source={require(images[position].image)}
-						source={{
-							uri: images[position].image,
-						}}
-					/>
-					{position == 1 && 2 < images.length && (
-						<Text style={styles.headline}>
-							+{images.length - 2}
-						</Text>
-					)}
-					<View style={styles.imageTitle}>
-						<TextInput
-							style={[styles.input]}
-							placeholderTextColor="white"
-							onChangeText={(text) => {
-								images[position].title = text;
-							}}
-						>
-							{images[position].title}
-						</TextInput>
-						<SvgXml xml={penIcon} width={20} height={50} />
-					</View>
-				</View>
-			);
+        <View style={styles.thumbnail}>
+          <Image
+            style={styles.thumbnail}
+            blurRadius={2 <= images.length ? 5 : 0}
+            // source={require(images[position].image)}
+            source={{
+              uri: images[position].image,
+            }}
+          />
+          {2 <= images.length && (
+            <View
+              style={styles.makeThatShjtCenterPlease}
+            >
+              <Text style={styles.headline}>+{images.length - 1}</Text>
+            </View>
+          )}
+          <View style={styles.imageTitle}>
+            <TextInput
+              style={[styles.input]}
+              placeholderTextColor="white"
+              onChangeText={(text) => {
+                images[position].title = text;
+              }}
+            >
+              {images[position].title}
+            </TextInput>
+            <SvgXml xml={penIcon} width={20} height={50} />
+          </View>
+        </View>
+      );
 		}
 		return <View />;
 	}
 	return (
-		<View style={[styles.container]}>
-			<View style={styles.header}>
-				<TouchableOpacity
-					onPress={() => {
-						navigation.pop()
-					}}
-					style={{ flex: 0 }}
-				>
-					<TitleHeader title={"Chi tiết giao dịch"} />
-				</TouchableOpacity>
-				<View style={styles.action}>
-					<TouchableOpacity
-						onPress={() =>
-							navigation.navigate("Sửa giao dịch", {
-								transaction: transaction,
-								setTransaction,
-							})
-						}
-					>
-						<Image
-							source={require("../Assets/Images/Icons/ic_edit.png")}
-							style={{ width: 24, height: 24 }}
-							resizeMode="contain"
-						></Image>
-					</TouchableOpacity>
-					<TouchableOpacity>
-						<Image
-							source={require("../Assets/Images/Icons/ic_delete.png")}
-							style={{ width: 24, height: 24 }}
-							resizeMode="contain"
-						></Image>
-					</TouchableOpacity>
-				</View>
-			</View>
-			{/* Gallery */}
-			{images.length > 0 ? (
-				<View style={styles.imgItem}>
-					<TouchableOpacity
-						style={{ flex: 1 }}
-						onPress={() => {
-							const images = _transaction.images as IImage[];
+    <View style={[styles.container]}>
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.pop();
+          }}
+          style={{ flex: 0 }}
+        >
+          <TitleHeader title={"Chi tiết giao dịch"} />
+        </TouchableOpacity>
+        <View style={styles.action}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Sửa giao dịch", {
+                transaction: transaction,
+                setTransaction,
+              })
+            }
+          >
+              <Image
+                source={require("../Assets/Images/Icons/ic_edit.png")}
+                style={{ width: 24, height: 24 }}
+                resizeMode="contain"
+              />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              source={require("../Assets/Images/Icons/ic_delete.png")}
+              style={{ width: 24, height: 24 }}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+      {/* Gallery */}
+      {images.length > 0 ? (
+        <View style={styles.imgItem}>
+          <TouchableOpacity
+            style={{ flex: 1 }}
+            onPress={() => {
+              const images = _transaction.images as IImage[];
 
-							navigation.navigate("ImageGallery", {
-								images: images,
-								setImages: setImages,
-							});
-						}}
-					>
-						{renderImage(0)}
-					</TouchableOpacity>
-				</View>
-			) : null}
-			{/* Thông tin về giao dịch */}
-			<View style={styles.item}>
-				<Text style={styles.label}>Số tiền</Text>
-				{/* Số tiền giao dịch */}
-				{_transaction.group ? (
-					<Text
-						style={[
-							styles.itemText,
-							_transaction.group?.type === "EARN"
-								? { color: Variable.GREEN_COLOR }
-								: { color: Variable.RED_COLOR },
-						]}
-					>
-						{formatter(_transaction.money)} VNĐ
-					</Text>
-				) : (
-					<Text style={styles.itemText}>0 VNĐ</Text>
-				)}
-				{/* Ngày giao dịch */}
-				<View style={styles.date}>
-					<Image
-						source={require("../Assets/Images/Icons/ic_calendar.png")}
-						style={{ width: 20, height: 20 }}
-						resizeMode="contain"
-					/>
-					<Text style={styles.infoText}>
-						{moment(_transaction.date).format("DD/MM/YYYY")}
-					</Text>
-				</View>
+              navigation.navigate("ImageGallery", {
+                images: images,
+                setImages: setImages,
+              });
+            }}
+          >
+            {renderImage(0)}
+          </TouchableOpacity>
+        </View>
+      ) : null}
+      {/* Thông tin về giao dịch */}
+      <View style={styles.item}>
+        <Text style={styles.label}>Số tiền</Text>
+        {/* Số tiền giao dịch */}
+        {_transaction.group ? (
+          <Text
+            style={[
+              styles.itemText,
+              _transaction.group?.type === "EARN"
+                ? { color: Variable.GREEN_COLOR }
+                : { color: Variable.RED_COLOR },
+            ]}
+          >
+            {formatter(_transaction.money)} VNĐ
+          </Text>
+        ) : (
+          <Text style={styles.itemText}>0 VNĐ</Text>
+        )}
+        {/* Ngày giao dịch */}
+        <View style={styles.date}>
+          <Image
+            source={require("../Assets/Images/Icons/ic_calendar.png")}
+            style={{ width: 20, height: 20 }}
+            resizeMode="contain"
+          />
+          <Text style={styles.infoText}>
+            {moment(_transaction.date).format("DD/MM/YYYY")}
+          </Text>
+        </View>
 
-				{/* Các thông tin còn lại */}
-				<View style={styles.info}>
-					{/* Nhóm giao dịch */}
-					<View style={styles.infoContainer}>
-						<Text style={styles.label}>Nhóm giao dịch</Text>
-						<View style={[styles.infoItem]}>
-							{_transaction?.group?.icon ? (
-								<Image
-									source={_transaction.group.icon}
-									style={{
-										width: 24,
-										height: 24,
-									}}
-									resizeMode="contain"
-								></Image>
-							) : null}
+        {/* Các thông tin còn lại */}
+        <View style={styles.info}>
+          {/* Nhóm giao dịch */}
+          <View style={styles.infoContainer}>
+            <Text style={styles.label}>Nhóm giao dịch</Text>
+            <View style={[styles.infoItem]}>
+              {_transaction?.group?.icon ? (
+                <Image
+                  source={_transaction.group.icon}
+                  style={{
+                    width: 24,
+                    height: 24,
+                  }}
+                  resizeMode="contain"
+                ></Image>
+              ) : null}
 
-							{_transaction.group ? (
-								<Text style={styles.infoText}>
-									{_transaction.group.name}
-								</Text>
-							) : (
-								<Text style={styles.infoText}>
-									Ảnh chụp hóa đơn
-								</Text>
-							)}
-						</View>
-					</View>
+              {_transaction.group ? (
+                <Text style={styles.infoText}>{_transaction.group.name}</Text>
+              ) : (
+                <Text style={styles.infoText}>Ảnh chụp hóa đơn</Text>
+              )}
+            </View>
+          </View>
 
-					{/* Thông tin ví */}
-					<View style={styles.infoContainer}>
-						<Text style={styles.label}>Ví </Text>
-						<View style={styles.infoItem}>
-							<Image
-								source={require("../Assets/Images/Icons/ic_wallet.png")}
-								style={{ width: 24, height: 24 }}
-								resizeMode="contain"
-							/>
-							<Text style={styles.infoText}>
-								{_transaction.wallet}
-							</Text>
-						</View>
-					</View>
+          {/* Thông tin ví */}
+          <View style={styles.infoContainer}>
+            <Text style={styles.label}>Ví </Text>
+            <View style={styles.infoItem}>
+              <Image
+                source={require("../Assets/Images/Icons/ic_wallet.png")}
+                style={{ width: 24, height: 24 }}
+                resizeMode="contain"
+              />
+              <Text style={styles.infoText}>{_transaction.wallet}</Text>
+            </View>
+          </View>
 
-					{/* Ghi chú */}
+          {/* Ghi chú */}
 
-					<View style={styles.infoContainer}>
-						<Text style={styles.label}>Ghi chú</Text>
-						<View style={styles.infoItem}>
-							<Image
-								source={require("../Assets/Images/Icons/ic_description.png")}
-								style={{ width: 24, height: 24 }}
-								resizeMode="contain"
-							/>
-							<Text style={styles.infoText} ellipsizeMode="clip">
-								{_transaction.description}
-							</Text>
-						</View>
-					</View>
-				</View>
-			</View>
-		</View>
-	);
+          <View style={styles.infoContainer}>
+            <Text style={styles.label}>Ghi chú</Text>
+            <View style={styles.infoItem}>
+              <Image
+                source={require("../Assets/Images/Icons/ic_description.png")}
+                style={{ width: 24, height: 24 }}
+                resizeMode="contain"
+              />
+              <Text style={styles.infoText} ellipsizeMode="clip">
+                {_transaction.description}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -304,11 +299,10 @@ const styles = StyleSheet.create({
 		borderRadius: Variable.BORDER_RADIUS_MEDIUM,
 	},
 	headline: {
-		fontWeight: "bold",
-		fontSize: 32,
-		padding: 10,
 		alignContent: "center",
 		alignSelf: "center",
+		fontWeight: "bold",
+		fontSize: 32,
 		color: "white",
 	},
 	imageTitle: {
@@ -322,7 +316,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		textShadowRadius: 10,
 		textShadowColor: "black",
-		backgroundColor: "red",
+		// backgroundColor: "red",
 		textAlign: "right",
 		borderColor: "white",
 		color: "white",
@@ -338,4 +332,12 @@ const styles = StyleSheet.create({
 		fontSize: Variable.FONT_SIZE_SMALL,
 		color: "#929292",
 	},
+	makeThatShjtCenterPlease: {
+		position:"absolute",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		justifyContent: "center",
+	}
 });
