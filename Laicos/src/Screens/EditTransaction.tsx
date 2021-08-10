@@ -168,7 +168,7 @@ export const EditTransaction = ({  route }) => {
 					>
 						<Text style={[styles.input]}>{getFormattedMoney(money)}đ</Text>
 					</TouchableOpacity>
-					
+
 					<TouchableOpacity
 						onPress={() =>
 							navigation.navigate("Chọn nhóm", {
