@@ -157,15 +157,18 @@ export const EditTransaction = ({  route }) => {
 				/>
 				{/* Form input */}
 				<View style={[styles.form]}>
-					<TextInput
-						style={[styles.input]}
-						placeholder="0đ"
-						onChangeText={(value) => setMoney(removeComma(value))}
-						value={getFormattedMoney(money)}
-						keyboardType="numeric"
-						placeholderTextColor="white"
-						onBlur={predictGroup}
-					></TextInput>
+					{/*Calculator*/}
+					<TouchableOpacity
+						onPress={() =>
+							navigation.navigate("Calculator", {
+								money: money,
+								setMoney: setMoney,
+							})
+						}
+					>
+						<Text style={[styles.input]}>{getFormattedMoney(money)}đ</Text>
+					</TouchableOpacity>
+					
 					<TouchableOpacity
 						onPress={() =>
 							navigation.navigate("Chọn nhóm", {
