@@ -76,7 +76,7 @@ export const CalculatorScreen = ({navigation, route}) => {
 			return
 		}
 		if (optList.length == 0) {
-					total.current = currentInt.current
+			total.current = currentInt.current
 			var list = optList
 			list.push(currentStr.current.toString())
 			setOptList([...list])
@@ -160,12 +160,7 @@ export const CalculatorScreen = ({navigation, route}) => {
 	};
 
 	const replaceNumber = (num: string) => {
-		if (["x", "÷"].includes(currentStr.current[0])) {
-			currentStr.current = currentOpt.current + num;
-		} else {
-			currentStr.current = num;
-		}
-
+		currentStr.current = currentOpt.current + num;
 		updateRes();
 	};
 
@@ -254,11 +249,11 @@ export const CalculatorScreen = ({navigation, route}) => {
 									ellipsizeMode="tail"
 									onPress={() =>
 										replaceNumber(
-											(currentInt.current * 100).toFixed().toString()
+											Math.abs(currentInt.current * 100).toFixed().toString()
 										)
 									}
 								>
-									{toCommas(Number((currentInt.current * 100).toFixed()))}
+									{toCommas(Number(Math.abs(currentInt.current * 100).toFixed()))}
 								</Text>
 							)}
 						</TouchableOpacity>
@@ -272,10 +267,10 @@ export const CalculatorScreen = ({navigation, route}) => {
 									numberOfLines={1}
 									ellipsizeMode="tail"
 									onPress={() =>
-										replaceNumber((currentInt.current * 1000).toFixed())
+										replaceNumber(Math.abs(currentInt.current * 1000).toFixed())
 									}
 								>
-									{toCommas(Number((currentInt.current * 1000).toFixed()))}
+									{toCommas(Number(Math.abs(currentInt.current * 1000).toFixed()))}
 								</Text>
 							)}
 						</TouchableOpacity>
@@ -289,10 +284,10 @@ export const CalculatorScreen = ({navigation, route}) => {
 									numberOfLines={1}
 									ellipsizeMode="tail"
 									onPress={() =>
-										replaceNumber((currentInt.current * 10000).toFixed())
+										replaceNumber(Math.abs(currentInt.current * 10000).toFixed())
 									}
 								>
-									{toCommas(Number((currentInt.current * 10000).toFixed()))}
+									{toCommas(Number(Math.abs(currentInt.current * 10000).toFixed()))}
 								</Text>
 							)}
 						</TouchableOpacity>
