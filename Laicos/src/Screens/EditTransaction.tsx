@@ -99,8 +99,7 @@ export const EditTransaction = ({  route }) => {
 			}
 		}
 	};
-
-
+	
 	const editTransaction = () => {
 		const toMoney = parseInt(money);
 		if (image.length > 0 || (chosenGroup && toMoney >= 0)) {
