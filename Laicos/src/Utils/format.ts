@@ -20,7 +20,10 @@ export const formatter = (number: number): string => {
 	}
 	if (result[0] === ",") result = result.substring(1);
 	if (isSign) result = "-" + result;
-	return result + "." + decimal_part;
+	if (decimal_part > 0)
+		return result + "." + decimal_part;
+	else 
+		return result
 };
 
 export function toCommas(value: number): string {
