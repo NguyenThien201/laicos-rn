@@ -62,7 +62,7 @@ export const WalletItem = ({ wallet }) => {
 						{/* Tiền vào */}
 						<Text
 							style={[
-								globalStyles.greenText,
+								globalStyles.whiteText,
 								globalStyles.fontBold,
 								globalStyles.fontSizeSmall,
 								{ alignSelf: "flex-end" },
@@ -73,7 +73,7 @@ export const WalletItem = ({ wallet }) => {
 						{/* Tiền ra */}
 						<Text
 							style={[
-								globalStyles.redText,
+								globalStyles.whiteText,
 								globalStyles.fontSizeSmall,
 								globalStyles.fontBold,
 								{ alignSelf: "flex-end" },

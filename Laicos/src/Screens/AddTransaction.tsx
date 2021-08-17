@@ -243,14 +243,14 @@ export const AddTransaction = ({ navigation, route }) => {
 						text={"LƯU"}
 						action={createNewTransaction}
 					/>
-					<LinearGradButton
+					{/* <LinearGradButton
 						color={Variable.BUTTON_CANCEL}
 						text={"HỦY"}
 						action={() => {
 							resetState();
 							navigation.goBack();
 						}}
-					/>
+					/> */}
 				</View>
 			</ScrollView>
 			<Modal

@@ -1,4 +1,4 @@
-import { INotification, ITransaction, ITransactionGroup, IWallet } from "./type";
+import { INotification, IPlanner, ITransaction, ITransactionGroup, IWallet } from "./type";
 
 export const wallets: IWallet[] = [
 	{
@@ -467,5 +467,26 @@ export const notifications: INotification[] = [
 	{
 		content: "Xem báo cáo tháng 6",
 		date: new Date("07/01/2021")
+	}
+]
+
+export const plans: IPlanner[] = [
+	{
+		name: "Du lịch",
+		dateStart: new Date("08/01/2021"),
+		dateEnd: new Date("08/30/2021"),
+		wallet: "NGUOIYEUBANK",
+		money: 5000000,
+		description: "Du lịch sau dịch cùng ny cực kul",
+		group: transactionGroup[9]
+	},
+	{
+		name: "Học phí",
+		dateStart: new Date("06/30/2021"),
+		dateEnd: new Date("10/01/2021"),
+		wallet: "NGUOIYEUBANK",
+		money: 10000000,
+		description: "",
+		group: transactionGroup[6]
 	}
 ]
