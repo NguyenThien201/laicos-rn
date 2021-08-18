@@ -1,7 +1,17 @@
 import { Picker } from "@react-native-picker/picker"
 import React, { FC, useEffect, useState } from "react"
-import { Dimensions, Text, View } from "react-native"
-import ScrollableTabView from "react-native-scrollable-tab-view"
+import {
+  Dimensions,
+  processColor,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native"
+import { FlatList } from "react-native-gesture-handler"
+import ScrollableTabView, {
+  ScrollableTabBar,
+} from "react-native-scrollable-tab-view"
 import {
   VictoryAxis,
   VictoryBar,
@@ -9,6 +19,7 @@ import {
   VictoryGroup,
   VictoryLegend,
 } from "victory-native"
+import StatisticDetail from "../Components/StatisticDetail"
 import StatisticTabItem from "../Components/StatisticTabItem"
 import { transaction } from "../data"
 import { globalStyles, Variable } from "../styles/theme.style"
@@ -16,8 +27,6 @@ import { globalStyles, Variable } from "../styles/theme.style"
 const Statistic: FC<{}> = () => {
   const [selectedLabelChartType, setSelectedLabelChartType] =
     useState<string>("month")
-  const [isShowHeader, setIsShowHeader] = useState(true)
-
   const [transactionData, setTransactionData] = useState<any[]>([])
 
   const mergeTransaction = () => {
@@ -60,64 +69,61 @@ const Statistic: FC<{}> = () => {
     setTransactionData(mergeTransaction())
   }, [])
 
+  const months = [
+    "Tháng 1",
+    "Tháng 2",
+    "Tháng 3",
+    "Tháng 4",
+    "Tháng 5",
+    "Tháng 6",
+    "Tháng 7",
+    "Tháng 8",
+  ]
+
   return (
-    <View>
-      {isShowHeader && (
-        <View>
-          <Text
-            style={[
-              globalStyles.fontSizeLarge,
-              globalStyles.whiteText,
-              {
-                fontWeight: "bold",
-                paddingTop: 10,
-                paddingLeft: 15,
-              },
-            ]}
+    <View style={[styles.container]}>
+      <View>
+        <Text
+          style={[
+            globalStyles.fontSizeLarge,
+            globalStyles.whiteText,
+            styles.title,
+          ]}
+        >
+          Thống kê
+        </Text>
+        <View style={[styles.pickerContainer]}>
+          <Picker
+            selectedValue={selectedLabelChartType}
+            dropdownIconColor="white"
+            style={[styles.picker]}
+            onValueChange={(itemValue) => setSelectedLabelChartType(itemValue)}
           >
-            Thống kê
-          </Text>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row-reverse",
-              alignItems: "flex-end",
-              marginTop: 15,
-            }}
-          >
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: "white",
-                borderRadius: 15,
-                marginEnd: 10,
-                marginBottom: 10,
-              }}
-            >
-              <Picker
-                selectedValue={selectedLabelChartType}
-                dropdownIconColor="white"
-                style={{
-                  color: "white",
-                  width: 130,
-                }}
-                onValueChange={(itemValue) =>
-                  setSelectedLabelChartType(itemValue)
-                }
-              >
-                <Picker.Item label="Ngày" value="day" />
-                <Picker.Item label="Tuần" value="week" />
-                <Picker.Item label="Tháng" value="month" />
-                <Picker.Item label="Năm" value="year" />
-              </Picker>
-            </View>
-          </View>
-          <View>
-            <MultipleBarChart />
-          </View>
+            <Picker.Item label="Ngày" value="day" />
+            <Picker.Item label="Tuần" value="week" />
+            <Picker.Item label="Tháng" value="month" />
+            <Picker.Item label="Năm" value="year" />
+          </Picker>
         </View>
-      )}
-      <View
+      </View>
+
+      <ScrollableTabView
+        tabBarPosition="top"
+        tabBarInactiveTextColor="white"
+        tabBarUnderlineStyle={{
+          backgroundColor: Variable.GREEN_LIGHT_COLOR,
+          elevation: 20,
+        }}
+        tabBarActiveTextColor={Variable.GREEN_LIGHT_COLOR}
+        tabBarTextStyle={{ fontSize: 16 }}
+        initialPage={months.length}
+        renderTabBar={() => <ScrollableTabBar />}
+      >
+        {months.map((item, idx) => (
+          <StatisticDetail key={idx} data={transactionData} tabLabel={item} />
+        ))}
+      </ScrollableTabView>
+      {/* <View
         style={{
           backgroundColor: "#212230",
           width: 70,
@@ -196,159 +202,32 @@ const Statistic: FC<{}> = () => {
             tabLabel="Khoản thu"
           />
         </ScrollableTabView>
-      </View>
+      </View> */}
     </View>
   )
 }
 export default Statistic
-
-const MultipleBarChart = () => {
-  const screenWidth = Dimensions.get("window").width
-  const [isShowDetail, setIsShowDetail] = useState(false)
-  return (
-    <>
-      <VictoryChart height={260}>
-        <VictoryLegend
-          x={40}
-          y={0}
-          orientation="horizontal"
-          gutter={90}
-          data={[
-            {
-              name: "Vay",
-              symbol: { fill: "white" },
-              labels: { fill: "white" },
-            },
-            {
-              name: "Chi",
-              symbol: { fill: "#F34A2F" },
-              labels: { fill: "white" },
-            },
-            {
-              name: "Thu",
-              symbol: { fill: "#3CD3AD" },
-              labels: { fill: "#3CD3AD" },
-            },
-          ]}
-        />
-        <VictoryAxis
-          crossAxis
-          style={{
-            axis: { stroke: "#B1B1B1", strokeWidth: 0.9 },
-            tickLabels: {
-              fill: ({ index }) => (+index === 2 ? "#3CD3AD" : "#B1B1B1"),
-            },
-          }}
-        />
-        <VictoryAxis
-          domain={[0, 12]}
-          standalone={false}
-          dependentAxis
-          label="( triệu Đồng )"
-          orientation="left"
-          style={{
-            grid: {
-              stroke: ({ index }) => (+index % 2 !== 0 ? "#B1B1B1" : "none"),
-              strokeWidth: 0.5,
-            },
-            tickLabels: {
-              fill: ({ index }) => (+index % 2 !== 0 ? "#B1B1B1" : "none"),
-            },
-            axisLabel: { fill: "#B1B1B1" },
-          }}
-        />
-        <VictoryGroup
-          offset={10}
-          colorScale={"qualitative"}
-          animate={{ duration: 500, onLoad: { duration: 500 } }}
-        >
-          <VictoryBar
-            name="vay"
-            style={{
-              data: { fill: "white" },
-            }}
-            data={[
-              { x: "MAY", y: 2 },
-              { x: "JUN", y: 3 },
-              { x: "JUL", y: 2 },
-              { x: "AUG", y: 3 },
-              { x: "SEP", y: 2 },
-            ]}
-          />
-          <VictoryBar
-            name="thu"
-            style={{
-              data: { fill: "#F34A2F" },
-            }}
-            data={[
-              { x: "MAY", y: 8 },
-              { x: "JUN", y: 5 },
-              { x: "JUL", y: 7 },
-              { x: "AUG", y: 9 },
-              { x: "SEP", y: 10 },
-            ]}
-          />
-
-          <VictoryBar
-            name="chi"
-            style={{
-              data: { fill: "#3CD3AD" },
-            }}
-            data={[
-              { x: "MAY", y: 11 },
-              { x: "JUN", y: 9 },
-              { x: "JUL", y: 10 },
-              { x: "AUG", y: 12 },
-              { x: "SEP", y: 10 },
-            ]}
-          />
-        </VictoryGroup>
-      </VictoryChart>
-      <Text
-        style={{
-          position: "absolute",
-          backgroundColor: "transparent",
-          height: 260 - 70,
-          width: 50,
-          bottom: 20,
-          left: screenWidth / 2.25,
-          zIndex: 9999,
-        }}
-        onPress={() => {
-          setIsShowDetail(!isShowDetail)
-        }}
-      ></Text>
-      {isShowDetail && (
-        <View
-          style={{
-            position: "absolute",
-            backgroundColor: "#212230",
-            height: 50,
-            width: 80,
-            top: 50,
-            left: screenWidth / 2.4,
-            borderRadius: 10,
-            paddingLeft: 10,
-            paddingRight: 10,
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            borderWidth: 0.4,
-            borderColor: "white",
-          }}
-        >
-          <View>
-            <Text style={{ fontSize: 12, color: "white" }}>Vay:</Text>
-            <Text style={{ fontSize: 12, color: "#F34A2F" }}>Chi:</Text>
-            <Text style={{ fontSize: 12, color: "#3CD3AD" }}>Thu:</Text>
-          </View>
-          <View>
-            <Text style={{ fontSize: 12, color: "white" }}>2tr</Text>
-            <Text style={{ fontSize: 12, color: "#F34A2F" }}>7tr</Text>
-            <Text style={{ fontSize: 12, color: "#3CD3AD" }}>10tr</Text>
-          </View>
-        </View>
-      )}
-    </>
-  )
-}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginVertical: 16,
+  },
+  title: {
+    fontWeight: "bold",
+    paddingTop: 10,
+    paddingLeft: 15,
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: "white",
+    borderRadius: 15,
+    marginEnd: 10,
+    marginBottom: 10,
+    width: 115,
+    alignSelf: "flex-end",
+  },
+  picker: {
+    color: "white",
+    width: 125,
+  },
+})
