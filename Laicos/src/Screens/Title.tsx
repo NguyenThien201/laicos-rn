@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 	title: {
 		flexDirection: "row",
 		alignItems: "center",
+		elevation: 15,
 	},
 	titleText: {
 		color: "white",

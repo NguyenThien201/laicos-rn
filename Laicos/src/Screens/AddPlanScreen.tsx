@@ -13,34 +13,56 @@ import Modal from "react-native-modalbox";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradButton } from "../Components/LinearGradButton";
 import { Variable } from "../styles/theme.style";
-import { IImage, ITransaction, ITransactionGroup, IWallet } from "../type";
+import {
+	IImage,
+	IPlanner,
+	ITransaction,
+	ITransactionGroup,
+	IWallet,
+} from "../type";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
-import { transaction, wallets } from "../data";
+import { plans, transaction, wallets } from "../data";
 import { ChosenGroupView } from "../Components/ChosenGroupVIew";
-import { BillImage } from "../Components/BillImage";
 import { TitleHeader } from "./Title";
 import { formatter } from "../Utils/format";
+import { useNavigation } from "@react-navigation/native";
 
-export const AddTransaction = ({ navigation, route }) => {
+export const AddPlan = () => {
+	const navigation = useNavigation();
+
 	const [chosenGroup, setChosenGroup] = useState<ITransactionGroup | null>(
 		null
 	);
+	const [name, setName] = useState("");
 	const [money, setMoney] = useState("0");
-	const [image, setImages] = useState<IImage[]>([]);
-	const [chosenDate, setChosenDate] = useState<Date>(new Date());
+	const [chosenStartDate, setChosenStartDate] = useState<Date>();
+	const [chosenEndDate, setChosenEndDate] = useState<Date>();
+
+	const [dateChosen, setDateChosen] = useState(false);
 	const [isCalanderOpened, setOpen] = useState(false);
 	const [description, setDescription] = useState("");
 	const [chosenWallet, setChosenWallet] = useState<IWallet>(wallets[0]);
+
+	const [error, setError] = useState(false);
 	const getMarkedDate = () => {
 		const markedDate: Record<string, any> = {};
+		if (dateChosen) {
+			const date = moment(chosenEndDate);
+			markedDate[date.format("YYYY-MM-DD")] = {
+				selected: true,
+				selectedColor: Variable.GREEN_LIGHT_COLOR,
+			};
+		} else {
+			markedDate[moment(chosenStartDate).format("YYYY-MM-DD")] = {
+				selected: true,
+				selectedColor: Variable.GREEN_LIGHT_COLOR,
+			};
+		}
 
-		markedDate[moment(chosenDate).format("YYYY-MM-DD")] = {
-			selected: true,
-			selectedColor: Variable.GREEN_LIGHT_COLOR,
-		};
 		return markedDate;
 	};
+
 	useEffect(() => {
 		const backAction = () => {
 			resetState();
@@ -55,72 +77,49 @@ export const AddTransaction = ({ navigation, route }) => {
 
 		return () => backHandler.remove();
 	}, []);
-
-	const predictGroup = () => {
-		const toMoney = parseInt(money);
-		if (toMoney >= 0 && chosenGroup == null) {
-			const predict: Record<string, number> = {};
-			let _max = 0;
-			let _group: ITransactionGroup | null | undefined = null;
-			for (const trans of transaction) {
-				if (trans.money) {
-					if (Math.abs(toMoney - trans.money) <= 1) {
-						if (predict[trans.group!.name]) {
-							predict[trans.group!.name]++;
-						} else {
-							predict[trans.group!.name] = 1;
-						}
-						if (predict[trans.group!.name] > _max) {
-							_max = predict[trans.group!.name];
-							_group = trans.group;
-						}
-					}
-				}
-			}
-			if (_group && predict[_group!.name] >= 3) {
-				setChosenGroup(_group);
+	useEffect(() => {
+		if (chosenStartDate && chosenEndDate) {
+			if (moment(chosenEndDate).isBefore(moment(chosenStartDate))) {
+				setError(true);
+			} else {
+				setError(false);
 			}
 		}
-	};
-
-	useEffect(predictGroup, [money])
+	}, [chosenStartDate, chosenEndDate]);
 	const resetState = () => {
 		setMoney("0");
-		setChosenDate(new Date());
+		setName("");
+		setChosenStartDate(undefined);
+		setChosenEndDate(undefined);
 		setDescription("");
 		setChosenGroup(null);
 		setChosenWallet(wallets[0]);
-		setImages([]);
 	};
-	const createNewTransaction = () => {
+	const createNewPlan = () => {
 		const toMoney = parseInt(money);
-		if (image.length > 0 || (chosenGroup && toMoney >= 0)) {
-			const newTransaction: ITransaction = {
-				date: chosenDate,
+		if (
+			chosenGroup &&
+			toMoney >= 0 &&
+			error === false &&
+			chosenEndDate &&
+			chosenStartDate
+		) {
+			const newPlan: IPlanner = {
+				dateEnd: chosenEndDate,
+				dateStart: chosenStartDate,
 				description: description,
-				wallet: chosenWallet.name,
-				money: toMoney,
 				group: chosenGroup,
-				images: image,
+				money: toMoney,
+				wallet: chosenWallet.name,
+				name: name,
 			};
-
-			transaction.push(newTransaction);
-			if (chosenGroup)
-				for (const wallet of wallets) {
-					if (wallet.name === chosenWallet.name) {
-						if (chosenGroup.type === "EARN") {
-							wallet.moneyIn += toMoney;
-						} else {
-							wallet.moneyOut += toMoney;
-						}
-						break;
-					}
-				}
-			resetState();
-			navigation.reset({
+            console.log('new plan', newPlan);
+			plans.push(newPlan);
+            navigation.reset({
 				index: 0,
-				routes: [{ name: "Trang chủ" }],
+				routes: [{ name: "Detail Planner" }],
 			});
+			resetState();
 			navigation.goBack();
 		}
 	};
@@ -133,7 +132,11 @@ export const AddTransaction = ({ navigation, route }) => {
 	};
 	return (
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
-			<ScrollView style={[styles.container]}  showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+			<ScrollView
+				style={[styles.container]}
+				showsVerticalScrollIndicator={false}
+				showsHorizontalScrollIndicator={false}
+			>
 				<TouchableOpacity
 					onPress={() => {
 						resetState();
@@ -141,23 +144,8 @@ export const AddTransaction = ({ navigation, route }) => {
 					}}
 					style={{ flex: 0 }}
 				>
-					{/* <View style={[styles.title]}>
-						<Image
-							source={require("../Assets/Images/Icons/ic_back.png")}
-							style={{marginRight: 10 }}
-						></Image>
-						<Text style={[styles.titleText]}>
-							Thêm chi tiêu mới
-						</Text>
-					</View> */}
-					<TitleHeader title={"Thêm chi tiêu mới"} />
+					<TitleHeader title={"Thêm kế hoạch mới"} />
 				</TouchableOpacity>
-				{/* Chụp ảnh */}
-				<BillImage
-					navigation={navigation}
-					image={image}
-					setImages={setImages}
-				/>
 				{/* Form input */}
 				<View style={[styles.form]}>
 					{/*Calculator*/}
@@ -173,6 +161,18 @@ export const AddTransaction = ({ navigation, route }) => {
 							{getFormattedMoney(money)}đ
 						</Text>
 					</TouchableOpacity>
+
+					{/* Chọn tên */}
+
+					<TextInput
+						style={[styles.input]}
+						placeholder="Nhập tên"
+						value={name}
+						onChangeText={setName}
+						placeholderTextColor={Variable.GREY_COLOR}
+					></TextInput>
+
+					{/* Chọn nhóm */}
 					<TouchableOpacity
 						onPress={() =>
 							navigation.navigate("Chọn nhóm", {
@@ -204,25 +204,83 @@ export const AddTransaction = ({ navigation, route }) => {
 							</Text>
 						)}
 					</TouchableOpacity>
-					{/* <TextInput
-						style={[styles.input]}
-						placeholder="Thêm ghi chú"
-						placeholderTextColor="white"
-						onChangeText={setDescription}
-						value={description}
-					/> */}
 
-					{/* Chọn ngày tháng */}
-					<TouchableOpacity onPress={() => setOpen(true)}>
-						{new Date().toLocaleDateString() ===
-						chosenDate.toLocaleDateString() ? (
-							<Text style={[styles.input]}>Hôm nay</Text>
+					{/* Chọn ngày bắt đầu */}
+					<TouchableOpacity
+						onPress={() => {
+							setOpen(true);
+							setDateChosen(false);
+						}}
+					>
+						{chosenStartDate ? (
+							new Date().toLocaleDateString() ===
+							chosenStartDate.toLocaleDateString() ? (
+								<Text style={[styles.input]}>Hôm nay</Text>
+							) : (
+								<Text style={[styles.input]}>
+									{moment(chosenStartDate).format(
+										"DD-MM-YYYY"
+									)}
+								</Text>
+							)
 						) : (
-							<Text style={[styles.input]}>
-								{moment(chosenDate).format("DD-MM-YYYY")}
+							<Text style={[styles.placeholder]}>
+								Ngày bắt đầu
 							</Text>
 						)}
 					</TouchableOpacity>
+
+					{/* Chọn ngày kết thúc */}
+					<TouchableOpacity
+						onPress={() => {
+							setOpen(true);
+							setDateChosen(true);
+						}}
+					>
+						{chosenEndDate ? (
+							new Date().toLocaleDateString() ===
+							chosenEndDate.toLocaleDateString() ? (
+								<Text
+									style={[
+										styles.input,
+										error
+											? {
+													borderBottomColor:
+														Variable.RED_COLOR,
+													marginBottom: 4,
+											  }
+											: null,
+									]}
+								>
+									Hôm nay
+								</Text>
+							) : (
+								<Text
+									style={[
+										styles.input,
+										error
+											? {
+													borderBottomColor:
+														Variable.RED_COLOR,
+													marginBottom: 4,
+											  }
+											: null,
+									]}
+								>
+									{moment(chosenEndDate).format("DD-MM-YYYY")}
+								</Text>
+							)
+						) : (
+							<Text style={[styles.placeholder]}>
+								Ngày kết thúc
+							</Text>
+						)}
+					</TouchableOpacity>
+					{error ? (
+						<Text style={styles.error}>
+							Ngày kết thúc phải nhỏ hơn ngày bắt đầu
+						</Text>
+					) : null}
 					{/* Chọn ví */}
 					<TouchableOpacity
 						onPress={() =>
@@ -241,16 +299,8 @@ export const AddTransaction = ({ navigation, route }) => {
 					<LinearGradButton
 						color={Variable.BUTTON_PRIMARY}
 						text={"LƯU"}
-						action={createNewTransaction}
+						action={createNewPlan}
 					/>
-					{/* <LinearGradButton
-						color={Variable.BUTTON_CANCEL}
-						text={"HỦY"}
-						action={() => {
-							resetState();
-							navigation.goBack();
-						}}
-					/> */}
 				</View>
 			</ScrollView>
 			<Modal
@@ -268,7 +318,9 @@ export const AddTransaction = ({ navigation, route }) => {
 					enableSwipeMonths={true}
 					markedDates={getMarkedDate()}
 					onDayPress={(date) => {
-						setChosenDate(new Date(date.dateString));
+						if (dateChosen)
+							setChosenEndDate(new Date(date.dateString));
+						else setChosenStartDate(new Date(date.dateString));
 						setOpen(false);
 					}}
 					theme={{
@@ -295,21 +347,11 @@ const styles = StyleSheet.create({
 		marginVertical: 16,
 		marginHorizontal: 16,
 	},
-	title: {
-		marginHorizontal: 16,
-		flexDirection: "row",
-		alignItems: "center",
-	},
-	titleText: {
-		color: "white",
-		fontSize: Variable.FONT_SIZE_LARGE,
-		fontWeight: "bold",
-	},
 	form: {
 		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
 		borderRadius: Variable.BORDER_RADIUS_MEDIUM,
 		paddingVertical: 8,
-		marginTop: 16,
+		marginTop: 32,
 	},
 	input: {
 		margin: 14,
@@ -331,5 +373,12 @@ const styles = StyleSheet.create({
 		color: Variable.GREY_COLOR,
 		fontSize: Variable.FONT_SIZE_MEDIUM,
 		padding: 6,
+	},
+	error: {
+		color: Variable.RED_COLOR,
+		fontSize: Variable.FONT_SIZE_SMALL,
+		marginHorizontal: 14,
+		marginBottom: 6,
+		paddingHorizontal: 6,
 	},
 });
