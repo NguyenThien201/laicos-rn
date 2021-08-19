@@ -1,116 +1,88 @@
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import {
   Dimensions,
   Image,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native"
-import { VictoryPie } from "victory-native"
+import { TabRouter } from "react-navigation"
+import { TitleHeader } from "../Screens/Title"
 import { globalStyles, Variable } from "../styles/theme.style"
 import { formatter } from "../Utils/format"
 import { TransactionItem } from "./TransactionItem"
 
-const StatisticTabItem: FC<{ type: string; data: any[] }> = ({
-  type,
-  data,
+const DetailItem: FC<{ navigation: any; route: any }> = ({
+  navigation,
+  route,
 }) => {
   const screenWidth = Dimensions.get("window").width
-  const spendingSample = [
-    { x: "Ăn uống", y: 3 },
-    { x: "Giải trí", y: 3 },
-    { x: "Mua sắm", y: 8 },
-    { x: "Giáo dục", y: 4 },
-  ]
-  const incomeSample = [
-    { x: "Lương", y: 5 },
-    { x: "Được tặng", y: 20 },
-  ]
-  const loanSample = [{ x: "Vay", y: 5 }]
+  const [data, setData] = useState<any[]>([])
+  const [type, setType] = useState<string>("SPEND") //LOAN,EARN
+  useEffect(() => {
+    setData(route.params.data)
+    setType(route.params.type)
+  }, [route])
 
   return (
-    data && (
-      <ScrollView style={{ marginBottom: 50 }}>
-        <View
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
+    <ScrollView style={{ marginBottom: 50 }}>
+      <Text
+        style={[
+          globalStyles.fontSizeMedium,
+          globalStyles.whiteText,
+          { padding: 15 },
+        ]}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack()
           }}
+          style={{ flex: 0 }}
         >
-          <VictoryPie
-            colorScale={[
-              "tomato",
-              "lightblue",
-              "orange",
-              "navy",
-              "green",
-              "white",
-            ]}
-            height={screenWidth * 0.8}
-            padding={{ top: 50, bottom: 50 }}
-            innerRadius={screenWidth * 0.22}
-            data={
-              type === "SPEND"
-                ? spendingSample
-                : type === "EARN"
-                ? incomeSample
-                : loanSample
-            }
-            style={{ labels: { fill: "white" } }}
-          />
-        </View>
-        <Text
-          style={[
-            globalStyles.fontSizeMedium,
-            globalStyles.whiteText,
-            { padding: 15 },
-          ]}
-        >
-          Chi tiết
-        </Text>
-        <View style={{ padding: 15 }}>
-          {data.map(
-            (item, id) =>
-              item.type === type && (
-                <View key={id} style={{ marginBottom: 15 }}>
-                  <ParentItem item={item} />
+          <TitleHeader title={route.params.title} />
+        </TouchableOpacity>
+      </Text>
+      <View style={{ padding: 15 }}>
+        {data.map(
+          (item, id) =>
+            item.type === type && (
+              <View key={id} style={{ marginBottom: 15 }}>
+                <ParentItem item={item} />
 
-                  <View style={{ paddingLeft: 0 }}>
-                    {item.childs.length > 0 &&
-                      item.childs.map(
-                        (i: any, idx: React.Key | null | undefined) => (
-                          <View
-                            key={idx}
+                <View style={{ paddingLeft: 0 }}>
+                  {item.childs.length > 0 &&
+                    item.childs.map(
+                      (i: any, idx: React.Key | null | undefined) => (
+                        <View
+                          key={idx}
+                          style={{
+                            borderLeftColor: "white",
+                            borderLeftWidth: 0.5,
+                            display: "flex",
+                            flexDirection: "row",
+                          }}
+                        >
+                          <Text
                             style={{
-                              borderLeftColor: "white",
-                              borderLeftWidth: 0.5,
-                              display: "flex",
-                              flexDirection: "row",
+                              backgroundColor: "white",
+                              width: 13,
+                              height: 0.5,
+                              alignSelf: "center",
+                              marginRight: 15,
                             }}
-                          >
-                            <Text
-                              style={{
-                                backgroundColor: "white",
-                                width: 13,
-                                height: 0.5,
-                                alignSelf: "center",
-                                marginRight: 15,
-                              }}
-                            ></Text>
-                            <TransactionItem transaction={i} />
-                          </View>
-                        )
-                      )}
-                  </View>
+                          ></Text>
+                          <TransactionItem transaction={i} />
+                        </View>
+                      )
+                    )}
                 </View>
-              )
-          )}
-        </View>
-      </ScrollView>
-    )
+              </View>
+            )
+        )}
+      </View>
+    </ScrollView>
   )
 }
 const ParentItem: FC<{ item: any }> = ({ item }) => {
@@ -153,7 +125,7 @@ const ParentItem: FC<{ item: any }> = ({ item }) => {
   )
 }
 
-export default StatisticTabItem
+export default DetailItem
 const styles = StyleSheet.create({
   containter: {
     flex: 1,

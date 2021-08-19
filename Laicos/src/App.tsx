@@ -32,6 +32,7 @@ import {ITransaction, parseITransactionObject} from "./type";
 import {CalculatorScreen} from "./Screens/CalculatorScreen";
 import { AddDescription } from "./Screens/AddDescriptionScreen";
 import { AddPlan } from "./Screens/AddPlanScreen";
+import DetailItem from "./Components/StatisticTabItem"
 
 const Stack = createStackNavigator();
 
@@ -107,6 +108,7 @@ export default function App() {
         <Stack.Screen name="Calculator" component={CalculatorScreen} />
         <Stack.Screen name="Thêm ghi chú" component={AddDescription} />
         <Stack.Screen name="Thêm kế hoạch" component={AddPlan} />
+        <Stack.Screen name="Chi tiết thống kê" component={DetailItem} />
         <Stack.Screen
           name="ReviewImage"
           component={ReviewImage}

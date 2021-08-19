@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native"
 import React, { FC } from "react"
 import {
   Dimensions,
@@ -10,7 +11,10 @@ import {
 import { VictoryPie } from "victory-native"
 import { Variable } from "../styles/theme.style"
 
-const StatisticDetail: FC<{ data: any[] }> = ({ data }) => {
+const StatisticDetail: FC<{ data: any[]; month: string }> = ({
+  data,
+  month,
+}) => {
   const screenWidth = Dimensions.get("window").width
   const spendingSample = [
     { x: "Ăn uống", y: 3 },
@@ -23,6 +27,8 @@ const StatisticDetail: FC<{ data: any[] }> = ({ data }) => {
     { x: "Được tặng", y: 20 },
   ]
   const loanSample = [{ x: "Vay", y: 5 }]
+
+  const navigation = useNavigation<any>()
 
   return (
     data && (
@@ -59,7 +65,13 @@ const StatisticDetail: FC<{ data: any[] }> = ({ data }) => {
               <Text style={[styles.moneyCard]}>18,000,000đ</Text>
             </View>
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate("Chi tiết thống kê", {
+                  title: "Chi tiêu trong " + month,
+                  data: data,
+                  type: "SPEND",
+                })
+              }}
               style={[
                 styles.detailButton,
                 {
@@ -105,7 +117,13 @@ const StatisticDetail: FC<{ data: any[] }> = ({ data }) => {
               <Text style={[styles.moneyCard]}>25,000,000đ</Text>
             </View>
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate("Chi tiết thống kê", {
+                  title: "Thu nhập trong " + month,
+                  data: data,
+                  type: "EARN",
+                })
+              }}
               style={[
                 styles.detailButton,
                 {
@@ -153,7 +171,13 @@ const StatisticDetail: FC<{ data: any[] }> = ({ data }) => {
               </Text>
             </View>
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate("Chi tiết thống kê", {
+                  title: "Khoản vay trong " + month,
+                  data: data,
+                  type: "LOAN",
+                })
+              }}
               style={[
                 styles.detailButton,
                 {

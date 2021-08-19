@@ -120,7 +120,7 @@ const Statistic: FC<{}> = () => {
         renderTabBar={() => <ScrollableTabBar />}
       >
         {months.map((item, idx) => (
-          <StatisticDetail key={idx} data={transactionData} tabLabel={item} />
+          <StatisticDetail key={idx} data={transactionData} tabLabel={item} month={item}/>
         ))}
       </ScrollableTabView>
       {/* <View
