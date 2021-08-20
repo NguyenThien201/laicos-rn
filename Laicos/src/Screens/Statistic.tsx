@@ -1,26 +1,10 @@
 import { Picker } from "@react-native-picker/picker"
 import React, { FC, useEffect, useState } from "react"
-import {
-  Dimensions,
-  processColor,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native"
-import { FlatList } from "react-native-gesture-handler"
+import { StyleSheet, Text, View } from "react-native"
 import ScrollableTabView, {
   ScrollableTabBar,
 } from "react-native-scrollable-tab-view"
-import {
-  VictoryAxis,
-  VictoryBar,
-  VictoryChart,
-  VictoryGroup,
-  VictoryLegend,
-} from "victory-native"
 import StatisticDetail from "../Components/StatisticDetail"
-import StatisticTabItem from "../Components/StatisticTabItem"
 import { transaction } from "../data"
 import { globalStyles, Variable } from "../styles/theme.style"
 
@@ -120,7 +104,12 @@ const Statistic: FC<{}> = () => {
         renderTabBar={() => <ScrollableTabBar />}
       >
         {months.map((item, idx) => (
-          <StatisticDetail key={idx} data={transactionData} tabLabel={item} month={item}/>
+          <StatisticDetail
+            key={idx}
+            data={transactionData}
+            tabLabel={item}
+            month={item}
+          />
         ))}
       </ScrollableTabView>
       {/* <View

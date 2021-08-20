@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native"
-import { TabRouter } from "react-navigation"
 import { TitleHeader } from "../Screens/Title"
 import { globalStyles, Variable } from "../styles/theme.style"
 import { formatter } from "../Utils/format"

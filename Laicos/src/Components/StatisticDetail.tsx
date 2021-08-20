@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native"
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import {
   Dimensions,
   ScrollView,
@@ -10,25 +10,60 @@ import {
 } from "react-native"
 import { VictoryPie } from "victory-native"
 import { Variable } from "../styles/theme.style"
+import { formatter } from "../Utils/format"
 
 const StatisticDetail: FC<{ data: any[]; month: string }> = ({
   data,
   month,
 }) => {
   const screenWidth = Dimensions.get("window").width
-  const spendingSample = [
-    { x: "Ăn uống", y: 3 },
-    { x: "Giải trí", y: 3 },
-    { x: "Mua sắm", y: 8 },
-    { x: "Giáo dục", y: 4 },
-  ]
-  const incomeSample = [
-    { x: "Lương", y: 5 },
-    { x: "Được tặng", y: 20 },
-  ]
+  const [spendingSample, setSpendingSample] = useState<any[]>([])
+  const [incomeSample, setIncomeSample] = useState<any[]>([])
+  const [totalSpend, setTotalSpend] = useState<number>(0)
+  const [totalEarn, setTotalEarn] = useState<number>(0)
+  const processData = () => {
+    const spendingData: any[] = []
+    const earnData: any[] = []
+    let sp: number = 0
+    let ea: number = 0
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].type === "SPEND") {
+        spendingData.push({ x: data[i].parentName, y: data[i].money })
+        sp += data[i].money
+      } else if (data[i].type === "EARN") {
+        earnData.push({ x: data[i].parentName, y: data[i].money })
+        ea += data[i].money
+      }
+    }
+
+    setSpendingSample(reduceArr(spendingData, sp))
+    setIncomeSample(reduceArr(earnData, ea))
+    setTotalEarn(ea)
+    setTotalSpend(sp)
+  }
+
+  const reduceArr = (arr: any[], total: number) => {
+    if (arr.length <= 2) return arr
+    const res: any[] = []
+    const reduce: any[] = []
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].y / total <= 0.05) {
+        reduce.push(arr[i])
+      } else res.push(arr[i])
+    }
+    let t: number = 0
+    reduce.map((item) => (t += item.y))
+    res.push({ x: "Khác", y: t })
+    return res
+  }
+
   const loanSample = [{ x: "Vay", y: 5 }]
 
   const navigation = useNavigation<any>()
+
+  useEffect(() => {
+    processData()
+  }, [])
 
   return (
     data && (
@@ -46,8 +81,8 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
                 "white",
               ]}
               height={screenWidth * 0.5}
-              padding={{ top: 30, bottom: 30 }}
-              innerRadius={screenWidth * 0.13}
+              padding={{ top: 35, bottom: 35 }}
+              innerRadius={screenWidth * 0.12}
               data={spendingSample}
               style={{ labels: { fill: "white" } }}
             />
@@ -62,7 +97,7 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
           >
             <View style={[styles.totalMoneyContainer]}>
               <Text style={{ color: "white" }}>Tổng tiền</Text>
-              <Text style={[styles.moneyCard]}>18,000,000đ</Text>
+              <Text style={[styles.moneyCard]}>{formatter(totalSpend)}đ</Text>
             </View>
             <TouchableOpacity
               onPress={() => {
@@ -98,8 +133,8 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
                 "white",
               ]}
               height={screenWidth * 0.5}
-              padding={{ top: 30, bottom: 30 }}
-              innerRadius={screenWidth * 0.13}
+              padding={{ top: 35, bottom: 35 }}
+              innerRadius={screenWidth * 0.12}
               data={incomeSample}
               style={{ labels: { fill: "white" } }}
             />
@@ -114,7 +149,7 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
           >
             <View style={[styles.totalMoneyContainer]}>
               <Text style={{ color: "white" }}>Tổng tiền</Text>
-              <Text style={[styles.moneyCard]}>25,000,000đ</Text>
+              <Text style={[styles.moneyCard]}>{formatter(totalEarn)}đ</Text>
             </View>
             <TouchableOpacity
               onPress={() => {
