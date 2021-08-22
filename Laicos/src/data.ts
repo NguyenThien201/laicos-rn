@@ -351,16 +351,22 @@ export const plans: IPlanner[] = [
 		dateEnd: new Date("08/30/2021"),
 		wallet: "NGUOIYEUBANK",
 		money: 5000000,
-		description: "Du lịch sau dịch cùng ny cực kul",
 		group: transactionGroup[9]
 	},
 	{
-		name: "Học phí",
-		dateStart: new Date("06/30/2021"),
+		name: "Học phí kì 3",
+		dateStart: new Date("06/01/2021"),
 		dateEnd: new Date("10/01/2021"),
 		wallet: "NGUOIYEUBANK",
 		money: 10000000,
-		description: "",
-		group: transactionGroup[6]
+		group: transactionGroup[7]
+	},
+	{
+		name: "Học phí kì 2",
+		dateStart: new Date("02/01/2021"),
+		dateEnd: new Date("05/30/2021"),
+		wallet: "NGUOIYEUBANK",
+		money: 10000000,
+		group: transactionGroup[7]
 	}
 ]

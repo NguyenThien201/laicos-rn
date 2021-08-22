@@ -57,7 +57,6 @@ export interface IPlanner{
   money: number;
   dateStart: Date;
   dateEnd: Date;
-  description: string;
   wallet: string; // Trỏ sang tên của wallet
   group: ITransactionGroup,
   [key:string]:any

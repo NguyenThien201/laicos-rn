@@ -144,7 +144,7 @@ export const AddPlan = () => {
 					}}
 					style={{ flex: 0 }}
 				>
-					<TitleHeader title={"Thêm kế hoạch mới"} />
+					<TitleHeader title={"Thêm ngân sách mới"} />
 				</TouchableOpacity>
 				{/* Form input */}
 				<View style={[styles.form]}>
