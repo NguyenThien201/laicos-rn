@@ -1,31 +1,25 @@
 import moment from "moment";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Dimensions,
 	Image,
 	StyleSheet,
-	Text,
 	TouchableOpacity,
-	TouchableOpacityBase,
 	View,
 } from "react-native";
-import { TabBar, TabView } from "react-native-tab-view";
-import { globalStyles, Variable } from "../styles/theme.style";
+import { Variable } from "../styles/theme.style";
 
 import ScrollableTabView, {
-	DefaultTabBar,
 	ScrollableTabBar,
 } from "react-native-scrollable-tab-view";
 import { HistoryTransactionView } from "../Components/HistoryTransactionView";
 import { IWallet } from "../type";
 import { wallets } from "../data";
-import { formatter } from "../Utils/format";
-// import RNPickerSelect from "react-native-picker-select";
 import { WalletSelectionComponent } from "../Components/WalletSelectionComponent";
 export const HistoryScreen = ({ route, navigation }) => {
 	// Lấy ra ngày được chọn từ home screen
 	const { selectedDay } = route.params;
-	const numberOfMonths = 4;
+	const numberOfMonths = 6;
 	const [index, setIndex] = useState(numberOfMonths);
 	const [monthsData, setMonthsData] = useState<Date[]>([]);
 	const [chosenWallet, setChosenWallet] = useState<IWallet>(wallets[0]);

@@ -42,10 +42,10 @@ export const HistoryTransactionView = (props) => {
 				if (trans?.group) {
 					if (trans?.group?.type==="EARN")
 					{
-						mIn+= trans.money
+						mIn+= trans.money ?? 0
 					}
 					else{
-						mOut += trans.money
+						mOut += trans.money ?? 0
 					}
 				}
 
@@ -59,6 +59,7 @@ export const HistoryTransactionView = (props) => {
 		return setTransactionHistory(temp);
 	}, []);
 
+	// Chia các transaction theo từng ngày trong tháng
 	useEffect(() => {
 		const groups = transactionHistory.reduce((groups, trans) => {
 			const date = moment(trans.date).format("MM/DD/YYYY");
