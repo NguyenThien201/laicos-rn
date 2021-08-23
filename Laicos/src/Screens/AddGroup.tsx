@@ -116,13 +116,6 @@ export const AddGroup = ({ route, navigation }) => {
           text={"LƯU"}
           action={createNewGroup}
         />
-        <LinearGradButton
-          color={Variable.BUTTON_CANCEL}
-          text={"HỦY"}
-          action={() => {
-            navigation.goBack();
-          }}
-        />
       </View>
     </KeyboardAvoidingView>
   );

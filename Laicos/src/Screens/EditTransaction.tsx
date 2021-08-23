@@ -231,13 +231,6 @@ export const EditTransaction = ({  route }) => {
 						text={"LƯU"}
 						action={editTransaction}
 					/>
-					<LinearGradButton
-						color={Variable.BUTTON_CANCEL}
-						text={"HỦY"}
-						action={() => {
-							navigation.goBack();
-						}}
-					/>
 				</View>
 			</ScrollView>
 			<Modal

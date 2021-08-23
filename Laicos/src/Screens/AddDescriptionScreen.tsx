@@ -55,11 +55,6 @@ export const AddDescription = () => {
 						text={"LƯU"}
 						action={saveDescription}
 					/>
-					<LinearGradButton
-						color={Variable.BUTTON_CANCEL}
-						text={"HỦY"}
-						action={navigation.goBack}
-					/>
 				</View>
 			</ScrollView>
 		</KeyboardAvoidingView>
