@@ -11,6 +11,7 @@ import {
 import { VictoryPie } from "victory-native"
 import { Variable } from "../styles/theme.style"
 import { formatter } from "../Utils/format"
+import {StatisticData} from "../type";
 
 const StatisticDetail: FC<{ data: any[]; month: string }> = ({
   data,
@@ -26,13 +27,31 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
     const earnData: any[] = []
     let sp: number = 0
     let ea: number = 0
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].type === "SPEND") {
-        spendingData.push({ x: data[i].parentName, y: data[i].money })
-        sp += data[i].money
-      } else if (data[i].type === "EARN") {
-        earnData.push({ x: data[i].parentName, y: data[i].money })
-        ea += data[i].money
+    var statisticData = data as StatisticData[]
+    for (let i = 0; i < statisticData.length; i++) {
+      if (statisticData[i].type === "SPEND") {
+        var groupMoney = statisticData[i].money!!
+        for (let ci = 0; ci < statisticData[i].childs.length; ci++) {
+          console.log("ci")
+          console.log(statisticData[i].childs[ci])
+          if (statisticData[i].childs[ci].group.type === "SPEND") {
+            groupMoney += statisticData[i].childs[ci].money
+          }
+        }
+        spendingData.push({ x: statisticData[i].parentName, y: groupMoney })
+        sp += groupMoney
+      } else if (statisticData[i].type === "EARN") {
+        var groupMoney = statisticData[i].money!!
+
+        for (let ci = 0; ci < statisticData[i].childs.length; ci++) {
+          console.log("ci")
+          console.log(statisticData[i].childs[ci])
+          if (statisticData[i].childs[ci].group.type === "EARN") {
+            groupMoney += statisticData[i].childs[ci].money
+          }
+        }
+        earnData.push({ x: statisticData[i].parentName, y: groupMoney })
+        ea += groupMoney
       }
     }
 
@@ -101,6 +120,7 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
             </View>
             <TouchableOpacity
               onPress={() => {
+                console.log(data)
                 navigation.navigate("Chi tiết thống kê", {
                   title: "Chi tiêu trong " + month,
                   data: data,
@@ -202,7 +222,7 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
             <View style={[styles.totalMoneyContainer]}>
               <Text style={{ color: "#151321" }}>Tổng tiền</Text>
               <Text style={[styles.moneyCard, { color: "#151321" }]}>
-                5,000,000đ
+                0đ
               </Text>
             </View>
             <TouchableOpacity

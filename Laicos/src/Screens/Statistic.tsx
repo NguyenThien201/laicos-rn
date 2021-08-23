@@ -5,48 +5,102 @@ import ScrollableTabView, {
   ScrollableTabBar,
 } from "react-native-scrollable-tab-view"
 import StatisticDetail from "../Components/StatisticDetail"
-import { transaction } from "../data"
+import {transaction, transactionGroup} from "../data"
 import { globalStyles, Variable } from "../styles/theme.style"
+import {ITransaction, StatisticData} from "../type";
 
 const Statistic: FC<{}> = () => {
   const [selectedLabelChartType, setSelectedLabelChartType] =
     useState<string>("month")
   const [transactionData, setTransactionData] = useState<any[]>([])
 
-  const mergeTransaction = () => {
-    const parentsInData: any[] = []
-    for (let i = 0; i < transaction.length; i++) {
-      if (transaction[i] && transaction[i].group)
-        if (transaction[i]?.group?.parent === null) {
-          parentsInData.find(
-            (e) => e.parentId === transaction[i]?.group?.id
-          ) === undefined &&
-            parentsInData.push({
-              parentName: transaction[i]?.group?.name,
-              parentId: transaction[i]?.group?.id,
-              parentIcon: transaction[i]?.group?.icon,
-              money: 0,
-              type: transaction[i]?.group?.type,
-              childs: [],
-            })
-        }
-    }
-    for (let i = 0; i < transaction.length; i++) {
-      if (transaction[i] && transaction[i].group)
-        if (transaction[i]?.group?.parent === null) {
-          let idx = parentsInData.findIndex(
-            (e) => e.parentId === transaction[i]?.group?.id
-          )
-          if (idx >= 0) parentsInData[idx].money += transaction[i].money
-        } else {
-          let idx = parentsInData.findIndex(
-            (e) => e.parentId === transaction[i]?.group?.parent
-          )
-          if (idx >= 0) parentsInData[idx].childs.push(transaction[i])
-        }
-    }
+  function groupBy(list, keyGetter) {
+    const map = new Map();
+    list.forEach((item) => {
+      const key = keyGetter(item);
+      const collection = map.get(key);
+      if (!collection) {
+        map.set(key, [item]);
+      } else {
+        collection.push(item);
+      }
+    });
+    return map;
+  }
 
-    return parentsInData
+  const [tracsactionByMonth, setTransactionByMonth] = useState<any[]>([])
+
+  const mergeTransaction = () => {
+
+
+    var group = transaction.filter((element) => {
+      return (element.date.getMonth() == 7)
+    } )
+
+    const returnArray = []
+    for (let i = 0; i < 12; i++) {
+      var monthTrans = transaction.filter((element) => {
+        return (element.date.getMonth() == i)
+      })
+      var parentsInData: StatisticData[] = []
+      for (let i = 0; i < monthTrans.length; i++) {
+        if (monthTrans[i] && monthTrans[i].group)
+          if (monthTrans[i]?.group?.parent === null &&  parentsInData.find(
+              (e) => e.parentId === monthTrans[i]?.group?.id
+          ) === undefined) {
+            var statisticItem: StatisticData =  {
+              parentName: monthTrans[i]?.group?.name,
+              parentId: monthTrans[i]?.group?.id,
+              parentIcon: monthTrans[i]?.group?.icon,
+              money: 0,
+              type: monthTrans[i]?.group?.type,
+              childs: [],
+            }
+            parentsInData.push(statisticItem)
+          }
+      }
+
+      for (let i = 0; i < monthTrans.length; i++) {
+        if (monthTrans[i] && monthTrans[i].group)
+          if (monthTrans[i]?.group?.parent === null) {
+            let idx = parentsInData.findIndex(
+                (e) => e.parentId === monthTrans[i]?.group?.id
+            )
+            if (idx >= 0) parentsInData[idx].money += monthTrans[i].money
+          } else {
+            var idx = parentsInData.findIndex(
+                (e) => e.parentId === monthTrans[i]?.group?.parent
+            )
+            if (idx < 0 || idx === undefined) {
+              var parent = transactionGroup.filter(e => e.id == monthTrans[i]?.group?.parent!!)[0]
+
+              var statisticItem: StatisticData =  {
+                parentName: parent.name,
+                parentId: parent.id,
+                parentIcon: parent.icon,
+                money: 0,
+                type: parent.type,
+                childs: [],
+              }
+              parentsInData.push(statisticItem)
+              idx = parentsInData.findIndex(
+                  (e) => e.parentId === monthTrans[i]?.group?.parent
+              )
+            }
+        console.log("Index " + idx)
+
+            if (idx >= 0) {
+              parentsInData[idx].childs.push(monthTrans[i])
+              console.log(parentsInData[idx].childs)
+            }
+          }
+      }
+      console.log("hjhihi")
+      console.log(parentsInData)
+      returnArray.push(parentsInData)
+    }
+    setTransactionByMonth([...returnArray])
+    return returnArray
   }
 
   useEffect(() => {
@@ -106,7 +160,7 @@ const Statistic: FC<{}> = () => {
         {months.map((item, idx) => (
           <StatisticDetail
             key={idx}
-            data={transactionData}
+            data={tracsactionByMonth[idx]}
             tabLabel={item}
             month={item}
           />

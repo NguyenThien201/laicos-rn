@@ -140,13 +140,16 @@ export const transaction: ITransaction[] = [
 	{
 		group: transactionGroup[15],
 		money: 5000,
+		date: new Date("02/04/2021"),
+		description: "thangs 1",
+		wallet: "BAMEBANK",
+	},
+	{
+		group: transactionGroup[15],
+		money: 5000,
 		date: new Date("08/04/2021"),
 		description: "",
 		wallet: "BAMEBANK",
-		images: [{
-			image:"./Assets/Images/home.png",
-			title: "Test"
-		}]
 	},
 	{
 		group: transactionGroup[11],

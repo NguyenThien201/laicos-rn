@@ -61,3 +61,12 @@ export interface IPlanner{
   group: ITransactionGroup,
   [key:string]:any
 }
+
+export interface StatisticData {
+  parentName?: string;
+  parentId?: number;
+  parentIcon?: string;
+  money?: number;
+  type?: TTransactionType;
+  childs: any[];
+}
