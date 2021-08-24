@@ -5,9 +5,9 @@ import ScrollableTabView, {
   ScrollableTabBar,
 } from "react-native-scrollable-tab-view"
 import StatisticDetail from "../Components/StatisticDetail"
-import {transaction, transactionGroup} from "../data"
+import { transaction, transactionGroup } from "../data"
 import { globalStyles, Variable } from "../styles/theme.style"
-import {ITransaction, StatisticData} from "../type";
+import { ITransaction, StatisticData } from "../type"
 
 const Statistic: FC<{}> = () => {
   const [selectedLabelChartType, setSelectedLabelChartType] =
@@ -15,40 +15,41 @@ const Statistic: FC<{}> = () => {
   const [transactionData, setTransactionData] = useState<any[]>([])
 
   function groupBy(list, keyGetter) {
-    const map = new Map();
+    const map = new Map()
     list.forEach((item) => {
-      const key = keyGetter(item);
-      const collection = map.get(key);
+      const key = keyGetter(item)
+      const collection = map.get(key)
       if (!collection) {
-        map.set(key, [item]);
+        map.set(key, [item])
       } else {
-        collection.push(item);
+        collection.push(item)
       }
-    });
-    return map;
+    })
+    return map
   }
 
   const [tracsactionByMonth, setTransactionByMonth] = useState<any[]>([])
 
   const mergeTransaction = () => {
-
-
     var group = transaction.filter((element) => {
-      return (element.date.getMonth() == 7)
-    } )
+      return element.date.getMonth() == 7
+    })
 
     const returnArray = []
     for (let i = 0; i < 12; i++) {
       var monthTrans = transaction.filter((element) => {
-        return (element.date.getMonth() == i)
+        return element.date.getMonth() == i
       })
       var parentsInData: StatisticData[] = []
       for (let i = 0; i < monthTrans.length; i++) {
         if (monthTrans[i] && monthTrans[i].group)
-          if (monthTrans[i]?.group?.parent === null &&  parentsInData.find(
+          if (
+            monthTrans[i]?.group?.parent === null &&
+            parentsInData.find(
               (e) => e.parentId === monthTrans[i]?.group?.id
-          ) === undefined) {
-            var statisticItem: StatisticData =  {
+            ) === undefined
+          ) {
+            var statisticItem: StatisticData = {
               parentName: monthTrans[i]?.group?.name,
               parentId: monthTrans[i]?.group?.id,
               parentIcon: monthTrans[i]?.group?.icon,
@@ -64,17 +65,19 @@ const Statistic: FC<{}> = () => {
         if (monthTrans[i] && monthTrans[i].group)
           if (monthTrans[i]?.group?.parent === null) {
             let idx = parentsInData.findIndex(
-                (e) => e.parentId === monthTrans[i]?.group?.id
+              (e) => e.parentId === monthTrans[i]?.group?.id
             )
             if (idx >= 0) parentsInData[idx].money += monthTrans[i].money
           } else {
             var idx = parentsInData.findIndex(
-                (e) => e.parentId === monthTrans[i]?.group?.parent
+              (e) => e.parentId === monthTrans[i]?.group?.parent
             )
             if (idx < 0 || idx === undefined) {
-              var parent = transactionGroup.filter(e => e.id == monthTrans[i]?.group?.parent!!)[0]
+              var parent = transactionGroup.filter(
+                (e) => e.id == monthTrans[i]?.group?.parent!!
+              )[0]
 
-              var statisticItem: StatisticData =  {
+              var statisticItem: StatisticData = {
                 parentName: parent.name,
                 parentId: parent.id,
                 parentIcon: parent.icon,
@@ -84,10 +87,10 @@ const Statistic: FC<{}> = () => {
               }
               parentsInData.push(statisticItem)
               idx = parentsInData.findIndex(
-                  (e) => e.parentId === monthTrans[i]?.group?.parent
+                (e) => e.parentId === monthTrans[i]?.group?.parent
               )
             }
-        console.log("Index " + idx)
+            console.log("Index " + idx)
 
             if (idx >= 0) {
               parentsInData[idx].childs.push(monthTrans[i])
@@ -130,19 +133,6 @@ const Statistic: FC<{}> = () => {
         >
           Thống kê
         </Text>
-        <View style={[styles.pickerContainer]}>
-          <Picker
-            selectedValue={selectedLabelChartType}
-            dropdownIconColor="white"
-            style={[styles.picker]}
-            onValueChange={(itemValue) => setSelectedLabelChartType(itemValue)}
-          >
-            <Picker.Item label="Ngày" value="day" />
-            <Picker.Item label="Tuần" value="week" />
-            <Picker.Item label="Tháng" value="month" />
-            <Picker.Item label="Năm" value="year" />
-          </Picker>
-        </View>
       </View>
 
       <ScrollableTabView

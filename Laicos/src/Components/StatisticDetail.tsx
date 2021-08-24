@@ -115,7 +115,7 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
             ]}
           >
             <View style={[styles.totalMoneyContainer]}>
-              <Text style={{ color: "white" }}>Tổng tiền</Text>
+              <Text style={{ color: "white", fontSize:Variable.FONT_SIZE_SMALL }}>Tổng tiền</Text>
               <Text style={[styles.moneyCard]}>{formatter(totalSpend)}đ</Text>
             </View>
             <TouchableOpacity
@@ -134,7 +134,7 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
                 },
               ]}
             >
-              <Text style={{ color: "white", fontWeight: "bold" }}>
+              <Text style={{ color: "white", fontSize:Variable.FONT_SIZE_SMALL}}>
                 Chi tiết
               </Text>
             </TouchableOpacity>
@@ -168,7 +168,7 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
             ]}
           >
             <View style={[styles.totalMoneyContainer]}>
-              <Text style={{ color: "white" }}>Tổng tiền</Text>
+              <Text style={{ color: "white", fontSize:Variable.FONT_SIZE_SMALL }}>Tổng tiền</Text>
               <Text style={[styles.moneyCard]}>{formatter(totalEarn)}đ</Text>
             </View>
             <TouchableOpacity
@@ -186,7 +186,7 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
                 },
               ]}
             >
-              <Text style={{ color: "white", fontWeight: "bold" }}>
+              <Text style={{ color: "white", fontSize:Variable.FONT_SIZE_SMALL }}>
                 Chi tiết
               </Text>
             </TouchableOpacity>
@@ -220,7 +220,7 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
             ]}
           >
             <View style={[styles.totalMoneyContainer]}>
-              <Text style={{ color: "#151321" }}>Tổng tiền</Text>
+              <Text style={{ color: "#151321" , fontSize:Variable.FONT_SIZE_SMALL}}>Tổng tiền</Text>
               <Text style={[styles.moneyCard, { color: "#151321" }]}>
                 0đ
               </Text>
@@ -240,7 +240,7 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
                 },
               ]}
             >
-              <Text style={{ color: "#151321", fontWeight: "bold" }}>
+              <Text style={{ color: "#151321", fontSize:Variable.FONT_SIZE_SMALL }}>
                 Chi tiết
               </Text>
             </TouchableOpacity>
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
     color: "white",
     fontSize: Variable.FONT_SIZE_SMALL,
-    fontWeight: "900",
+    fontWeight: "700",
   },
   cardContainer: {
     backgroundColor: "#212230",
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 20,
   },
-  titleCard: { color: "white", fontSize: 18, fontWeight: "700" },
+  titleCard: { color: "white", fontSize: Variable.FONT_SIZE_MEDIUM, fontWeight: "700" },
   chartContainer: {
     display: "flex",
     justifyContent: "center",
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    padding: 15,
+    padding: 12,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -303,12 +303,12 @@ const styles = StyleSheet.create({
   moneyCard: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 24,
+    fontSize: Variable.FONT_SIZE_MEDIUM,
     paddingStart: 10,
   },
   detailButton: {
-    padding: 15,
-    margin: -15,
+    padding: 12,
+    margin: -12,
     borderBottomRightRadius: 20,
     display: "flex",
     justifyContent: "center",

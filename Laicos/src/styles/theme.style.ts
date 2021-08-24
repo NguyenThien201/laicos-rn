@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native"
 
 export const Variable = {
-	FONT_SIZE_MEDIUM: 16,
-	FONT_SIZE_SMALL: 14,
-	FONT_SIZE_LARGE: 24,
+	FONT_SIZE_MEDIUM: 14,
+	FONT_SIZE_SMALL: 12,
+	FONT_SIZE_LARGE: 18,
 	GREEN_LIGHT_COLOR: '#3CD3AD',
 	RED_COLOR: '#D83B57',
 	GREEN_COLOR: '#00FF57',
