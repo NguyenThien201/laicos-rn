@@ -14,8 +14,9 @@ import { Variable } from "../styles/theme.style";
 import { formatter } from "../Utils/format";
 import { IImage, ITransaction } from "../type";
 import { SvgXml } from "react-native-svg";
-import { penIcon } from "../Assets/Images/SvgIcon/PenIcon";
+import {deleteIcon, editIcon, penIcon} from "../Assets/Images/SvgIcon/PenIcon";
 import { TitleHeader } from "./Title";
+import {captureIcon} from "../Assets/Images/SvgIcon/CaptureIcon";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 export const DetailTransaction = ({ route, navigation }) => {
@@ -93,18 +94,10 @@ export const DetailTransaction = ({ route, navigation }) => {
               })
             }
           >
-              <Image
-                source={require("../Assets/Images/Icons/ic_edit.png")}
-                style={{ width: 24, height: 24 }}
-                resizeMode="contain"
-              />
+	          <SvgXml xml={editIcon} width={24} height={24}/>
           </TouchableOpacity>
           <TouchableOpacity>
-            <Image
-              source={require("../Assets/Images/Icons/ic_delete.png")}
-              style={{ width: 24, height: 24 }}
-              resizeMode="contain"
-            />
+	          <SvgXml xml={deleteIcon} width={24} height={24}/>
           </TouchableOpacity>
         </View>
       </View>
