@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
 	mail: {
 		textAlign: "center",
 		color: "white",
-		fontSize: Variable.FONT_SIZE_SMALL_16,
+		fontSize: Variable.FONT_SIZE_SMALL,
 	},
 	text: {
 		textAlign: "center",
@@ -203,10 +203,9 @@ const styles = StyleSheet.create({
 	},
 	section: {
 		marginVertical: 12,
-		borderColor: Variable.GREEN_LIGHT_COLOR,
-		borderWidth: 1,
 		borderRadius: Variable.BORDER_RADIUS_SMALL,
-		padding:4,
+		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
+		padding: 6,
 	},
 	sectionItem: {
 		alignItems: "center",
