@@ -10,31 +10,12 @@ import { globalStyles, Variable } from "../styles/theme.style"
 import { ITransaction, StatisticData } from "../type"
 
 const Statistic: FC<{}> = () => {
-  const [selectedLabelChartType, setSelectedLabelChartType] =
-    useState<string>("month")
   const [transactionData, setTransactionData] = useState<any[]>([])
 
-  function groupBy(list, keyGetter) {
-    const map = new Map()
-    list.forEach((item) => {
-      const key = keyGetter(item)
-      const collection = map.get(key)
-      if (!collection) {
-        map.set(key, [item])
-      } else {
-        collection.push(item)
-      }
-    })
-    return map
-  }
 
   const [tracsactionByMonth, setTransactionByMonth] = useState<any[]>([])
 
   const mergeTransaction = () => {
-    var group = transaction.filter((element) => {
-      return element.date.getMonth() == 7
-    })
-
     const returnArray = []
     for (let i = 0; i < 12; i++) {
       var monthTrans = transaction.filter((element) => {
@@ -90,7 +71,6 @@ const Statistic: FC<{}> = () => {
                 (e) => e.parentId === monthTrans[i]?.group?.parent
               )
             }
-            console.log("Index " + idx)
 
             if (idx >= 0) {
               parentsInData[idx].childs.push(monthTrans[i])
@@ -98,7 +78,6 @@ const Statistic: FC<{}> = () => {
             }
           }
       }
-      console.log("hjhihi")
       console.log(parentsInData)
       returnArray.push(parentsInData)
     }
@@ -247,7 +226,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    paddingTop: 10,
+   
     paddingLeft: 15,
   },
   pickerContainer: {

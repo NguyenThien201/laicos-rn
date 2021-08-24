@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		marginTop: 16,
 		backgroundColor: Variable.GREEN_LIGHT_COLOR,
-		fontSize: Variable.FONT_SIZE_SMALL_14,
+		fontSize: Variable.FONT_SIZE_MEDIUM,
 		paddingVertical: 8,
 		paddingHorizontal: "30%",
 		borderRadius: 5,

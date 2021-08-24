@@ -39,7 +39,7 @@ export const EditTransaction = ({  route }) => {
 	);
 	const [chosenDate, setChosenDate] = useState<Date>(transaction.date);
 	const [isCalanderOpened, setOpen] = useState(false);
-	const [description, setDescription] = useState("");
+	const [description, setDescription] = useState(transaction.description);
 	const [chosenWallet, setChosenWallet] = useState<IWallet>(wallets[0]);
 	const getMarkedDate = () => {
 		const markedDate: Record<string, any> = {};

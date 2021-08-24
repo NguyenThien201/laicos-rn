@@ -100,7 +100,7 @@ const DetailPlanner = ({}) => {
 				{/* Hiện số tiền còn lại */}
 				<View style={styles.rowDisplay}>
 					<Text style={[styles.text]}>
-						Tên nhóm: {item.group.name}
+						{item.group.name}
 					</Text>
 					{item.moneyLeft > 0 ? (
 						<Text style={[styles.text]}>
@@ -181,7 +181,7 @@ const DetailPlanner = ({}) => {
 				{/* Hiện số tiền còn lại */}
 				<View style={styles.rowDisplay}>
 					<Text style={[styles.text]}>
-						Tên nhóm: {item.group.name}
+						{item.group.name}
 					</Text>
 					{item.moneyLeft > 0 ? (
 						<Text style={[styles.text]}>
@@ -225,7 +225,7 @@ const DetailPlanner = ({}) => {
 					}}
 					style={{ flex: 0, marginHorizontal: 16 }}
 				>
-					<TitleHeader title="Ngân sách chi tiêu" />
+					<TitleHeader title="Kế hoạch chi tiêu" />
 				</TouchableOpacity>
 
 				<ScrollableTabView

@@ -16,7 +16,7 @@ export const WalletItem = ({ wallet }) => {
 			<View style={[{ display: "flex", padding: 6 }]}>
 				<View style={[style.title]}>
 					<View>
-						<Text style={globalStyles.whiteText}>
+						<Text style={[globalStyles.whiteText]}>
 							{wallet.name}
 						</Text>
 					</View>
@@ -42,7 +42,7 @@ export const WalletItem = ({ wallet }) => {
 							style={[
 								globalStyles.whiteText,
 								globalStyles.fontSizeSmall,
-								globalStyles.fontMedium,
+								
 							]}
 						>
 							Tiền vào
@@ -51,7 +51,7 @@ export const WalletItem = ({ wallet }) => {
 							style={[
 								globalStyles.whiteText,
 								globalStyles.fontSizeSmall,
-								globalStyles.fontMedium,
+							
 							]}
 						>
 							Tiền ra
@@ -63,7 +63,7 @@ export const WalletItem = ({ wallet }) => {
 						<Text
 							style={[
 								globalStyles.whiteText,
-								globalStyles.fontBold,
+								
 								globalStyles.fontSizeSmall,
 								{ alignSelf: "flex-end" },
 							]}
@@ -75,7 +75,7 @@ export const WalletItem = ({ wallet }) => {
 							style={[
 								globalStyles.whiteText,
 								globalStyles.fontSizeSmall,
-								globalStyles.fontBold,
+								
 								{ alignSelf: "flex-end" },
 							]}
 						>
@@ -94,7 +94,7 @@ export const WalletItem = ({ wallet }) => {
 							style={[
 								globalStyles.redText,
 								globalStyles.fontSizeSmall,
-								globalStyles.fontBold,
+							
 								{ alignSelf: "flex-end", color: "#fff" },
 							]}
 						>

@@ -44,7 +44,6 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
         var groupMoney = statisticData[i].money!!
 
         for (let ci = 0; ci < statisticData[i].childs.length; ci++) {
-          console.log("ci")
           console.log(statisticData[i].childs[ci])
           if (statisticData[i].childs[ci].group.type === "EARN") {
             groupMoney += statisticData[i].childs[ci].money
@@ -98,6 +97,7 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
                 "navy",
                 "green",
                 "white",
+
               ]}
               height={screenWidth * 0.5}
               padding={{ top: 35, bottom: 35 }}
@@ -145,12 +145,13 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
           <View style={[styles.chartContainer]}>
             <VictoryPie
               colorScale={[
-                "tomato",
-                "lightblue",
-                "orange",
-                "navy",
-                "green",
-                "white",
+                "yellowgreen",
+                "rebeccapurple",
+                "darkturquoise",
+                "dodgerblue",
+                "gainsboro",
+                "lightcoral",
+                
               ]}
               height={screenWidth * 0.5}
               padding={{ top: 35, bottom: 35 }}
@@ -197,12 +198,12 @@ const StatisticDetail: FC<{ data: any[]; month: string }> = ({
           <View style={[styles.chartContainer]}>
             <VictoryPie
               colorScale={[
-                "tomato",
-                "lightblue",
-                "orange",
-                "navy",
-                "green",
-                "white",
+                "lavenderblush",
+                "lightgreen",
+                "mediumspringgreen",
+                "mediumturquoise",
+                "mediumvioletred",
+                "midnightblue",
               ]}
               height={screenWidth * 0.5}
               padding={{ top: 30, bottom: 35 }}

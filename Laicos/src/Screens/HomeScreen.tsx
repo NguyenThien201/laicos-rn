@@ -56,9 +56,17 @@ const HomeScreen = ({ navigation }) => {
 								globalStyles.fontBold,
 							]}
 						>
-							12,000,000
+							24,000,000
 						</Text>
-					) : null}
+					) : 				<Text
+					style={[
+						styles.whiteText,
+						globalStyles.fontSizeMedium,
+						globalStyles.fontBold,
+					]}
+				>
+					*****
+				</Text>}
 				</View>
 
 				<TouchableOpacity onPress={()=>navigation.navigate('Thông báo')}>

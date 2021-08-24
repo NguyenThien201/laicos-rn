@@ -10,7 +10,7 @@ export const TitleHeader: FC<{ title: string }> = ({title}) => {
 				source={require("../Assets/Images/Icons/ic_back.png")}
 				style={{					
 					marginRight: 12,
-			
+					
 				}}
 			></Image>
 			<Text style={[styles.titleText]}>{title}</Text>

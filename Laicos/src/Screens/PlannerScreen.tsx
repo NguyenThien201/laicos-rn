@@ -29,7 +29,7 @@ const PlannerScreen = ({}) => {
 				>
 					<View style={[styles.item]}>
 						<View style={{width: "90%"}}>
-							<Text style={[styles.itemTitle]}>Ngân sách</Text>
+							<Text style={[styles.itemTitle]}>Kế hoạch chi tiêu</Text>
 
 							<Text style={[styles.itemHelperText]}>
 								Một kế hoạch tài chính giúp bạn cân bằng được
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 	},
 	item: {
-		marginTop: 24,
+		marginTop: 32,
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",	
@@ -121,8 +121,9 @@ const styles = StyleSheet.create({
 		fontWeight: "bold"
 	},
 	itemHelperText: {
-		color: "white",
-		textAlign: "justify"
+		color: Variable.GREY_COLOR,
+		textAlign: "justify",
+		fontSize: Variable.FONT_SIZE_SMALL
 	},
 });
 export default PlannerScreen;

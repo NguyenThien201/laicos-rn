@@ -15,6 +15,7 @@ import { IWallet } from "../type";
 import { wallets } from "../data";
 import { formatter } from "../Utils/format";
 import { LinearGradButton } from "../Components/LinearGradButton";
+import { TitleHeader } from "./Title";
 
 LogBox.ignoreLogs([
 	"Non-serializable values were found in the navigation state",
@@ -70,13 +71,7 @@ export const WalletPicker = ({ route, navigation }) => {
 				onPress={() => navigation.goBack()}
 				style={{ flex: 0 }}
 			>
-				<View style={[styles.title]}>
-					<Image
-						source={require("../Assets/Images/Icons/ic_back.png")}
-						style={{ marginTop: 10, marginRight: 10 }}
-					></Image>
-					<Text style={[styles.titleText]}>Chọn nhóm</Text>
-				</View>
+				<TitleHeader title="Chọn ví"/>
 			</TouchableOpacity>
 			<FlatList
 				showsVerticalScrollIndicator={false}
@@ -92,10 +87,9 @@ export const WalletPicker = ({ route, navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		margin: 16,
 	},
 	title: {
-		marginTop: 16,
-		marginHorizontal: 16,
 		flexDirection: "row",
 		alignContent: "flex-start",
 	},
@@ -110,7 +104,7 @@ const styles = StyleSheet.create({
 		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
 		paddingVertical: 12,
 		paddingHorizontal: 18,
-		margin: 16,
+		marginTop: 18,
 		borderRadius: 5,
 		justifyContent: "space-between",
 	},
