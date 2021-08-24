@@ -28,9 +28,6 @@ export const Account = ({ route, navigation }) => {
 					Ứng dụng quản lý chi tiêu dành cho sinh viên
 				</Text>
 
-				<View style={{marginTop: 16}}>
-					<WalletSelectionComponent />
-				</View>
 			</View>
 
 			<View style={styles.section}>

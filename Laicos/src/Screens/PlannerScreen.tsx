@@ -112,7 +112,9 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",	
 		justifyContent: "space-between",
-		
+		backgroundColor: Variable.BACKGROUND_ITEM_COLOR,
+		borderRadius: Variable.BORDER_RADIUS_SMALL,
+		padding: 12
 
 	},
 	itemTitle: {
